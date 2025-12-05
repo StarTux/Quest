@@ -7,7 +7,7 @@ import net.kyori.adventure.text.Component;
 @Data
 public final class SpeechBubbleConfig {
     private Component message;
-    private boolean disableWhenFinished = true;
+    private boolean automatic;
 
     public void setMiniMessage(String mini) {
         message = Text.parseMiniMessage(mini);

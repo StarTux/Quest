@@ -13,8 +13,9 @@ public final class Script {
     private final Viewership viewership;
     // Runtime
     private boolean disabled;
+    private boolean cancelled;
     private final List<ScriptWorker> workers = new ArrayList<>();
-    int nextWorkerIndex;
+    private int nextWorkerIndex;
 
     public void enable() {
         if (config.getEntries().isEmpty()) {
@@ -24,6 +25,11 @@ public final class Script {
         ScriptWorker worker = new ScriptWorker(this, nextWorkerIndex++);
         workers.add(worker);
         worker.startNextEntry();
+    }
+
+    public void cancel() {
+        cancelled = true;
+        disable();
     }
 
     public void disable() {

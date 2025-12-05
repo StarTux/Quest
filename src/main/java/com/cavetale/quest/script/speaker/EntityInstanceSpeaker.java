@@ -30,4 +30,9 @@ public final class EntityInstanceSpeaker implements Speaker {
         if (entity == null) return null;
         return entity.getLocation().add(0.0, entity.getHeight() + 0.75, 0.0);
     }
+
+    @Override
+    public boolean isEntity(Entity entity) {
+        return entity == entityInstance.getSpawnedEntity();
+    }
 }

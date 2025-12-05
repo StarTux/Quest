@@ -49,7 +49,7 @@ public final class AdventProvider {
                 new EntityTrigger() {
                     @Override
                     public void onPlayerClick(EntityInstance inst, Player player) {
-                        onPlayerClickAdventNpc(inst, player);
+                        onPlayerClickAdventNpc(npc, inst, player);
                     }
                 }
             );
@@ -62,28 +62,27 @@ public final class AdventProvider {
         plugin.getQuests().enableQuest(new AdventQuest2025Day01());
     }
 
-    private void onPlayerClickAdventNpc(EntityInstance inst, Player player) {
+    private void onPlayerClickAdventNpc(Advent2025Npc npc, EntityInstance inst, Player player) {
         if (plugin.getScripts().getScriptOfPlayer(player) != null) return;
         final ScriptConfig scriptConfig = new ScriptConfig();
-        scriptConfig.addEntry(
-            new ScriptConfig.SpeakEntry(
-                true,
-                SpeechBubbleConfig.ofMiniMessage("<red><bold>Merry Christmas!!!"),
-                inst.getSpeaker()
-            )
-        );
-        scriptConfig.addEntry(
-            new ScriptConfig.SpeakEntry(
-                true,
-                SpeechBubbleConfig.ofMiniMessage("<red>Have <green>you <red>been <red>nice <green>this <red>year?! Or have you been naughty? Don't lie to me now, I can always tell. Hahahah."),
-                inst.getSpeaker()
-            )
-        );
+        for (String line : npc.getDefaultDialog()) {
+            scriptConfig.addEntry(
+                new ScriptConfig.SpeakEntry(
+                    true,
+                    SpeechBubbleConfig.ofMiniMessage(line),
+                    inst.getSpeaker()
+                )
+            );
+        }
+        // scriptConfig.addEntry(
+        //     new ScriptConfig.RunnableEntry(
+        //         () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "slap -sv " + player.getName())
+        //     )
+        // );
         final Script script = new Script(
             scriptConfig,
             SingleViewer.of(player)
         );
         plugin.getScripts().enableScript(script);
-        player.sendMessage("HEIGHT " + inst.getSpawnedEntity().getHeight());
     }
 }

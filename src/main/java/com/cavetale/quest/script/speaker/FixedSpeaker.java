@@ -2,6 +2,7 @@ package com.cavetale.quest.script.speaker;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 
 public final class FixedSpeaker implements Speaker {
     private final boolean showDisplayName;
@@ -33,5 +34,10 @@ public final class FixedSpeaker implements Speaker {
     @Override
     public Location getSpeechBubbleLocation() {
         return speechBubbleLocation;
+    }
+
+    @Override
+    public boolean isEntity(Entity entity) {
+        return false;
     }
 }

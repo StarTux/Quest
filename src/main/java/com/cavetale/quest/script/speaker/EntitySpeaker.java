@@ -23,4 +23,9 @@ public final class EntitySpeaker implements Speaker {
     public Location getSpeechBubbleLocation() {
         return entity.getLocation().add(0.0, entity.getHeight(), 0.0);
     }
+
+    @Override
+    public boolean isEntity(Entity other) {
+        return entity == other;
+    }
 }

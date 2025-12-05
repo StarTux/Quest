@@ -41,10 +41,13 @@ public final class ScriptWorker {
                 speak.getSpeaker(),
                 script.getViewership()
             );
+            speechBubble.setParent(script);
             questPlugin().getScripts().enableSpeechBubble(speechBubble);
             if (entry.isBlocking()) {
                 waitingOnSpeechBubble.add(speechBubble);
             }
+        } else if (entry instanceof ScriptConfig.RunnableEntry runnable) {
+            runnable.getRunnable().run();
         } else {
             questPlugin().getLogger().severe("Unknown entry: " + entry.getClass().getName());
             disable();

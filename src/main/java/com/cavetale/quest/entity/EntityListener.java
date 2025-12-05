@@ -34,17 +34,27 @@ public final class EntityListener implements Listener {
 
     @EventHandler(ignoreCancelled = false, priority = EventPriority.LOW)
     private void onPlayerRightClickEntity(PlayerInteractEntityEvent event) {
-        final EntityInstance entityInstance = entities.getEntityInstance(event.getRightClicked());
-        if (entityInstance == null) return;
-        entityInstance.applyTrigger(trigger -> trigger.onPlayerClick(entityInstance, event.getPlayer()));
+        if (onClickEntity(event.getPlayer(), event.getRightClicked())) {
+            event.setCancelled(true);
+        }
     }
 
     @EventHandler(ignoreCancelled = false, priority = EventPriority.LOW)
     private void onPlayerRightClickEntity(EntityDamageByEntityEvent event) {
         if (!(event.getDamager() instanceof Player player)) return;
-        final EntityInstance entityInstance = entities.getEntityInstance(event.getEntity());
-        if (entityInstance == null) return;
+        if (onClickEntity(player, event.getEntity())) {
+            event.setCancelled(true);
+        }
+    }
+
+    private boolean onClickEntity(Player player, Entity target) {
+        final EntityInstance entityInstance = entities.getEntityInstance(target);
+        if (entityInstance == null) return false;
+        if (entities.getPlugin().getScripts().onPlayerInteractSpeaker(player, target)) {
+            return true;
+        }
         entityInstance.applyTrigger(trigger -> trigger.onPlayerClick(entityInstance, player));
+        return true;
     }
 
     @EventHandler(ignoreCancelled = false, priority = EventPriority.LOW)

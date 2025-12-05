@@ -24,6 +24,16 @@ public final class ScriptConfig {
         private final Speaker speaker;
     }
 
+    @Value
+    public static final class RunnableEntry implements Entry {
+        private final Runnable runnable;
+
+        @Override
+        public boolean isBlocking() {
+            return false;
+        }
+    }
+
     public void addEntry(Entry entry) {
         entries.add(entry);
     }
