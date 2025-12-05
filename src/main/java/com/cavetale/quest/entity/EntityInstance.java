@@ -4,6 +4,7 @@ import com.cavetale.quest.config.EntityConfig;
 import com.cavetale.quest.config.SpawnLocationConfig;
 import com.cavetale.quest.entity.behavior.EntityBehavior;
 import com.cavetale.quest.entity.data.EntityData;
+import com.cavetale.quest.script.speaker.EntityInstanceSpeaker;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -145,6 +146,10 @@ public final class EntityInstance {
             unregisterEntity(spawnedEntity);
             spawnedEntity = null;
         }
+    }
+
+    public EntityInstanceSpeaker getSpeaker() {
+        return new EntityInstanceSpeaker(this);
     }
 
     private void registerEntity(Entity entity) {

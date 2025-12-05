@@ -2,15 +2,18 @@ package com.cavetale.quest.provider.advent;
 
 import com.cavetale.core.connect.NetworkServer;
 import com.cavetale.quest.QuestPlugin;
-import com.cavetale.quest.config.DialogTreeConfig;
 import com.cavetale.quest.config.EntityConfig;
+import com.cavetale.quest.config.ScriptConfig;
 import com.cavetale.quest.config.SpawnLocationConfig;
+import com.cavetale.quest.config.SpeechBubbleConfig;
 import com.cavetale.quest.entity.EntityInstance;
 import com.cavetale.quest.entity.EntityTrigger;
 import com.cavetale.quest.entity.behavior.EntityLookAtPlayerBehavior;
 import com.cavetale.quest.entity.behavior.EntityRevertBehavior;
 import com.cavetale.quest.entity.data.EntityDataScale;
 import com.cavetale.quest.entity.data.EntityProfileData;
+import com.cavetale.quest.script.Script;
+import com.cavetale.quest.script.viewer.SingleViewer;
 import java.util.List;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -60,6 +63,27 @@ public final class AdventProvider {
     }
 
     private void onPlayerClickAdventNpc(EntityInstance inst, Player player) {
-        final DialogTreeConfig dialogTreeConfig = new DialogTreeConfig();
+        if (plugin.getScripts().getScriptOfPlayer(player) != null) return;
+        final ScriptConfig scriptConfig = new ScriptConfig();
+        scriptConfig.addEntry(
+            new ScriptConfig.SpeakEntry(
+                true,
+                SpeechBubbleConfig.ofMiniMessage("<red><bold>Merry Christmas!!!"),
+                inst.getSpeaker()
+            )
+        );
+        scriptConfig.addEntry(
+            new ScriptConfig.SpeakEntry(
+                true,
+                SpeechBubbleConfig.ofMiniMessage("<red>Have <green>you <red>been <red>nice <green>this <red>year?! Or have you been naughty? Don't lie to me now, I can always tell. Hahahah."),
+                inst.getSpeaker()
+            )
+        );
+        final Script script = new Script(
+            scriptConfig,
+            SingleViewer.of(player)
+        );
+        plugin.getScripts().enableScript(script);
+        player.sendMessage("HEIGHT " + inst.getSpawnedEntity().getHeight());
     }
 }

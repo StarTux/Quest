@@ -1,7 +1,8 @@
-package com.cavetale.quest.dialog;
+package com.cavetale.quest.script;
 
-import com.cavetale.quest.config.SpawnLocationConfig;
 import com.cavetale.quest.config.SpeechBubbleConfig;
+import com.cavetale.quest.script.speaker.Speaker;
+import com.cavetale.quest.script.viewer.Viewership;
 import com.cavetale.quest.util.Text;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,6 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.TextDisplay;
 import static com.cavetale.quest.QuestPlugin.questPlugin;
-import static net.kyori.adventure.text.Component.empty;
 import static net.kyori.adventure.text.Component.join;
 import static net.kyori.adventure.text.Component.newline;
 import static net.kyori.adventure.text.Component.text;
@@ -29,17 +29,18 @@ import static net.kyori.adventure.text.format.TextDecoration.*;
 @Data
 public final class SpeechBubble {
     public static final int LETTERS_PER_LINE = 26;
-    public static final int PIXELS_PER_LINE = 800;
+    public static final int PIXELS_PER_LINE = 1600;
+    private static final Component TAB = text("  ");
     // Configuration
-    private SpeechBubbleConfig config;
-    private SpawnLocationConfig spawnLocationConfig;
-    private DialogAudience audience = DialogAudience.GLOBAL;
+    private final SpeechBubbleConfig config;
+    private final Speaker speaker;
+    private final Viewership viewership;
     // Runtime
     private TextDisplay textDisplay;
     private List<List<Component>> lines;
     private int tickAge;
     private int totalLetters;
-    private static final String SPACES = " ".repeat(50);
+    private static final String SPACES = " ".repeat(40);
     private boolean finished;
     private boolean disabled;
 
@@ -71,7 +72,7 @@ public final class SpeechBubble {
     }
 
     public void spawn() {
-        final Location location = spawnLocationConfig.toLocation();
+        final Location location = speaker.getSpeechBubbleLocation();
         if (location == null) {
             disable();
         } else {
@@ -84,9 +85,10 @@ public final class SpeechBubble {
                 e.setPersistent(false);
                 e.setAlignment(TextDisplay.TextAlignment.LEFT);
                 e.setDefaultBackground(false);
-                e.setBackgroundColor(Color.fromARGB(0));
+                //e.setBackgroundColor(Color.fromARGB(0));
+                e.setBackgroundColor(Color.fromARGB(0x40_10_10_70));
                 e.setLineWidth(PIXELS_PER_LINE);
-                e.setSeeThrough(false); // through blocks
+                e.setSeeThrough(true); // through blocks
                 e.setShadowed(true);
                 e.text(makeCurrentText());
                 e.setBillboard(TextDisplay.Billboard.CENTER);
@@ -98,6 +100,12 @@ public final class SpeechBubble {
 
     public void tick() {
         tickAge += 1;
+        final Location location = speaker.getSpeechBubbleLocation();
+        if (location == null) {
+            disable();
+            return;
+        }
+        textDisplay.teleport(location);
         textDisplay.text(makeCurrentText());
         if (tickAge > totalLetters * 3) {
             finished = true;
@@ -110,34 +118,39 @@ public final class SpeechBubble {
     public Component makeCurrentText() {
         int lettersShown = 0;
         final List<Component> newLines = new ArrayList<>();
-        newLines.add(textOfChildren(
-                         text("[", GRAY),
-                         text("Speaker", BLUE, BOLD),
-                         text("]", GRAY)
-                     ));
-        newLines.add(text(SPACES, GRAY, STRIKETHROUGH));
+        newLines.add(text(SPACES));
+        if (speaker.shouldShowDisplayName()) {
+            newLines.add(
+                textOfChildren(
+                    TAB,
+                    text("[", GRAY),
+                    speaker.getDisplayName(),
+                    text("]", GRAY)
+                )
+            );
+        }
         for (List<Component> line : lines) {
             List<Component> newLine = new ArrayList<>();
             for (Component letter : line) {
-                if ((2 * lettersShown++) / 3 < tickAge) {
+                if (lettersShown++ / 2 < tickAge) {
                     newLine.add(letter);
                 }
             }
             if (newLine.isEmpty()) {
-                newLines.add(empty());
+                newLines.add(TAB);
             } else {
-                newLines.add(join(noSeparators(), newLine));
+                newLines.add(textOfChildren(TAB, join(noSeparators(), newLine)));
             }
         }
-        newLines.add(text(SPACES, GRAY, STRIKETHROUGH));
+        newLines.add(text(SPACES));
         return join(separator(newline()), newLines);
     }
 
     private void registerEntity(Entity entity) {
-        questPlugin().getDialogs().registerEntity(entity, this);
+        questPlugin().getScripts().registerEntity(entity, this);
     }
 
     private void unregisterEntity(Entity entity) {
-        questPlugin().getDialogs().unregisterEntity(entity);
+        questPlugin().getScripts().unregisterEntity(entity);
     }
 }

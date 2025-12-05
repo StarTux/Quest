@@ -7,7 +7,6 @@ import com.cavetale.quest.entity.data.EntityData;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.function.Consumer;
 import lombok.Data;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.EntityType;
@@ -25,11 +24,6 @@ public final class EntityConfig {
 
     public EntityConfig(final EntityType entityType) {
         this.entityType = entityType;
-    }
-
-    public EntityConfig apply(Consumer<EntityConfig> callback) {
-        callback.accept(this);
-        return this;
     }
 
     public void prepareForUsage() {

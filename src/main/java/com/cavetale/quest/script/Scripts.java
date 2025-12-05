@@ -1,4 +1,4 @@
-package com.cavetale.quest.dialog;
+package com.cavetale.quest.script;
 
 import com.cavetale.quest.QuestPlugin;
 import java.util.ArrayList;
@@ -8,15 +8,16 @@ import java.util.Map;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 
 /**
- * Manager for all kinds of dialogs.
+ * Manager for all kinds of scripts and speech bubbles.
  */
 @RequiredArgsConstructor
-public final class Dialogs {
+public final class Scripts {
     private final QuestPlugin plugin;
     private final List<SpeechBubble> speechBubbles = new ArrayList<>();
-    private final List<DialogTree> dialogTrees = new ArrayList<>();
+    private final List<Script> scriptList = new ArrayList<>();
     private final Map<Integer, SpeechBubble> entityMap = new HashMap<>();
 
     public void enable() {
@@ -25,8 +26,8 @@ public final class Dialogs {
     public void disable() {
         speechBubbles.forEach(SpeechBubble::disable);
         speechBubbles.clear();
-        dialogTrees.forEach(DialogTree::disable);
-        dialogTrees.clear();
+        scriptList.forEach(Script::disable);
+        scriptList.clear();
     }
 
     public void enableSpeechBubble(SpeechBubble speechBubble) {
@@ -34,23 +35,29 @@ public final class Dialogs {
         speechBubble.enable();
     }
 
-    public void enableDialogTree(DialogTree dialogTree) {
-        dialogTrees.add(dialogTree);
-        dialogTree.enable();
+    public void enableScript(Script script) {
+        scriptList.add(script);
+        script.enable();
     }
 
     public void tick() {
         speechBubbles.removeIf(SpeechBubble::isDisabled);
         speechBubbles.forEach(SpeechBubble::tick);
+        scriptList.removeIf(Script::isDisabled);
+        scriptList.forEach(Script::tick);
     }
 
-    public DialogTree getDialogTreeOfPlayer(UUID uuid) {
-        for (DialogTree dialogTree : dialogTrees) {
-            if (dialogTree.getAudience().hasParticipant(uuid)) {
-                return dialogTree;
+    public Script getScriptOfPlayer(UUID uuid) {
+        for (Script script : scriptList) {
+            if (!script.getViewership().isGlobal() && script.getViewership().isViewer(uuid)) {
+                return script;
             }
         }
         return null;
+    }
+
+    public Script getScriptOfPlayer(Player player) {
+        return getScriptOfPlayer(player.getUniqueId());
     }
 
     /**

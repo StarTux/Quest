@@ -27,6 +27,7 @@ public final class SpawnLocationConfig {
     public SpawnLocationConfig() { }
 
     public SpawnLocationConfig(final Location location) {
+        this.server = NetworkServer.current();
         loadLocation(location);
     }
 
@@ -45,7 +46,6 @@ public final class SpawnLocationConfig {
     }
 
     public void loadLocation(Location location) {
-        this.server = NetworkServer.current();
         this.world = location.getWorld().getName();
         this.x = location.getX();
         this.y = location.getY();
