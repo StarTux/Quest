@@ -1,0 +1,39 @@
+main: com.cavetale.quest.QuestPlugin
+name: Quest
+
+version: ${version}
+api-version: '1.21.10'
+
+author: StarTux
+website: https://github.com/StarTux/Quest
+description: Quest Plugin
+
+depend: [Core]
+softdepend: []
+
+commands:
+
+  # quest:
+  #   aliases:
+  #   - q
+  #   description: Quest Command
+  #   permission: quest.quest
+  #   usage: /quest
+
+  questadmin:
+    aliases:
+    - questadm
+    - qa
+    description: Quest Admin Command
+    permission: quest.admin
+    usage: /questadmin
+
+permissions:
+
+  quest.quest:
+    description: Use /quest
+    default: op
+
+  quest.admin:
+    description: Use /questadmin
+    default: op
