@@ -72,6 +72,35 @@ public enum Advent2025Quest {
              )
          )
     ),
+    BUTTER(0,
+          () -> new AdventQuestCollectItems(
+              List.of(
+                  Vec3i.of(85, 78, 256),
+                  Vec3i.of(135, 69, 249),
+                  Vec3i.of(204, 67, 289),
+                  Vec3i.of(310, 68, 220),
+                  Vec3i.of(377, 66, 238),
+                  Vec3i.of(271, 67, 176),
+                  Vec3i.of(146, 66, 141)
+              ),
+              "Butter",
+              new ItemStack(Material.GOLD_INGOT),
+              Advent2025Npc.DAIRY_FARMER,
+              Advent2025Npc.DAIRY_FARMER,
+              List.of(
+                  "Well, well well. That's just swell!",
+                  "Just now that I have finally made all the butter, it got away from me.",
+                  "All my butter rolled downhill and got scattered all across town...",
+                  "Could I bother you with another request, friend?",
+                  "Would you mind collecting all that butter and bringing it back to me?"
+              ),
+              List.of(
+                  "Well gee, thank you!",
+                  "Now I can finally fulfil the baker's order.",
+                  "Christmas could not be saved without you, partner!"
+              )
+          )
+    ),
     ;
 
     private final int adventWorldIndex;

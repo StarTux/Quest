@@ -15,6 +15,10 @@ public abstract class AdventQuest implements Quest {
         return questEnum.getQuestId();
     }
 
+    public final int getDay() {
+        return questEnum.getDay();
+    }
+
     public final int getAdventWorldIndex() {
         return questEnum.getAdventWorldIndex();
     }

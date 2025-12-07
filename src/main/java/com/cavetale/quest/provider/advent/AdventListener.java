@@ -20,6 +20,8 @@ import static net.kyori.adventure.text.Component.empty;
 import static net.kyori.adventure.text.Component.space;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.textOfChildren;
+import static net.kyori.adventure.text.format.NamedTextColor.*;
+import static net.kyori.adventure.text.format.TextDecoration.*;
 
 @RequiredArgsConstructor
 public final class AdventListener implements Listener {
@@ -51,6 +53,7 @@ public final class AdventListener implements Listener {
                 if (goal != null) {
                     bossBar.name(textOfChildren(getGoalArrow(player, goal), space(), bossBar.name()));
                 }
+                bossBar.name(textOfChildren(text("Day " + adventQuest.getDay(), GREEN, BOLD), space(), bossBar.name()));
                 event.bossbar(PlayerHudPriority.HIGH, bossBar);
                 break;
             }

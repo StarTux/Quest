@@ -73,7 +73,7 @@ public final class AdventQuestCollectItems extends AdventQuest {
             bossBar.name(text("Collect " + items.size() + " " + itemName));
             bossBar.progress((float) Math.min(progress.progress, items.size()) / (float) items.size());
         } else {
-            bossBar.name(textOfChildren(text("Bring everyting to "), returnNpc.getInstance().getConfig().getDisplayName()));
+            bossBar.name(textOfChildren(text("Bring everything to "), returnNpc.getInstance().getConfig().getDisplayName()));
             bossBar.progress(1f);
         }
     }
