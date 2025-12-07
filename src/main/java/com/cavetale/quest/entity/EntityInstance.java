@@ -36,6 +36,7 @@ public final class EntityInstance {
     private boolean paused;
     private EntityBehavior currentBehavior;
     private Map<Class<?>, Object> customData = new HashMap<>();
+    private int invalidTicks;
 
     public EntityInstance(
         final EntityConfig config,
@@ -77,6 +78,13 @@ public final class EntityInstance {
         if (paused) {
             return;
         }
+        if (spawnedEntity != null && !spawnedEntity.isValid() && !spawnedEntity.isDead()) {
+            // This is what happens (apparently) when an entity is
+            // invalidated for being in an unloaded chunk. Why
+            // EntityRemoveEvent is nowhere to be seen, is unknown.
+            despawn();
+            spawn();
+        }
         if (spawnedEntity == null) {
             spawn();
         }
@@ -98,6 +106,7 @@ public final class EntityInstance {
     }
 
     public Entity spawn() {
+        if (paused) return null;
         if (spawnedEntity != null) return spawnedEntity;
         final Location location = spawnLocationConfig.toLocation();
         if (location == null) return null;
@@ -114,6 +123,7 @@ public final class EntityInstance {
     }
 
     public Entity spawn(Location location) {
+        if (paused) return null;
         if (spawnedEntity != null) return spawnedEntity;
         if (!location.isChunkLoaded()) return null;
         spawnedEntity = location.getWorld().spawnEntity(location, config.getEntityType(), SpawnReason.CUSTOM, this::prepareEntity);

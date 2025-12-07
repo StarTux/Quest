@@ -28,4 +28,6 @@ public abstract class AdventQuest implements Quest {
     public abstract AdventNpcDialog getDialog(PlayerQuest playerQuest, Advent2025Npc npc);
 
     public void onPlayerMoveBlock(PlayerQuest playerQuest, Vec3i vector) { }
+
+    public abstract Vec3i getNextGoal(PlayerQuest playerQuest);
 }

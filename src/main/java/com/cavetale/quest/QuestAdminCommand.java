@@ -29,14 +29,14 @@ public final class QuestAdminCommand extends AbstractCommand<QuestPlugin> {
         rootNode.addChild("start").arguments("<player> <quest>")
             .description("Start player quest")
             .completers(
-                CommandArgCompleter.ONLINE_PLAYERS,
+                CommandArgCompleter.NULL,
                 CommandArgCompleter.supplyList(() -> List.copyOf(plugin.getQuests().getAllQuestIds()))
             )
             .senderCaller(this::start);
         rootNode.addChild("cancel").arguments("<player> <quest>")
             .description("Cancel player quest")
             .completers(
-                CommandArgCompleter.ONLINE_PLAYERS,
+                CommandArgCompleter.NULL,
                 CommandArgCompleter.supplyList(() -> List.copyOf(plugin.getQuests().getAllQuestIds()))
             )
             .senderCaller(this::cancel);

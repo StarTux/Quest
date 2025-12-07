@@ -14,7 +14,22 @@ import org.bukkit.inventory.ItemStack;
 public enum Advent2025Quest {
     FLOUR(0,
           () -> new AdventQuestCollectItems(
-              List.of(Vec3i.of(210, 76, 65)),
+              List.of(
+                  Vec3i.of(207, 67, 92),
+                  Vec3i.of(160, 66, 140),
+                  Vec3i.of(163, 67, 196),
+                  Vec3i.of(266, 67, 175),
+                  Vec3i.of(356, 67, 202),
+                  Vec3i.of(473, 74, 224),
+                  Vec3i.of(430, 69, 371),
+                  Vec3i.of(360, 66, 304),
+                  Vec3i.of(320, 66, 273),
+                  Vec3i.of(239, 74, 353),
+                  Vec3i.of(141, 67, 339),
+                  Vec3i.of(100, 68, 308),
+                  Vec3i.of(156, 67, 254),
+                  Vec3i.of(265, 66, 223)
+              ),
               "Flour",
               new ItemStack(Material.SUGAR),
               Advent2025Npc.MILLER,

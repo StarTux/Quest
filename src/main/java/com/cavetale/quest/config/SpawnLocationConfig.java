@@ -74,4 +74,8 @@ public final class SpawnLocationConfig {
         yaw = 0;
         pitch = 0;
     }
+
+    public String getWorldRoundedCoordsString() {
+        return world + " " + (int) Math.floor(x) + " " + (int) Math.floor(y) + " " + (int) Math.floor(z);
+    }
 }

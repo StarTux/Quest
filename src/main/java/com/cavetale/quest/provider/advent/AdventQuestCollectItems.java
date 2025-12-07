@@ -17,7 +17,13 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.bossbar.BossBar;
+import org.bukkit.Color;
+import org.bukkit.Location;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.textOfChildren;
@@ -59,7 +65,7 @@ public final class AdventQuestCollectItems extends AdventQuest {
 
     @Override
     public void makeBossBar(PlayerQuest playerQuest, BossBar bossBar) {
-        final Progress progress = playerQuest.getSavedTag(Progress.class, Progress::new);
+        final Progress progress = playerQuest.getCustomData(Progress.class);
         if (!progress.spokenToNpc) {
             bossBar.name(textOfChildren(text("Talk to the "), questNpc.getInstance().getConfig().getDisplayName()));
             bossBar.progress(1f);
@@ -74,7 +80,7 @@ public final class AdventQuestCollectItems extends AdventQuest {
 
     @Override
     public AdventNpcDialog getDialog(PlayerQuest playerQuest, Advent2025Npc npc) {
-        final Progress progress = playerQuest.getSavedTag(Progress.class, Progress::new);
+        final Progress progress = playerQuest.getCustomData(Progress.class);
         if (!progress.completeCollection && npc == questNpc) {
             return new AdventNpcDialog(
                 questDialog,
@@ -113,6 +119,35 @@ public final class AdventQuestCollectItems extends AdventQuest {
         }
         updateItems(playerQuest);
         playerQuest.setTag(progress);
+        final Player player = playerQuest.getSession().getPlayer();
+        final Location location = vector.toCenterLocation(player.getWorld());
+        player.spawnParticle(Particle.DUST, location, 32, 0.2, 0.2, 0.2, 0.0, new Particle.DustOptions(Color.YELLOW, 1f));
+        player.playSound(location, Sound.ENTITY_ITEM_PICKUP, SoundCategory.MASTER, 1f, 1f);
+    }
+
+    @Override
+    public Vec3i getNextGoal(PlayerQuest playerQuest) {
+        final Progress progress = playerQuest.getCustomData(Progress.class);
+        if (!progress.spokenToNpc) {
+            return Vec3i.of(
+                (int) Math.floor(questNpc.getX()),
+                (int) Math.floor(questNpc.getY()),
+                (int) Math.floor(questNpc.getZ())
+            );
+        } else if (!progress.completeCollection) {
+            for (int index = 0; index < items.size(); index += 1) {
+                if (!progress.hasItem(index)) {
+                    return items.get(index);
+                }
+            }
+            return null;
+        } else {
+            return Vec3i.of(
+                (int) Math.floor(returnNpc.getX()),
+                (int) Math.floor(returnNpc.getY()),
+                (int) Math.floor(returnNpc.getZ())
+            );
+        }
     }
 
     private void spawnItems(PlayerQuest playerQuest) {
