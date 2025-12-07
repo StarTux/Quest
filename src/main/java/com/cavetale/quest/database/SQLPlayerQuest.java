@@ -6,10 +6,8 @@ import com.winthier.sql.SQLRow.NotNull;
 import java.util.Date;
 import java.util.UUID;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @Name("player_quests")
 @NotNull
 public final class SQLPlayerQuest implements SQLRow {
@@ -18,9 +16,21 @@ public final class SQLPlayerQuest implements SQLRow {
     @Keyed
     private UUID player;
     private String questId;
+    private int status;
     @Text
-    private String status;
+    private String tag;
     private Date started;
     private Date updated;
+    @Nullable
     private Date expiry;
+
+    public SQLPlayerQuest() { }
+
+    public SQLPlayerQuest(final UUID player, final String questId) {
+        this.player = player;
+        this.questId = questId;
+        started = new Date();
+        updated = started;
+        expiry = null;
+    }
 }

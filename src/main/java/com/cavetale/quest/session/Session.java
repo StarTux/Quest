@@ -5,9 +5,8 @@ import com.cavetale.quest.QuestPlugin;
 import com.cavetale.quest.database.SQLFinishedQuest;
 import com.cavetale.quest.database.SQLPlayerQuest;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.function.Consumer;
 import lombok.Data;
@@ -25,10 +24,14 @@ public final class Session {
     private boolean enabled;
     private boolean disabled;
     private final List<PlayerQuest> playerQuests = new ArrayList<>();
-    private final Map<String, FinishedQuest> finishedQuests = new HashMap<>();
+    private final List<FinishedQuest> finishedQuests = new ArrayList<>();
 
     public static Session of(Player player) {
         return questPlugin().getSessions().getSessionMap().get(player.getUniqueId());
+    }
+
+    public static boolean isEnabled(Player player) {
+        return Session.of(player).isEnabled();
     }
 
     public static boolean applyIfEnabled(Player player, Consumer<Session> callback) {
@@ -57,6 +60,66 @@ public final class Session {
         finishedQuests.clear();
     }
 
+    public void tick() {
+        for (PlayerQuest playerQuest : List.copyOf(playerQuests)) {
+            if (!playerQuest.isActive()) {
+                playerQuests.remove(playerQuest);
+            } else {
+                playerQuest.tick();
+            }
+        }
+    }
+
+    public void startQuest(Quest quest) {
+        plugin.getLogger().info("[Session] " + name + ": Starting Quest: " + quest.getQuestId());
+        final PlayerQuest playerQuest = new PlayerQuest(
+            plugin,
+            this,
+            quest,
+            new SQLPlayerQuest(uuid, quest.getQuestId())
+        );
+        playerQuests.add(playerQuest);
+        playerQuest.start();
+    }
+
+    public List<PlayerQuest> getActiveQuests() {
+        final List<PlayerQuest> list = new ArrayList<>();
+        for (PlayerQuest playerQuest : playerQuests) {
+            if (playerQuest.getStatus() == QuestStatus.ACTIVE) {
+                list.add(playerQuest);
+            }
+        }
+        return list;
+    }
+
+    public boolean hasActiveQuest(Quest quest) {
+        for (PlayerQuest playerQuest : playerQuests) {
+            if (
+                Objects.equals(playerQuest.getQuest(), quest)
+                && playerQuest.getStatus() == QuestStatus.ACTIVE
+            ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean hasCompletedQuest(Quest quest) {
+        for (FinishedQuest finishedQuest : finishedQuests) {
+            if (
+                Objects.equals(finishedQuest.getQuestId(), quest.getQuestId())
+                && finishedQuest.getStatus() == QuestStatus.COMPLETE
+            ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean hasActiveOrCompletedQuest(Quest quest) {
+        return hasActiveQuest(quest) || hasCompletedQuest(quest);
+    }
+
     /**
      * Load data asynchronously and send them to onLoaded.
      */
@@ -80,9 +143,13 @@ public final class Session {
                 plugin.getLogger().severe("Quest not found: " + questRow);
                 continue;
             }
-            PlayerQuest playerQuest = new PlayerQuest(quest, questRow);
+            PlayerQuest playerQuest = new PlayerQuest(plugin, this, quest, questRow);
             playerQuests.add(playerQuest);
             playerQuest.enable();
+        }
+        for (SQLFinishedQuest row : finishedQuestRows) {
+            final FinishedQuest finishedQuest = new FinishedQuest(row);
+            finishedQuests.add(finishedQuest);
         }
         plugin.getLogger().info(
             "Loaded profile of " + name

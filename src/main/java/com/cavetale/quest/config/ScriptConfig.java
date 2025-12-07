@@ -20,7 +20,6 @@ public final class ScriptConfig {
     public static final class SpeakEntry implements Entry {
         private final boolean blocking;
         private final SpeechBubbleConfig config;
-        // TODO actually configurable
         private final Speaker speaker;
     }
 

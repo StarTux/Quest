@@ -1,0 +1,172 @@
+package com.cavetale.quest.provider.advent;
+
+import com.cavetale.core.struct.Vec3i;
+import com.cavetale.quest.config.EntityConfig;
+import com.cavetale.quest.config.SpawnLocationConfig;
+import com.cavetale.quest.entity.EntityInstance;
+import com.cavetale.quest.entity.behavior.EntityBehaviorSpin;
+import com.cavetale.quest.entity.data.EntityDataItemDisplay;
+import com.cavetale.quest.script.viewer.Viewership;
+import com.cavetale.quest.session.PlayerQuest;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import net.kyori.adventure.bossbar.BossBar;
+import org.bukkit.entity.EntityType;
+import org.bukkit.inventory.ItemStack;
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.Component.textOfChildren;
+
+@Getter
+@RequiredArgsConstructor
+public final class AdventQuestCollectItems extends AdventQuest {
+    private final List<Vec3i> items;
+    private final String itemName;
+    private final ItemStack itemStack;
+    private final Advent2025Npc questNpc;
+    private final Advent2025Npc returnNpc;
+    private final List<String> questDialog;
+    private final List<String> returnDialog;
+
+    @Override
+    public void startPlayerQuest(PlayerQuest playerQuest) {
+        Progress progress = new Progress();
+        playerQuest.setCustomData(progress);
+        playerQuest.setTag(progress);
+        spawnItems(playerQuest);
+    }
+
+    @Override
+    public void enablePlayerQuest(PlayerQuest playerQuest) {
+        Progress progress = playerQuest.getSavedTag(Progress.class, Progress::new);
+        playerQuest.setCustomData(progress);
+        spawnItems(playerQuest);
+    }
+
+    @Override
+    public void disablePlayerQuest(PlayerQuest playerQuest) {
+        final Cache cache = playerQuest.getCustomData(Cache.class, Cache::new);
+        for (EntityInstance entityInstance : cache.items) {
+            entityInstance.disable();
+        }
+        cache.items.clear();
+    }
+
+    @Override
+    public void makeBossBar(PlayerQuest playerQuest, BossBar bossBar) {
+        final Progress progress = playerQuest.getSavedTag(Progress.class, Progress::new);
+        if (!progress.spokenToNpc) {
+            bossBar.name(textOfChildren(text("Talk to the "), questNpc.getInstance().getConfig().getDisplayName()));
+            bossBar.progress(1f);
+        } else if (!progress.completeCollection) {
+            bossBar.name(text("Collect " + items.size() + " " + itemName));
+            bossBar.progress((float) Math.min(progress.progress, items.size()) / (float) items.size());
+        } else {
+            bossBar.name(textOfChildren(text("Bring everyting to the "), returnNpc.getInstance().getConfig().getDisplayName()));
+            bossBar.progress(1f);
+        }
+    }
+
+    @Override
+    public AdventNpcDialog getDialog(PlayerQuest playerQuest, Advent2025Npc npc) {
+        final Progress progress = playerQuest.getSavedTag(Progress.class, Progress::new);
+        if (!progress.completeCollection && npc == questNpc) {
+            return new AdventNpcDialog(
+                questDialog,
+                () -> {
+                    if (playerQuest.isDisabled() || progress.spokenToNpc) return;
+                    progress.spokenToNpc = true;
+                    playerQuest.setTag(progress);
+                    updateItems(playerQuest);
+                }
+            );
+        } else if (progress.completeCollection && npc == returnNpc) {
+            return new AdventNpcDialog(
+                returnDialog,
+                () -> {
+                    if (playerQuest.isDisabled()) return;
+                    playerQuest.setTag(progress);
+                    playerQuest.completeQuest();
+                }
+            );
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public void onPlayerMoveBlock(PlayerQuest playerQuest, Vec3i vector) {
+        final Progress progress = playerQuest.getCustomData(Progress.class);
+        if (progress.completeCollection || !progress.spokenToNpc) return;
+        final int index = items.indexOf(vector);
+        if (index < 0) return;
+        if (progress.hasItem(index)) return;
+        progress.collected.put(index, true);
+        progress.progress += 1;
+        if (progress.progress >= items.size()) {
+            progress.completeCollection = true;
+        }
+        updateItems(playerQuest);
+        playerQuest.setTag(progress);
+    }
+
+    private void spawnItems(PlayerQuest playerQuest) {
+        final Progress progress = playerQuest.getCustomData(Progress.class);
+        final Cache cache = playerQuest.getCustomData(Cache.class, Cache::new);
+        for (int index = 0; index < items.size(); index += 1) {
+            final Vec3i vec = items.get(index);
+            final EntityInstance entityInstance = new EntityInstance(
+                new EntityConfig(EntityType.ITEM_DISPLAY),
+                new SpawnLocationConfig(
+                    AdventProvider.ADVENT_SERVER,
+                    getAdventWorldName(),
+                    vec.x + 0.5,
+                    vec.y + 0.5,
+                    vec.z + 0.5
+                ),
+                Viewership.single(playerQuest.getSession().getUuid())
+            );
+            entityInstance.getConfig().addEntityData(new EntityDataItemDisplay(itemStack));
+            entityInstance.getConfig().addEntityBehavior(new EntityBehaviorSpin(1, 10f));
+            playerQuest.getPlugin().getEntities().enableEntityInstance(entityInstance);
+            cache.items.add(entityInstance);
+            if (!progress.spokenToNpc || progress.hasItem(index)) {
+                entityInstance.pause();
+            }
+        }
+    }
+
+    private void updateItems(PlayerQuest playerQuest) {
+        final Progress progress = playerQuest.getCustomData(Progress.class);
+        final Cache cache = playerQuest.getCustomData(Cache.class, Cache::new);
+        for (int index = 0; index < items.size(); index += 1) {
+            if (progress.hasItem(index)) {
+                cache.items.get(index).pause();
+            } else {
+                cache.items.get(index).unpause();
+            }
+        }
+    }
+
+    @Data
+    private static final class Progress implements Serializable {
+        private boolean spokenToNpc;
+        private boolean completeCollection;
+        private int progress;
+        private Map<Integer, Boolean> collected = new HashMap<>();
+
+        public boolean hasItem(int index) {
+            return collected.getOrDefault(index, false);
+        }
+    }
+
+    @Data
+    private static final class Cache {
+        private List<EntityInstance> items = new ArrayList<>();
+    }
+}

@@ -13,7 +13,10 @@ import com.cavetale.quest.entity.behavior.EntityRevertBehavior;
 import com.cavetale.quest.entity.data.EntityDataScale;
 import com.cavetale.quest.entity.data.EntityProfileData;
 import com.cavetale.quest.script.Script;
+import com.cavetale.quest.script.viewer.GlobalViewer;
 import com.cavetale.quest.script.viewer.SingleViewer;
+import com.cavetale.quest.session.PlayerQuest;
+import com.cavetale.quest.session.Session;
 import java.util.List;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -24,12 +27,16 @@ import org.bukkit.entity.Player;
 @RequiredArgsConstructor
 public final class AdventProvider {
     public static final NetworkServer ADVENT_SERVER = NetworkServer.CREATIVE;
+    public static final String ADVENT_WORLD_1 = "advent_2025_01";
     public static final List<String> ADVENT_WORLDS = List.of(
-        "advent_2025_01"
+        ADVENT_WORLD_1
     );
+    @Getter
+    private static AdventProvider instance;
     private final QuestPlugin plugin;
 
     public void enable() {
+        instance = this;
         for (Advent2025Npc npc : Advent2025Npc.values()) {
             final EntityInstance inst = new EntityInstance(
                 new EntityConfig(EntityType.MANNEQUIN),
@@ -38,7 +45,8 @@ public final class AdventProvider {
                     ADVENT_WORLDS.get(npc.getWorldNumber() - 1),
                     npc.getX(), npc.getY(), npc.getZ(),
                     npc.getYaw(), 0f
-                )
+                ),
+                GlobalViewer.INSTANCE
             );
             inst.getConfig().setDisplayName(npc.getDisplayName());
             inst.getConfig().addEntityData(new EntityProfileData().setTexture(npc.getTexture()));
@@ -59,13 +67,29 @@ public final class AdventProvider {
         for (Advent2025Npc npc : Advent2025Npc.values()) {
             plugin.getEntities().enableEntityInstance(npc.getInstance());
         }
-        plugin.getQuests().enableQuest(new AdventQuest2025Day01());
+        for (Advent2025Quest quest : Advent2025Quest.values()) {
+            plugin.getQuests().enableQuest(quest.getOrCreateQuestInstance());
+        }
+        new AdventListener(this).enable();
     }
 
     private void onPlayerClickAdventNpc(Advent2025Npc npc, EntityInstance inst, Player player) {
+        if (!Session.isEnabled(player)) return;
         if (plugin.getScripts().getScriptOfPlayer(player) != null) return;
         final ScriptConfig scriptConfig = new ScriptConfig();
-        for (String line : npc.getDefaultDialog()) {
+        List<String> dialog = null;
+        Runnable completionAction = null;
+        for (PlayerQuest playerQuest : Session.of(player).getActiveQuests()) {
+            if (playerQuest.getQuest() instanceof AdventQuest adventQuest) {
+                final AdventNpcDialog theDialog = adventQuest.getDialog(playerQuest, npc);
+                if (theDialog != null) {
+                    dialog = theDialog.dialog();
+                    completionAction = theDialog.completionAction();
+                }
+            }
+        }
+        if (dialog == null) dialog = npc.getDefaultDialog();
+        for (String line : dialog) {
             scriptConfig.addEntry(
                 new ScriptConfig.SpeakEntry(
                     true,
@@ -74,11 +98,9 @@ public final class AdventProvider {
                 )
             );
         }
-        // scriptConfig.addEntry(
-        //     new ScriptConfig.RunnableEntry(
-        //         () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "slap -sv " + player.getName())
-        //     )
-        // );
+        if (completionAction != null) {
+            scriptConfig.addEntry(new ScriptConfig.RunnableEntry(completionAction));
+        }
         final Script script = new Script(
             scriptConfig,
             SingleViewer.of(player)

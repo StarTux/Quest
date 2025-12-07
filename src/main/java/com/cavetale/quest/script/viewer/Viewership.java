@@ -44,4 +44,20 @@ public interface Viewership {
             }
         }
     }
+
+    static Viewership global() {
+        return GlobalViewer.INSTANCE;
+    }
+
+    static Viewership single(UUID uuid) {
+        return new SingleViewer(uuid);
+    }
+
+    static Viewership single(Player player) {
+        return SingleViewer.of(player);
+    }
+
+    static Viewership group(Player... players) {
+        return ViewerGroup.of(players);
+    }
 }

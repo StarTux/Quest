@@ -15,10 +15,13 @@ import lombok.NoArgsConstructor;
 public final class SQLFinishedQuest implements SQLRow {
     @Id
     private Integer id;
+    private int oldId;
     @Keyed
     private UUID player;
     private String questId;
-    private boolean completed;
+    private int status;
+    @Text
+    private String tag;
     private Date started;
     private Date ended;
 }

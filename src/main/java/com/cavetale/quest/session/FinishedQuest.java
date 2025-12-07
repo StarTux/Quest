@@ -8,4 +8,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public final class FinishedQuest {
     private final SQLFinishedQuest row;
+
+    public String getQuestId() {
+        return row.getQuestId();
+    }
+
+    public QuestStatus getStatus() {
+        return QuestStatus.ofValue(row.getStatus());
+    }
 }

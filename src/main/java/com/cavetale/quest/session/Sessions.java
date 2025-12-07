@@ -41,5 +41,10 @@ public final class Sessions {
         if (session != null) session.disable();
     }
 
-    public void tick() { }
+    public void tick() {
+        for (Session session : sessionMap.values()) {
+            if (!session.isEnabled()) continue;
+            session.tick();
+        }
+    }
 }

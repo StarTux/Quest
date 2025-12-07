@@ -108,7 +108,7 @@ public final class SpeechBubble {
                 e.setAlignment(TextDisplay.TextAlignment.LEFT);
                 e.setDefaultBackground(false);
                 //e.setBackgroundColor(Color.fromARGB(0));
-                e.setBackgroundColor(Color.fromARGB(0x40_10_10_70));
+                e.setBackgroundColor(Color.fromARGB(0x80_10_10_70));
                 e.setLineWidth(PIXELS_PER_LINE);
                 e.setSeeThrough(true); // through blocks
                 e.setShadowed(true);
@@ -163,9 +163,7 @@ public final class SpeechBubble {
             newLines.add(
                 textOfChildren(
                     TAB,
-                    text("[", GRAY),
-                    speaker.getDisplayName(),
-                    text("]", GRAY)
+                    speaker.getDisplayName().decorate(UNDERLINED)
                 )
             );
         }
@@ -228,7 +226,7 @@ public final class SpeechBubble {
         final Location location = speaker.getSpeechBubbleLocation();
         for (Player player : viewership.getPlayers()) {
             if (!player.getWorld().equals(location.getWorld())) continue;
-            if (player.getLocation().distanceSquared(location) > 256) {
+            if (player.getLocation().distanceSquared(location) > 64) {
                 continue;
             }
             return true;

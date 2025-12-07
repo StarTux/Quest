@@ -5,14 +5,17 @@ import com.cavetale.quest.config.SpawnLocationConfig;
 import com.cavetale.quest.entity.behavior.EntityBehavior;
 import com.cavetale.quest.entity.data.EntityData;
 import com.cavetale.quest.script.speaker.EntityInstanceSpeaker;
+import com.cavetale.quest.script.viewer.Viewership;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import java.util.logging.Level;
 import lombok.Data;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import static com.cavetale.quest.QuestPlugin.questPlugin;
 
@@ -23,20 +26,25 @@ import static com.cavetale.quest.QuestPlugin.questPlugin;
 @Data
 public final class EntityInstance {
     // Configuration
-    private EntityConfig config;
-    private SpawnLocationConfig spawnLocationConfig;
+    private final EntityConfig config;
+    private final SpawnLocationConfig spawnLocationConfig;
+    private final Viewership viewership;
     // Runtime
     private Entity spawnedEntity;
     private boolean enabled;
     private boolean disabled;
+    private boolean paused;
     private EntityBehavior currentBehavior;
     private Map<Class<?>, Object> customData = new HashMap<>();
 
-    public EntityInstance() { }
-
-    public EntityInstance(final EntityConfig config, final SpawnLocationConfig spawnLocationConfig) {
+    public EntityInstance(
+        final EntityConfig config,
+        final SpawnLocationConfig spawnLocationConfig,
+        final Viewership viewership
+    ) {
         this.config = config;
         this.spawnLocationConfig = spawnLocationConfig;
+        this.viewership = viewership;
     }
 
     /**
@@ -54,7 +62,21 @@ public final class EntityInstance {
         despawn();
     }
 
+    public void pause() {
+        paused = true;
+        despawn();
+    }
+
+    public void unpause() {
+        if (!enabled) return;
+        paused = false;
+        spawn();
+    }
+
     public void tick() {
+        if (paused) {
+            return;
+        }
         if (spawnedEntity == null) {
             spawn();
         }
@@ -86,6 +108,7 @@ public final class EntityInstance {
         if (spawnedEntity != null) {
             unregisterEntity(spawnedEntity);
             spawnedEntity.remove();
+            applyTrigger(trigger -> trigger.onEntityRemoved(this, spawnedEntity));
             spawnedEntity = null;
         }
     }
@@ -96,17 +119,33 @@ public final class EntityInstance {
         spawnedEntity = location.getWorld().spawnEntity(location, config.getEntityType(), SpawnReason.CUSTOM, this::prepareEntity);
         if (spawnedEntity != null) {
             registerEntity(spawnedEntity);
+            applyTrigger(trigger -> trigger.onEntitySpawned(this, spawnedEntity));
         }
         return spawnedEntity;
     }
 
     private void prepareEntity(Entity entity) {
         entity.setPersistent(false);
-        if (config.getDisplayName() != null) {
-            entity.customName(config.getDisplayName());
+        if (entity instanceof org.bukkit.entity.ItemDisplay display) {
+            display.setItemStack(com.cavetale.mytems.Mytems.DIAMOND_COIN.createItemStack(1));
         }
         for (EntityData data : config.getEntityData()) {
-            data.apply(entity);
+            if (!data.apply(entity)) {
+                questPlugin().getLogger().log(
+                    Level.SEVERE,
+                    "EntityData " + data.getClass().getSimpleName() + " does not apply to entity " + entity.getType(),
+                    new IllegalArgumentException("data=" + data)
+                );
+            }
+        }
+        if (!viewership.isGlobal()) {
+            entity.setVisibleByDefault(false);
+            for (Player player : viewership.getPlayers()) {
+                player.showEntity(questPlugin(), entity);
+            }
+        }
+        if (config.getDisplayName() != null) {
+            entity.customName(config.getDisplayName());
         }
         if (entity instanceof LivingEntity living) {
             living.setBodyYaw(spawnLocationConfig.getYaw());
@@ -145,6 +184,7 @@ public final class EntityInstance {
         if (entity.equals(spawnedEntity)) {
             unregisterEntity(spawnedEntity);
             spawnedEntity = null;
+            applyTrigger(trigger -> trigger.onEntityRemoved(this, entity));
         }
     }
 
