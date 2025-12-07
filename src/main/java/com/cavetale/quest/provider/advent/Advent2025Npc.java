@@ -60,6 +60,22 @@ public enum Advent2025Npc {
             "MooOooOOooOoOOo!"
         )
     ),
+    POULTRY_FARMER(
+        1, EntityType.MANNEQUIN, text("Poultry Farmer", BLUE, BOLD),
+        "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2I0M2IyMzE4OWRjZjEzMjZkYTQyNTNkMWQ3NTgyZWY1YWQyOWY2YzI3YjE3MWZlYjE3ZTMxZDA4NGUzYTdkIn19fQ==",
+        75.5, 81.0, 271.5, 180f,
+        List.of(
+            "Howdy, neighbor.",
+            "Make sure to eat enough protein.",
+            "And avoid too much sweet stuff."
+        )
+    ),
+    CHICKEN(
+        1, EntityType.CHICKEN, text("Cluck Cluck Chicken", RED, BOLD),
+        "",
+        465.5, 71.0, 397.5, 90f,
+        List.of("Bawk bawk?!")
+    ),
     ;
 
     private final int worldNumber;
