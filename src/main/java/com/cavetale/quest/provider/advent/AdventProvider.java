@@ -18,9 +18,15 @@ import com.cavetale.quest.script.viewer.GlobalViewer;
 import com.cavetale.quest.script.viewer.SingleViewer;
 import com.cavetale.quest.session.PlayerQuest;
 import com.cavetale.quest.session.Session;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -28,7 +34,7 @@ import org.bukkit.entity.Player;
 @Getter
 @RequiredArgsConstructor
 public final class AdventProvider {
-    public static final NetworkServer ADVENT_SERVER = NetworkServer.CREATIVE;
+    public static final NetworkServer ADVENT_SERVER = NetworkServer.BETA;
     public static final String ADVENT_WORLD_1 = "advent_2025_01";
     public static final List<String> ADVENT_WORLDS = List.of(
         ADVENT_WORLD_1
@@ -79,6 +85,47 @@ public final class AdventProvider {
             plugin.getQuests().enableQuest(quest.getOrCreateQuestInstance());
         }
         new AdventListener(this).enable();
+        if (ADVENT_SERVER.isThisServer()) {
+            Bukkit.getScheduler().runTaskTimer(plugin, this::tick, 1L, 1L);
+        }
+    }
+
+    public int getChristmasDay() {
+        final Instant instant = Instant.now();
+        final LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.of("UTC-11"));
+        final LocalDate localDate = localDateTime.toLocalDate();
+        final int year = localDate.getYear();
+        final int month = localDate.getMonth().getValue();
+        final int day = localDate.getDayOfMonth();
+        if (year > 2025) return 25;
+        if (year == 2025 && month == 12) {
+            return Math.min(day, 25);
+        }
+        return 0;
+    }
+
+    private void tick() {
+        final int day = getChristmasDay();
+        for (String worldName : ADVENT_WORLDS) {
+            final World world = Bukkit.getWorld(worldName);
+            if (world == null) continue;
+            for (Player player : world.getPlayers()) {
+                tickPlayer(player, day);
+            }
+        }
+    }
+
+    private void tickPlayer(Player player, final int day) {
+        final Session session = Session.of(player);
+        if (!session.isEnabled()) return;
+        if (!session.getActiveQuests().isEmpty()) return;
+        for (Advent2025Quest quest : Advent2025Quest.values()) {
+            if (quest.getDay() > day) return;
+            if (session.hasCompletedQuest(quest.getInstance())) continue;
+            if (!quest.getInstance().getAdventWorldName().equals(player.getWorld().getName())) return;
+            session.startQuest(quest.getInstance());
+            return;
+        }
     }
 
     private void onPlayerClickAdventNpc(Advent2025Npc npc, EntityInstance inst, Player player) {

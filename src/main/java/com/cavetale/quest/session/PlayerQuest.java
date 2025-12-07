@@ -108,6 +108,11 @@ public final class PlayerQuest {
     public void completeQuest() {
         row.setStatus(QuestStatus.COMPLETE.getValue());
         dirty = true;
+        if (!session.hasCompletedQuest(quest)) {
+            quest.onFirstCompletion(this);
+        } else {
+            quest.onRepeatCompletion(this);
+        }
         saveFinishedQuest();
         deleteRow();
     }

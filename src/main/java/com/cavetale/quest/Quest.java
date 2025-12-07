@@ -16,4 +16,8 @@ public interface Quest {
     default void disablePlayerQuest(PlayerQuest playerQuest) { }
 
     default void tickPlayerQuest(PlayerQuest playerQuest) { }
+
+    default void onFirstCompletion(PlayerQuest playerQuest) { }
+
+    default void onRepeatCompletion(PlayerQuest playerQuest) { }
 }
