@@ -34,7 +34,7 @@ import org.bukkit.entity.Player;
 @Getter
 @RequiredArgsConstructor
 public final class AdventProvider {
-    public static final NetworkServer ADVENT_SERVER = NetworkServer.BETA;
+    public static final NetworkServer ADVENT_SERVER = NetworkServer.FESTIVAL;
     public static final String ADVENT_WORLD_1 = "advent_2025_01";
     public static final List<String> ADVENT_WORLDS = List.of(
         ADVENT_WORLD_1
