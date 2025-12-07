@@ -189,7 +189,7 @@ public enum Advent2025Quest {
                 List.of(
                     "Hello there. Came to see one of my awesome spells? Worry not, I have plenty more to show.",
                     "Huh, you want my sugar? But I, well... you see, I need some to put in my tea.",
-                    "For the baker to make Christmas cookies, you say? Well, that's a different story, then. We all loves his cookies.",
+                    "For the baker to make Christmas cookies, you say? Well, that's a different story, then. We all love his cookies.",
                     "Here you go. Tell him I want the ones with the sprinkles."
                 ),
                 List.of(
