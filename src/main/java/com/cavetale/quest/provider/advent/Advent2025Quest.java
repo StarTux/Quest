@@ -164,6 +164,64 @@ public enum Advent2025Quest {
             )
         )
     ),
+    SUGAR(
+        0,
+        () -> new AdventQuestTalkChain(
+            List.of(
+                Advent2025Npc.BAKER,
+                Advent2025Npc.POSTMAN,
+                Advent2025Npc.WIZARD,
+                Advent2025Npc.BAKER
+            ),
+            List.of(
+                List.of(
+                    "I have flour, butter, eggs. I don't have sugar.",
+                    "I need sugar to make Christmas cookies.",
+                    "You like cookies? Ask the postman if they have arrived.",
+                    "Please, friend. Help me make cookies."
+                ),
+                List.of(
+                    "Another delivery... one more package. Always busy in the cold season. And it lasts all year around here..",
+                    "Uh what? Sugar, you say? For the baker? Hmmm...",
+                    "No, there was no sugar delivery. I mean there was, but that was for the wizard. Or so he said.",
+                    "You have to ask him if you want that sugar back."
+                ),
+                List.of(
+                    "Hello there. Came to see one of my awesome spells? Worry not, I have plenty more to show.",
+                    "Huh, you want my sugar? But I, well... you see, I need some to put in my tea.",
+                    "For the baker to make Christmas cookies, you say? Well, that's a different story, then. We all loves his cookies.",
+                    "Here you go. Tell him I want the ones with the sprinkles."
+                ),
+                List.of(
+                    "Sprinkles? Okay.",
+                    "Thanks, friend! You're a good friend. Now we can make Christmas cookies. Yum!"
+                )
+            )
+        )
+    ),
+    COOKIES(
+        0,
+        () -> new AdventQuestTalkChain(
+            List.of(
+                Advent2025Npc.BAKER,
+                Advent2025Npc.MILLER,
+                Advent2025Npc.DAIRY_FARMER,
+                Advent2025Npc.POULTRY_FARMER,
+                Advent2025Npc.POSTMAN,
+                Advent2025Npc.WIZARD,
+                Advent2025Npc.SANTA_CLAUSE
+            ),
+            List.of(
+                List.of("Cookies are done. Thank you. Bring them to all friends who helped, please. Least I can do."),
+                List.of("Why thank you! These cookies look great, and they smell even better. <emoji:cookie>"),
+                List.of("Thank you! I'll dip these in some fresh milk, that will make for an excellent treat. <emoji:cookie>"),
+                List.of("Now these are some delectable looking baked goods. Have my thanks friend! <emoji:cookie>"),
+                List.of("A little pick me up, for me? Thank you, now I can work twice as fast. <emoji:cookie>"),
+                List.of("Awesome, sprinkles! You're the best. Tell the baker my thanks. <emoji:cookie>"),
+                List.of("Ho ho ho! You brought Santa some delicious looking cookies. Thanks to you, there are now cookies for everyone. That's the Christmas spirit!")
+            )
+        )
+    ),
     ;
 
     private final int adventWorldIndex;

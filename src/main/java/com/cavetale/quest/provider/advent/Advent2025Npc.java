@@ -51,7 +51,7 @@ public enum Advent2025Npc {
         )
     ),
     MOO_COW(
-        1, EntityType.COW, text("Moo Cow", BLUE, BOLD),
+        1, EntityType.COW, text("Moo Cow", BLUE),
         "",
         405.9, 66.0, 387.2, 0f,
         List.of(
@@ -71,10 +71,39 @@ public enum Advent2025Npc {
         )
     ),
     CHICKEN(
-        1, EntityType.CHICKEN, text("Cluck Cluck Chicken", RED, BOLD),
+        1, EntityType.CHICKEN, text("Cluck Cluck Chicken", RED),
         "",
         465.5, 71.0, 397.5, 90f,
         List.of("Bawk bawk?!")
+    ),
+    BAKER(
+        1, EntityType.MANNEQUIN, text("Baker", LIGHT_PURPLE, BOLD),
+        "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjhkZWE2MjJmYjBmYmJkMjYzOTM4NGMxNjA0ZjVmMWEzYzExMWFhOTkzNDQ3MzE5ZmJhYzQ5NGJmZjQ0NzcifX19",
+        332.5, 68.0, 219.5, -90f,
+        List.of(
+            "You like Christmas candy?",
+            "Good, me too! I also make them. Bring me ingredients, I can make anything. And it's scrumptious!"
+        )
+    ),
+    POSTMAN(
+        1, EntityType.MANNEQUIN, text("Postman", YELLOW, BOLD),
+        "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmIwNDMyZmFiNzIxNDBjN2ZkMmVhMWU4YmFlMWVhOGJmOTkwYzkzNjkzNzAxY2I3NzFlYTI5YTU5NDZiNGIxMiJ9fX0=",
+        83.5, 80.0, 359.5, 0f,
+        List.of(
+            "So much mail to handle this time of year. I'm losing my mind over here.",
+            "Just kidding, it's also a lot of fun! <emoji:smile>"
+        )
+    ),
+    WIZARD(
+        1, EntityType.MANNEQUIN, text("Wizard", DARK_PURPLE, BOLD),
+        "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWZmOWUxZjY0ZjJiYWZlNzIxZmFkYTVmNjdlOWUyNWJiNGQxMTEyNWQ2Nzk1ZGE2ZTg0OGVlMzgyOGU4NSJ9fX0=",
+        174.5, 100.0, 356.5, -180f,
+        List.of(
+            "So much to see from up here. Most people don't realize, my magic makes the snowfall happen.",
+            "Don't believe me? Watch this:",
+            "Χιόνα καλέω, νιφάδες ἐξ οὐρανοῦ, κρύσταλλον πνοὴν ἐκ νεφέλης βαθείας. Ἐλθέ, χεῖμα, σὺν ἀνέμοις σιωπῇ, γῆν καλύψαι λευκῇ σινδόνι θεῶν. Ὑπὸ σελάνας φέγγος, ἐγὼ ἐπικαλούμην, νίψον τὸν κόσμον ἐν παγῇ σῇ.",
+            "Impressive, huh?"
+        )
     ),
     ;
 
