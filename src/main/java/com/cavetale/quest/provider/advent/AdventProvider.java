@@ -10,6 +10,7 @@ import com.cavetale.quest.entity.EntityInstance;
 import com.cavetale.quest.entity.EntityTrigger;
 import com.cavetale.quest.entity.behavior.EntityLookAtPlayerBehavior;
 import com.cavetale.quest.entity.behavior.EntityRevertBehavior;
+import com.cavetale.quest.entity.data.EntityDataAttributes;
 import com.cavetale.quest.entity.data.EntityDataScale;
 import com.cavetale.quest.entity.data.EntityProfileData;
 import com.cavetale.quest.script.Script;
@@ -20,6 +21,7 @@ import com.cavetale.quest.session.Session;
 import java.util.List;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
@@ -39,7 +41,7 @@ public final class AdventProvider {
         instance = this;
         for (Advent2025Npc npc : Advent2025Npc.values()) {
             final EntityInstance inst = new EntityInstance(
-                new EntityConfig(EntityType.MANNEQUIN),
+                new EntityConfig(npc.getEntityType()),
                 new SpawnLocationConfig(
                     ADVENT_SERVER,
                     ADVENT_WORLDS.get(npc.getWorldNumber() - 1),
@@ -49,7 +51,13 @@ public final class AdventProvider {
                 GlobalViewer.INSTANCE
             );
             inst.getConfig().setDisplayName(npc.getDisplayName());
-            inst.getConfig().addEntityData(new EntityProfileData().setTexture(npc.getTexture()));
+            if (npc.getEntityType() == EntityType.MANNEQUIN) {
+                inst.getConfig().addEntityData(new EntityProfileData().setTexture(npc.getTexture()));
+            } else {
+                final EntityDataAttributes data = new EntityDataAttributes();
+                data.addAttribute(Attribute.MOVEMENT_SPEED, 0);
+                inst.getConfig().addEntityData(data);
+            }
             inst.getConfig().addEntityBehavior(new EntityLookAtPlayerBehavior().setPriority(1));
             inst.getConfig().addEntityBehavior(new EntityRevertBehavior().setPriority(2));
             inst.getConfig().protectFromDamage();

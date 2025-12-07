@@ -67,13 +67,13 @@ public final class AdventQuestCollectItems extends AdventQuest {
     public void makeBossBar(PlayerQuest playerQuest, BossBar bossBar) {
         final Progress progress = playerQuest.getCustomData(Progress.class);
         if (!progress.spokenToNpc) {
-            bossBar.name(textOfChildren(text("Talk to the "), questNpc.getInstance().getConfig().getDisplayName()));
+            bossBar.name(textOfChildren(text("Talk to "), questNpc.getInstance().getConfig().getDisplayName()));
             bossBar.progress(1f);
         } else if (!progress.completeCollection) {
             bossBar.name(text("Collect " + items.size() + " " + itemName));
             bossBar.progress((float) Math.min(progress.progress, items.size()) / (float) items.size());
         } else {
-            bossBar.name(textOfChildren(text("Bring everyting to the "), returnNpc.getInstance().getConfig().getDisplayName()));
+            bossBar.name(textOfChildren(text("Bring everyting to "), returnNpc.getInstance().getConfig().getDisplayName()));
             bossBar.progress(1f);
         }
     }
@@ -85,7 +85,7 @@ public final class AdventQuestCollectItems extends AdventQuest {
             return new AdventNpcDialog(
                 questDialog,
                 () -> {
-                    if (playerQuest.isDisabled() || progress.spokenToNpc) return;
+                    if (!playerQuest.isActive() || playerQuest.isDisabled() || progress.spokenToNpc) return;
                     progress.spokenToNpc = true;
                     playerQuest.setTag(progress);
                     updateItems(playerQuest);
@@ -95,7 +95,7 @@ public final class AdventQuestCollectItems extends AdventQuest {
             return new AdventNpcDialog(
                 returnDialog,
                 () -> {
-                    if (playerQuest.isDisabled()) return;
+                    if (!playerQuest.isActive() || playerQuest.isDisabled()) return;
                     playerQuest.setTag(progress);
                     playerQuest.completeQuest();
                 }
