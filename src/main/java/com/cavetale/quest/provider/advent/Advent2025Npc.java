@@ -20,7 +20,7 @@ public enum Advent2025Npc {
         265.5, 67.0, 221.0, 0f,
         List.of(
             "Ho ho ho! Merry Christmas!",
-            "Check out this awesome Christmas build. It was made in 2024 by the good people of Cavetale.",
+            "Check out this awesome Christmas build. It was made in 2021 by the good people of Cavetale.",
             "We all had a lot of fun building this place together, like every year.",
             "Care to join us next time?"
         )
