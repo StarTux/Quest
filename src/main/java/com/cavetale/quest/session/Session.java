@@ -47,7 +47,6 @@ public final class Session {
 
     public void enable() {
         plugin.getDatabase().getDatabase().scheduleAsyncTask(this::load);
-        enabled = true;
     }
 
     public void disable() {
