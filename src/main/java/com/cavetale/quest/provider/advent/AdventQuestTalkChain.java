@@ -14,8 +14,7 @@ import static net.kyori.adventure.text.Component.textOfChildren;
 @Getter
 @RequiredArgsConstructor
 public final class AdventQuestTalkChain extends AdventQuest {
-    private final List<Advent2025Npc> npcs;
-    private final List<List<String>> dialogs;
+    private final List<Advent2025Npc.Stage> npcs;
 
     @Override
     public void startPlayerQuest(PlayerQuest playerQuest) {
@@ -37,19 +36,19 @@ public final class AdventQuestTalkChain extends AdventQuest {
     @Override
     public void makeBossBar(PlayerQuest playerQuest, BossBar bossBar) {
         final Progress progress = playerQuest.getCustomData(Progress.class);
-        final Advent2025Npc npc = npcs.get(progress.nextNpcIndex);
-        bossBar.name(textOfChildren(text("Talk to "), npc.getInstance().getConfig().getDisplayName()));
+        final Advent2025Npc.Stage stage = npcs.get(progress.nextNpcIndex);
+        bossBar.name(textOfChildren(text("Talk to "), stage.npc().getInstance().getConfig().getDisplayName()));
         bossBar.progress(1f);
     }
 
     @Override
     public AdventNpcDialog getDialog(PlayerQuest playerQuest, Advent2025Npc npc) {
         final Progress progress = playerQuest.getCustomData(Progress.class);
-        final Advent2025Npc theNpc = npcs.get(progress.nextNpcIndex);
+        final Advent2025Npc.Stage stage = npcs.get(progress.nextNpcIndex);
         final int oldNpcIndex = progress.nextNpcIndex;
-        if (npc == theNpc) {
+        if (npc == stage.npc()) {
             return new AdventNpcDialog(
-                dialogs.get(progress.nextNpcIndex),
+                stage.dialog(),
                 () -> {
                     if (!playerQuest.isActive() || playerQuest.isDisabled() || progress.nextNpcIndex != oldNpcIndex) return;
                     if (progress.nextNpcIndex < npcs.size() - 1) {
@@ -62,9 +61,9 @@ public final class AdventQuestTalkChain extends AdventQuest {
             );
         }
         for (int i = progress.nextNpcIndex - 1; i >= 0; i -= 1) {
-            final Advent2025Npc oldNpc = npcs.get(i);
-            if (npc == oldNpc) {
-                return new AdventNpcDialog(dialogs.get(i), null);
+            final Advent2025Npc.Stage oldStage = npcs.get(i);
+            if (npc == oldStage.npc()) {
+                return new AdventNpcDialog(oldStage.dialog(), null);
             }
         }
         return null;
@@ -73,11 +72,11 @@ public final class AdventQuestTalkChain extends AdventQuest {
     @Override
     public Vec3i getNextGoal(PlayerQuest playerQuest) {
         final Progress progress = playerQuest.getCustomData(Progress.class);
-        final Advent2025Npc npc = npcs.get(progress.nextNpcIndex);
+        final Advent2025Npc.Stage stage = npcs.get(progress.nextNpcIndex);
         return Vec3i.of(
-            (int) Math.floor(npc.getX()),
-            (int) Math.floor(npc.getY()),
-            (int) Math.floor(npc.getZ())
+            (int) Math.floor(stage.npc().getX()),
+            (int) Math.floor(stage.npc().getY()),
+            (int) Math.floor(stage.npc().getZ())
         );
     }
 

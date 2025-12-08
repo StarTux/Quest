@@ -34,9 +34,8 @@ public final class AdventQuestCollectItems extends AdventQuest {
     private final List<Vec3i> items;
     private final String itemName;
     private final ItemStack itemStack;
-    private final Advent2025Npc questNpc;
+    private final List<Advent2025Npc.Stage> questNpcs;
     private final Advent2025Npc returnNpc;
-    private final List<String> questDialog;
     private final List<String> returnDialog;
 
     @Override
@@ -67,7 +66,8 @@ public final class AdventQuestCollectItems extends AdventQuest {
     public void makeBossBar(PlayerQuest playerQuest, BossBar bossBar) {
         final Progress progress = playerQuest.getCustomData(Progress.class);
         if (!progress.spokenToNpc) {
-            bossBar.name(textOfChildren(text("Talk to "), questNpc.getInstance().getConfig().getDisplayName()));
+            final Advent2025Npc.Stage stage = questNpcs.get(progress.nextNpcIndex);
+            bossBar.name(textOfChildren(text("Talk to "), stage.npc().getInstance().getConfig().getDisplayName()));
             bossBar.progress(1f);
         } else if (!progress.completeCollection) {
             bossBar.name(text("Collect " + items.size() + " " + itemName));
@@ -81,16 +81,30 @@ public final class AdventQuestCollectItems extends AdventQuest {
     @Override
     public AdventNpcDialog getDialog(PlayerQuest playerQuest, Advent2025Npc npc) {
         final Progress progress = playerQuest.getCustomData(Progress.class);
-        if (!progress.completeCollection && npc == questNpc) {
-            return new AdventNpcDialog(
-                questDialog,
-                () -> {
-                    if (!playerQuest.isActive() || playerQuest.isDisabled() || progress.spokenToNpc) return;
-                    progress.spokenToNpc = true;
-                    playerQuest.setTag(progress);
-                    updateItems(playerQuest);
+        if (!progress.completeCollection) {
+            final Advent2025Npc.Stage stage = questNpcs.get(progress.nextNpcIndex);
+            if (npc == stage.npc()) {
+                return new AdventNpcDialog(
+                    stage.dialog(),
+                    () -> {
+                        if (!playerQuest.isActive() || playerQuest.isDisabled() || progress.spokenToNpc) return;
+                        if (progress.nextNpcIndex < questNpcs.size() - 1) {
+                            progress.nextNpcIndex += 1;
+                        } else {
+                            progress.spokenToNpc = true;
+                        }
+                        playerQuest.setTag(progress);
+                        updateItems(playerQuest);
+                    }
+                );
+            }
+            for (int i = progress.nextNpcIndex - 1; i >= 0; i -= 1) {
+                final Advent2025Npc.Stage oldStage = questNpcs.get(i);
+                if (npc == oldStage.npc()) {
+                    return new AdventNpcDialog(oldStage.dialog(), null);
                 }
-            );
+            }
+            return null;
         } else if (progress.completeCollection && npc == returnNpc) {
             return new AdventNpcDialog(
                 returnDialog,
@@ -129,10 +143,11 @@ public final class AdventQuestCollectItems extends AdventQuest {
     public Vec3i getNextGoal(PlayerQuest playerQuest) {
         final Progress progress = playerQuest.getCustomData(Progress.class);
         if (!progress.spokenToNpc) {
+            final Advent2025Npc.Stage stage = questNpcs.get(progress.nextNpcIndex);
             return Vec3i.of(
-                (int) Math.floor(questNpc.getX()),
-                (int) Math.floor(questNpc.getY()),
-                (int) Math.floor(questNpc.getZ())
+                (int) Math.floor(stage.npc().getX()),
+                (int) Math.floor(stage.npc().getY()),
+                (int) Math.floor(stage.npc().getZ())
             );
         } else if (!progress.completeCollection) {
             for (int index = 0; index < items.size(); index += 1) {
@@ -190,6 +205,7 @@ public final class AdventQuestCollectItems extends AdventQuest {
 
     @Data
     private static final class Progress implements Serializable {
+        private int nextNpcIndex;
         private boolean spokenToNpc;
         private boolean completeCollection;
         private int progress;

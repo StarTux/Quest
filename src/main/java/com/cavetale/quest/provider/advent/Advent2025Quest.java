@@ -33,39 +33,37 @@ public enum Advent2025Quest {
             ),
             "Flour",
             new ItemStack(Material.SUGAR),
-            Advent2025Npc.MILLER,
+            List.of(
+                Advent2025Npc.MILLER.stage(
+                    "Please help! The flour I was supposed to deliver to the Farmer was caught by the wind.",
+                    "The flour has been blown all over town. Can you pick it up and bring it to me?"
+                )
+            ),
             Advent2025Npc.MILLER,
             List.of(
-                "Please help! The flour I was supposed to deliver to the Farmer was caught by the wind.",
-                "The flour has been blown all over town. Can you pick it up and bring it to me?"
-            ),
-            List.of("Thank you so much! I was seriously worried we couldn't finish the deliciouis Christmas cookies this year.")
+                "Thank you so much! I was seriously worried we couldn't finish the deliciouis Christmas cookies this year."
+            )
         )
     ),
     MILK(
         0,
         () -> new AdventQuestTalkChain(
             List.of(
-                Advent2025Npc.DAIRY_FARMER,
-                Advent2025Npc.MOO_COW,
-                Advent2025Npc.DAIRY_FARMER
-            ),
-            List.of(
-                List.of(
+                Advent2025Npc.DAIRY_FARMER.stage(
                     "Oh my, I have run out of milk!",
                     "And today of all days. We need that to turn it into butter.",
                     "Hmmm...",
                     "I wonder if the <blue>Moo Cow</blue> would be available...",
                     "I can't leave here. Would you mind asking her? Tell her it's super urgent."
                 ),
-                List.of(
+                Advent2025Npc.MOO_COW.stage(
                     "Moo!",
                     "Moo, mooo?",
                     "Moo moo moo, moo moo mooo?!",
                     "Moooooooo <emoji:heart>",
                     "<emoji:milk_bucket>"
                 ),
-                List.of(
+                Advent2025Npc.DAIRY_FARMER.stage(
                     "Why thank you! That is a huge load of milk you got there.",
                     "She wasn't uhm... upset, was she?",
                     "I hope you told her thank you from me.",
@@ -88,15 +86,16 @@ public enum Advent2025Quest {
             ),
             "Butter",
             new ItemStack(Material.GOLD_INGOT),
-            Advent2025Npc.DAIRY_FARMER,
-            Advent2025Npc.DAIRY_FARMER,
             List.of(
-                "Well, well well. That's just swell!",
-                "Just now that I have finally made all the butter, it got away from me.",
-                "All my butter rolled downhill and got scattered all across town...",
-                "Could I bother you with another request, friend?",
-                "Would you mind collecting all that butter and bringing it back to me?"
+                Advent2025Npc.DAIRY_FARMER.stage(
+                    "Well, well well. That's just swell!",
+                    "Just now that I have finally made all the butter, it got away from me.",
+                    "All my butter rolled downhill and got scattered all across town...",
+                    "Could I bother you with another request, friend?",
+                    "Would you mind collecting all that butter and bringing it back to me?"
+                )
             ),
+            Advent2025Npc.DAIRY_FARMER,
             List.of(
                 "Well gee, thank you!",
                 "Now I can finally fulfil the baker's order.",
@@ -108,22 +107,17 @@ public enum Advent2025Quest {
         0,
         () -> new AdventQuestTalkChain(
             List.of(
-                Advent2025Npc.POULTRY_FARMER,
-                Advent2025Npc.CHICKEN,
-                Advent2025Npc.POULTRY_FARMER
-            ),
-            List.of(
-                List.of(
+                Advent2025Npc.POULTRY_FARMER.stage(
                     "Well what do you know, I forgot to check the chicken for eggs.",
                     "Unfortunately, I can't leave right now.",
                     "Could you go check if it has laid some?"
                 ),
-                List.of(
+                Advent2025Npc.CHICKEN.stage(
                     "Bawk bawk?",
                     "Bawk bawk bawk!",
                     "BAAAAWK! <emoji:uskull>"
                 ),
-                List.of(
+                Advent2025Npc.POULTRY_FARMER.stage(
                     "Hmm no? No eggs? Did she say why?",
                     "Aww well. We have to circle back tomorrow, I guess.",
                     "Thank you for your help anyway!",
@@ -151,12 +145,13 @@ public enum Advent2025Quest {
             ),
             "Eggs",
             new ItemStack(Material.BROWN_EGG),
-            Advent2025Npc.POULTRY_FARMER,
-            Advent2025Npc.POULTRY_FARMER,
             List.of(
-                "That's it, today's the day! No more excuses. That chicken ows us all some eggs.",
-                "Would you mind going there and pick them all up?"
+                Advent2025Npc.POULTRY_FARMER.stage(
+                    "That's it, today's the day! No more excuses. That chicken ows us all some eggs.",
+                    "Would you mind going there and pick them all up?"
+                )
             ),
+            Advent2025Npc.POULTRY_FARMER,
             List.of(
                 "Finally! I knew the chicken would see reason eventually.",
                 "And you did all the hard work, talking sense into the good girl.",
@@ -168,31 +163,25 @@ public enum Advent2025Quest {
         0,
         () -> new AdventQuestTalkChain(
             List.of(
-                Advent2025Npc.BAKER,
-                Advent2025Npc.POSTMAN,
-                Advent2025Npc.WIZARD,
-                Advent2025Npc.BAKER
-            ),
-            List.of(
-                List.of(
+                Advent2025Npc.BAKER.stage(
                     "I have flour, butter, eggs. I don't have sugar.",
                     "I need sugar to make Christmas cookies.",
                     "You like cookies? Ask the postman if they have arrived.",
                     "Please, friend. Help me make cookies."
                 ),
-                List.of(
+                Advent2025Npc.POSTMAN.stage(
                     "Another delivery... one more package. Always busy in the cold season. And it lasts all year around here..",
                     "Uh what? Sugar, you say? For the baker? Hmmm...",
                     "No, there was no sugar delivery. I mean there was, but that was for the wizard. Or so he said.",
                     "You have to ask him if you want that sugar back."
                 ),
-                List.of(
+                Advent2025Npc.WIZARD.stage(
                     "Hello there. Came to see one of my awesome spells? Worry not, I have plenty more to show.",
                     "Huh, you want my sugar? But I, well... you see, I need some to put in my tea.",
                     "For the baker to make Christmas cookies, you say? Well, that's a different story, then. We all love his cookies.",
                     "Here you go. Tell him I want the ones with the sprinkles."
                 ),
-                List.of(
+                Advent2025Npc.BAKER.stage(
                     "Sprinkles? Okay.",
                     "Thanks, friend! You're a good friend. Now we can make Christmas cookies. Yum!"
                 )
@@ -203,22 +192,27 @@ public enum Advent2025Quest {
         0,
         () -> new AdventQuestTalkChain(
             List.of(
-                Advent2025Npc.BAKER,
-                Advent2025Npc.MILLER,
-                Advent2025Npc.DAIRY_FARMER,
-                Advent2025Npc.POULTRY_FARMER,
-                Advent2025Npc.POSTMAN,
-                Advent2025Npc.WIZARD,
-                Advent2025Npc.SANTA_CLAUSE
-            ),
-            List.of(
-                List.of("Cookies are done. Thank you. Bring them to all friends who helped, please. Least I can do."),
-                List.of("Why thank you! These cookies look great, and they smell even better. <emoji:cookie>"),
-                List.of("Thank you! I'll dip these in some fresh milk, that will make for an excellent treat. <emoji:cookie>"),
-                List.of("Now these are some delectable looking baked goods. Have my thanks friend! <emoji:cookie>"),
-                List.of("A little pick me up, for me? Thank you, now I can work twice as fast. <emoji:cookie>"),
-                List.of("Awesome, sprinkles! You're the best. Tell the baker my thanks. <emoji:cookie>"),
-                List.of("Ho ho ho! You brought Santa some delicious looking cookies. Thanks to you, there are now cookies for everyone. That's the Christmas spirit!")
+                Advent2025Npc.BAKER.stage(
+                    "Cookies are done. Thank you. Bring them to all friends who helped, please. Least I can do."
+                ),
+                Advent2025Npc.MILLER.stage(
+                    "Why thank you! These cookies look great, and they smell even better. <emoji:cookie>"
+                ),
+                Advent2025Npc.DAIRY_FARMER.stage(
+                    "Thank you! I'll dip these in some fresh milk, that will make for an excellent treat. <emoji:cookie>"
+                ),
+                Advent2025Npc.POULTRY_FARMER.stage(
+                    "Now these are some delectable looking baked goods. Have my thanks friend! <emoji:cookie>"
+                ),
+                Advent2025Npc.POSTMAN.stage(
+                    "A little pick me up, for me? Thank you, now I can work twice as fast. <emoji:cookie>"
+                ),
+                Advent2025Npc.WIZARD.stage(
+                    "Awesome, sprinkles! You're the best. Tell the baker my thanks. <emoji:cookie>"
+                ),
+                Advent2025Npc.SANTA_CLAUSE.stage(
+                    "Ho ho ho! You brought Santa some delicious looking cookies. Thanks to you, there are now cookies for everyone. That's the Christmas spirit!"
+                )
             )
         )
     ),
@@ -226,36 +220,28 @@ public enum Advent2025Quest {
         0,
         () -> new AdventQuestTalkChain(
             List.of(
-                Advent2025Npc.SANTA_CLAUSE,
-                Advent2025Npc.POSTMAN,
-                Advent2025Npc.DAIRY_FARMER,
-                Advent2025Npc.MOO_COW,
-                Advent2025Npc.TREE_FROG,
-                Advent2025Npc.SANTA_CLAUSE
-            ),
-            List.of(
-                List.of(
+                Advent2025Npc.SANTA_CLAUSE.stage(
                     "Ho ho ho! I've got a problem. All the tinsel for the Christmas tree is missing!",
                     "I heard the <yellow>Postman</yellow> might know where it went. Could you ask him?"
                 ),
-                List.of(
+                Advent2025Npc.POSTMAN.stage(
                     "Tinsel? Oh, I saw some shiny stuff earlier, but I was in a hurry.",
                     "The <blue>Dairy Farmer</blue> mentioned something about it. You should ask him!"
                 ),
-                List.of(
+                Advent2025Npc.DAIRY_FARMER.stage(
                     "Tinsel? Oh dear, I thought that was just glittery hay!",
                     "The <blue>Moo Cow</blue> was nibbling on something sparkly earlier. Maybe she knows where it is."
                 ),
-                List.of(
+                Advent2025Npc.MOO_COW.stage(
                     "Moo! <emoji:heart> Moo moo moo… <emoji:nether_star>"
                     + "\n<italic><gray>Translation: I saw the frog playing with it near the pond!"
                 ),
-                List.of(
+                Advent2025Npc.TREE_FROG.stage(
                     "Ribbit ribbit! <emoji:cold_frog_face> Ribbit ribbit ribbit!"
                     + "\n<italic><gray>Translation: Oh, this? I was just admiring how shiny it is! Here you go!",
                     "<italic>Drops the tinsel"
                 ),
-                List.of(
+                Advent2025Npc.SANTA_CLAUSE.stage(
                     "Ah, perfect! Now we can decorate the tree.",
                     "Thanks to you, the town will sparkle this Christmas!"
                 )

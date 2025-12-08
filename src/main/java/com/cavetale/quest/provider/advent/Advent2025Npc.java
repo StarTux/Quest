@@ -108,7 +108,7 @@ public enum Advent2025Npc {
     TREE_FROG(
         1, EntityType.FROG, text("Tree Frog", GREEN),
         "",
-        362.54, 87.00, 481.48, 147.77f,
+        184.32, 67.00, 68.78, -55.26f,
         List.of(
             "Ribbit!"
         )
@@ -132,5 +132,11 @@ public enum Advent2025Npc {
             if (instance == it.instance) return it;
         }
         return null;
+    }
+
+    public record Stage(Advent2025Npc npc, List<String> dialog) { }
+
+    public Stage stage(String... dialog) {
+        return new Stage(this, List.of(dialog));
     }
 }
