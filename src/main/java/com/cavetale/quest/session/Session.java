@@ -63,6 +63,7 @@ public final class Session {
         for (PlayerQuest playerQuest : List.copyOf(playerQuests)) {
             if (!playerQuest.isActive()) {
                 playerQuests.remove(playerQuest);
+                playerQuest.disable();
             } else {
                 playerQuest.tick();
             }
