@@ -11,6 +11,7 @@ import com.cavetale.quest.entity.EntityTrigger;
 import com.cavetale.quest.entity.behavior.EntityLookAtPlayerBehavior;
 import com.cavetale.quest.entity.behavior.EntityRevertBehavior;
 import com.cavetale.quest.entity.data.EntityDataAttributes;
+import com.cavetale.quest.entity.data.EntityDataCat;
 import com.cavetale.quest.entity.data.EntityDataClearMobGoals;
 import com.cavetale.quest.entity.data.EntityDataScale;
 import com.cavetale.quest.entity.data.EntityProfileData;
@@ -26,7 +27,9 @@ import java.util.List;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
+import org.bukkit.DyeColor;
 import org.bukkit.World;
+import org.bukkit.entity.Cat;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
@@ -64,8 +67,10 @@ public final class AdventProvider {
                 inst.getConfig().addEntityData(new EntityDataAttributes().movementSpeed(0).jumpStrength(0));
                 inst.getConfig().addEntityData(new EntityDataClearMobGoals());
             }
-            inst.getConfig().addEntityBehavior(new EntityLookAtPlayerBehavior(1));
-            inst.getConfig().addEntityBehavior(new EntityRevertBehavior(2));
+            if (npc != Advent2025Npc.CAT) {
+                inst.getConfig().addEntityBehavior(new EntityLookAtPlayerBehavior(1));
+                inst.getConfig().addEntityBehavior(new EntityRevertBehavior(2));
+            }
             inst.getConfig().protectFromDamage();
             inst.getConfig().addEntityTrigger(
                 new EntityTrigger() {
@@ -80,6 +85,8 @@ public final class AdventProvider {
         Advent2025Npc.SANTA_CLAUSE.getInstance().getConfig().addEntityData(new EntityDataScale(1.25));
         Advent2025Npc.CHICKEN.getInstance().getConfig().addEntityData(new EntityDataScale(1.5));
         Advent2025Npc.TREE_FROG.getInstance().getConfig().addEntityData(new EntityDataScale(3));
+        Advent2025Npc.CAT.getInstance().getConfig().addEntityData(new EntityDataScale(3));
+        Advent2025Npc.CAT.getInstance().getConfig().addEntityData(new EntityDataCat(Cat.Type.BLACK, DyeColor.RED, false, true));
         for (Advent2025Npc npc : Advent2025Npc.values()) {
             plugin.getEntities().enableEntityInstance(npc.getInstance());
         }

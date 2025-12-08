@@ -113,6 +113,15 @@ public enum Advent2025Npc {
             "Ribbit!"
         )
     ),
+    CAT(
+        1, EntityType.CAT, text("Mistletoe", DARK_GRAY, BOLD),
+        "",
+        143.00, 67.00, 340.00, 180f,
+        List.of(
+            "Meow meow meow...",
+            "Purrr..."
+        )
+    ),
     ;
 
     private final int worldNumber;

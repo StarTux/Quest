@@ -1,6 +1,7 @@
 package com.cavetale.quest.provider.advent;
 
 import com.cavetale.core.struct.Vec3i;
+import com.cavetale.mytems.Mytems;
 import java.util.List;
 import java.util.function.Supplier;
 import lombok.Getter;
@@ -234,17 +235,59 @@ public enum Advent2025Quest {
                 ),
                 Advent2025Npc.MOO_COW.stage(
                     "Moo! <emoji:heart> Moo moo moo… <emoji:nether_star>"
-                    + "\n<italic><gray>Translation: I saw the frog playing with it near the pond!"
+                    + "\n<gray><italic>Translation: I saw the frog playing with it near the pond!"
                 ),
                 Advent2025Npc.TREE_FROG.stage(
                     "Ribbit ribbit! <emoji:cold_frog_face> Ribbit ribbit ribbit!"
-                    + "\n<italic><gray>Translation: Oh, this? I was just admiring how shiny it is! Here you go!",
+                    + "\n<gray><italic>Translation: Oh, this? I was just admiring how shiny it is! Here you go!",
                     "<italic>Drops the tinsel"
                 ),
                 Advent2025Npc.SANTA_CLAUSE.stage(
                     "Ah, perfect! Now we can decorate the tree.",
                     "Thanks to you, the town will sparkle this Christmas!"
                 )
+            )
+        )
+    ),
+    ORNAMENTS(
+        0,
+        () -> new AdventQuestCollectItems(
+            List.of(
+                Vec3i.of(137, 72, 339),
+                Vec3i.of(130, 73, 333),
+                Vec3i.of(143, 67, 327),
+                Vec3i.of(154, 70, 330),
+                Vec3i.of(156, 68, 340)
+            ),
+            "Ornaments",
+            Mytems.PURPLE_CHRISTMAS_BALL.createItemStack(),
+            List.of(
+                Advent2025Npc.SANTA_CLAUSE.stage(
+                    "Ho ho ho! The shiny ornaments for the tree are missing! I heard the <light_purple>Baker</light_purple> saw something suspicious earlier."
+                ),
+                Advent2025Npc.BAKER.stage(
+                    "Ornaments? Yes, I saw something sparkly. Too busy baking cookies, though.",
+                    "The <blue>Poultry Farmer</blue> might know. He complained about something shiny. Something rolling into his coop..."
+                ),
+                Advent2025Npc.POULTRY_FARMER.stage(
+                    "Ornaments? Why yes, indeed!",
+                    "The <red>Cluck Cluck Chicken</red> was pecking at them earlier. She might have dragged them toward the barn."
+                ),
+                Advent2025Npc.CHICKEN.stage(
+                    "Bawk! Bawk bawk bawk! Cluck cluck!"
+                    + "\n<gray><italic>Translation: I had the ornaments, until <gray>Mistletoe the Cat</gray> took them away from me."
+                ),
+                Advent2025Npc.CAT.stage(
+                    "Meow! Purrrr... Meow meow meow?"
+                    + "\n<gray><italic>Translation: Oh, you came for my toys! Why do you need them?",
+                    "Purr purr hiss, meow!"
+                    + "\n<gray><italic>Translation: Santa needs them? Why didn't you say so? Go pick them up, quickly."
+                )
+            ),
+            Advent2025Npc.SANTA_CLAUSE,
+            List.of(
+                "Ah, thank you! Mistletoe is always causing a ruckus, but she's part of the family.",
+                "Now the tree is going to shine bright! We may just save Christmas."
             )
         )
     ),
