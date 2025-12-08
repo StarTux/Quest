@@ -47,19 +47,27 @@ public final class AdventQuestTalkChain extends AdventQuest {
         final Progress progress = playerQuest.getCustomData(Progress.class);
         final Advent2025Npc theNpc = npcs.get(progress.nextNpcIndex);
         final int oldNpcIndex = progress.nextNpcIndex;
-        if (npc != theNpc) return null;
-        return new AdventNpcDialog(
-            dialogs.get(progress.nextNpcIndex),
-            () -> {
-                if (!playerQuest.isActive() || playerQuest.isDisabled() || progress.nextNpcIndex != oldNpcIndex) return;
-                if (progress.nextNpcIndex < npcs.size() - 1) {
-                    progress.nextNpcIndex += 1;
-                    playerQuest.setTag(progress);
-                } else {
-                    playerQuest.completeQuest();
+        if (npc == theNpc) {
+            return new AdventNpcDialog(
+                dialogs.get(progress.nextNpcIndex),
+                () -> {
+                    if (!playerQuest.isActive() || playerQuest.isDisabled() || progress.nextNpcIndex != oldNpcIndex) return;
+                    if (progress.nextNpcIndex < npcs.size() - 1) {
+                        progress.nextNpcIndex += 1;
+                        playerQuest.setTag(progress);
+                    } else {
+                        playerQuest.completeQuest();
+                    }
                 }
+            );
+        }
+        for (int i = progress.nextNpcIndex - 1; i >= 0; i -= 1) {
+            final Advent2025Npc oldNpc = npcs.get(i);
+            if (npc == oldNpc) {
+                return new AdventNpcDialog(dialogs.get(i), null);
             }
-        );
+        }
+        return null;
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.cavetale.quest;
 import com.cavetale.core.command.AbstractCommand;
 import com.cavetale.core.command.CommandArgCompleter;
 import com.cavetale.core.command.CommandWarn;
+import com.cavetale.core.struct.Vec3i;
 import com.cavetale.quest.config.SpeechBubbleConfig;
 import com.cavetale.quest.script.SpeechBubble;
 import com.cavetale.quest.script.speaker.FixedSpeaker;
@@ -40,6 +41,9 @@ public final class QuestAdminCommand extends AbstractCommand<QuestPlugin> {
                 CommandArgCompleter.supplyList(() -> List.copyOf(plugin.getQuests().getAllQuestIds()))
             )
             .senderCaller(this::cancel);
+        rootNode.addChild("warpgoal").denyTabCompletion()
+            .description("Warp to next quest goal")
+            .playerCaller(this::warpGoal);
     }
 
     public boolean info(CommandSender sender, String[] args) {
@@ -74,7 +78,6 @@ public final class QuestAdminCommand extends AbstractCommand<QuestPlugin> {
         return true;
     }
 
-
     public boolean cancel(CommandSender sender, String[] args) {
         if (args.length != 2) return false;
         final Player target = Bukkit.getPlayerExact(args[0]);
@@ -95,5 +98,17 @@ public final class QuestAdminCommand extends AbstractCommand<QuestPlugin> {
             return true;
         }
         throw new CommandWarn(target.getName() + " does not have quest " + quest.getQuestId());
+    }
+
+    public void warpGoal(Player player) {
+        if (!(Session.isEnabled(player))) throw new CommandWarn("Session not ready");
+        for (PlayerQuest playerQuest : Session.of(player).getActiveQuests()) {
+            final Vec3i goal = playerQuest.getQuest().getNextGoal(playerQuest);
+            if (goal == null) continue;
+            player.sendMessage(text("Warping to goal of quest " + playerQuest.getQuest().getQuestId() + ": " + goal + "...", YELLOW));
+            player.teleport(goal.toCenterFloorLocation(player.getWorld()));
+            return;
+        }
+        throw new CommandWarn("No quest goal found!");
     }
 }

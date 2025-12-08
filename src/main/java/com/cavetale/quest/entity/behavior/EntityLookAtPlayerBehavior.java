@@ -6,19 +6,21 @@ import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
-@Accessors(chain = true)
-@AllArgsConstructor
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
 public final class EntityLookAtPlayerBehavior implements EntityBehavior {
     private int priority;
     private double activationRadius = 8;
     private double radius = 12;
+
+    public EntityLookAtPlayerBehavior(final int priority) {
+        this.priority = priority;
+    }
 
     @Override
     public boolean apply(EntityInstance entityInstance) {

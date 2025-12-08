@@ -11,6 +11,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityRemoveEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 
 @RequiredArgsConstructor
 public final class EntityListener implements Listener {
@@ -48,13 +49,28 @@ public final class EntityListener implements Listener {
     }
 
     private boolean onClickEntity(Player player, Entity target) {
-        final EntityInstance entityInstance = entities.getEntityInstance(target);
-        if (entityInstance == null) return false;
-        if (entities.getPlugin().getScripts().onPlayerInteractSpeaker(player, target)) {
+        if (entities.getPlugin().getScripts().onPlayerProgressDialog(player)) {
             return true;
         }
+        final EntityInstance entityInstance = entities.getEntityInstance(target);
+        if (entityInstance == null) return false;
         entityInstance.applyTrigger(trigger -> trigger.onPlayerClick(entityInstance, player));
         return true;
+    }
+
+    @EventHandler(ignoreCancelled = false, priority = EventPriority.MONITOR)
+    private void onPlayerClickMouse(PlayerInteractEvent event) {
+        switch (event.getAction()) {
+        case RIGHT_CLICK_BLOCK:
+        case RIGHT_CLICK_AIR:
+        case LEFT_CLICK_BLOCK:
+        case LEFT_CLICK_AIR:
+            entities.getPlugin().getScripts().onPlayerProgressDialog(event.getPlayer());
+            break;
+        case PHYSICAL:
+        default:
+            return;
+        }
     }
 
     @EventHandler(ignoreCancelled = false, priority = EventPriority.LOW)

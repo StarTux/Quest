@@ -11,11 +11,11 @@ import com.cavetale.quest.entity.EntityTrigger;
 import com.cavetale.quest.entity.behavior.EntityLookAtPlayerBehavior;
 import com.cavetale.quest.entity.behavior.EntityRevertBehavior;
 import com.cavetale.quest.entity.data.EntityDataAttributes;
+import com.cavetale.quest.entity.data.EntityDataClearMobGoals;
 import com.cavetale.quest.entity.data.EntityDataScale;
 import com.cavetale.quest.entity.data.EntityProfileData;
 import com.cavetale.quest.script.Script;
-import com.cavetale.quest.script.viewer.GlobalViewer;
-import com.cavetale.quest.script.viewer.SingleViewer;
+import com.cavetale.quest.script.viewer.Viewership;
 import com.cavetale.quest.session.PlayerQuest;
 import com.cavetale.quest.session.Session;
 import java.time.Instant;
@@ -27,14 +27,15 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 @Getter
 @RequiredArgsConstructor
 public final class AdventProvider {
-    public static final NetworkServer ADVENT_SERVER = NetworkServer.FESTIVAL;
+    public static final NetworkServer ADVENT_SERVER = NetworkServer.BETA.isThisServer()
+        ? NetworkServer.BETA
+        : NetworkServer.FESTIVAL;
     public static final String ADVENT_WORLD_1 = "advent_2025_01";
     public static final List<String> ADVENT_WORLDS = List.of(
         ADVENT_WORLD_1
@@ -54,18 +55,17 @@ public final class AdventProvider {
                     npc.getX(), npc.getY(), npc.getZ(),
                     npc.getYaw(), 0f
                 ),
-                GlobalViewer.INSTANCE
+                Viewership.global()
             );
             inst.getConfig().setDisplayName(npc.getDisplayName());
             if (npc.getEntityType() == EntityType.MANNEQUIN) {
-                inst.getConfig().addEntityData(new EntityProfileData().setTexture(npc.getTexture()));
+                inst.getConfig().addEntityData(new EntityProfileData(npc.getTexture(), null));
             } else {
-                final EntityDataAttributes data = new EntityDataAttributes();
-                data.addAttribute(Attribute.MOVEMENT_SPEED, 0);
-                inst.getConfig().addEntityData(data);
+                inst.getConfig().addEntityData(new EntityDataAttributes().movementSpeed(0).jumpStrength(0));
+                inst.getConfig().addEntityData(new EntityDataClearMobGoals());
             }
-            inst.getConfig().addEntityBehavior(new EntityLookAtPlayerBehavior().setPriority(1));
-            inst.getConfig().addEntityBehavior(new EntityRevertBehavior().setPriority(2));
+            inst.getConfig().addEntityBehavior(new EntityLookAtPlayerBehavior(1));
+            inst.getConfig().addEntityBehavior(new EntityRevertBehavior(2));
             inst.getConfig().protectFromDamage();
             inst.getConfig().addEntityTrigger(
                 new EntityTrigger() {
@@ -78,6 +78,8 @@ public final class AdventProvider {
             npc.setInstance(inst);
         }
         Advent2025Npc.SANTA_CLAUSE.getInstance().getConfig().addEntityData(new EntityDataScale(1.25));
+        Advent2025Npc.CHICKEN.getInstance().getConfig().addEntityData(new EntityDataScale(1.5));
+        Advent2025Npc.TREE_FROG.getInstance().getConfig().addEntityData(new EntityDataScale(3));
         for (Advent2025Npc npc : Advent2025Npc.values()) {
             plugin.getEntities().enableEntityInstance(npc.getInstance());
         }
@@ -158,7 +160,7 @@ public final class AdventProvider {
         }
         final Script script = new Script(
             scriptConfig,
-            SingleViewer.of(player)
+            Viewership.single(player)
         );
         plugin.getScripts().enableScript(script);
     }

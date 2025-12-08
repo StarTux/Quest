@@ -222,6 +222,46 @@ public enum Advent2025Quest {
             )
         )
     ),
+    TINSEL(
+        0,
+        () -> new AdventQuestTalkChain(
+            List.of(
+                Advent2025Npc.SANTA_CLAUSE,
+                Advent2025Npc.POSTMAN,
+                Advent2025Npc.DAIRY_FARMER,
+                Advent2025Npc.MOO_COW,
+                Advent2025Npc.TREE_FROG,
+                Advent2025Npc.SANTA_CLAUSE
+            ),
+            List.of(
+                List.of(
+                    "Ho ho ho! I've got a problem. All the tinsel for the Christmas tree is missing!",
+                    "I heard the <yellow>Postman</yellow> might know where it went. Could you ask him?"
+                ),
+                List.of(
+                    "Tinsel? Oh, I saw some shiny stuff earlier, but I was in a hurry.",
+                    "The <blue>Dairy Farmer</blue> mentioned something about it. You should ask him!"
+                ),
+                List.of(
+                    "Tinsel? Oh dear, I thought that was just glittery hay!",
+                    "The <blue>Moo Cow</blue> was nibbling on something sparkly earlier. Maybe she knows where it is."
+                ),
+                List.of(
+                    "Moo! <emoji:heart> Moo moo moo… <emoji:nether_star>"
+                    + "\n<italic><gray>Translation: I saw the frog playing with it near the pond!"
+                ),
+                List.of(
+                    "Ribbit ribbit! <emoji:cold_frog_face> Ribbit ribbit ribbit!"
+                    + "\n<italic><gray>Translation: Oh, this? I was just admiring how shiny it is! Here you go!",
+                    "<italic>Drops the tinsel"
+                ),
+                List.of(
+                    "Ah, perfect! Now we can decorate the tree.",
+                    "Thanks to you, the town will sparkle this Christmas!"
+                )
+            )
+        )
+    ),
     ;
 
     private final int adventWorldIndex;

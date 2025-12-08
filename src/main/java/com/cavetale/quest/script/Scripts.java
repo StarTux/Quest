@@ -60,10 +60,10 @@ public final class Scripts {
         return getScriptOfPlayer(player.getUniqueId());
     }
 
-    public boolean onPlayerInteractSpeaker(Player player, Entity target) {
+    public boolean onPlayerProgressDialog(Player player) {
         for (SpeechBubble speechBubble : speechBubbles) {
-            if (speechBubble.getViewership().isViewer(player) && speechBubble.getSpeaker().isEntity(target)) {
-                if (speechBubble.onPlayerInteractSpeaker(player, target)) {
+            if (speechBubble.getViewership().isViewer(player)) {
+                if (speechBubble.onPlayerProgressDialog(player)) {
                     return true;
                 }
             }

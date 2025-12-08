@@ -4,13 +4,11 @@ import com.cavetale.quest.entity.EntityInstance;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 
-@Accessors(chain = true)
-@AllArgsConstructor
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
 public final class EntityRevertBehavior implements EntityBehavior {
     private int priority;

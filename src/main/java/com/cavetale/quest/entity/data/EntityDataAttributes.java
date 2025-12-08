@@ -37,4 +37,24 @@ public final class EntityDataAttributes implements EntityData {
         }
         return true;
     }
+
+    public EntityDataAttributes movementSpeed(double value) {
+        addAttribute(Attribute.MOVEMENT_SPEED, value);
+        return this;
+    }
+
+    public EntityDataAttributes health(double value) {
+        addAttribute(Attribute.MAX_HEALTH, value);
+        return this;
+    }
+
+    public EntityDataAttributes scale(double value) {
+        addAttribute(Attribute.SCALE, value);
+        return this;
+    }
+
+    public EntityDataAttributes jumpStrength(double value) {
+        addAttribute(Attribute.JUMP_STRENGTH, value);
+        return this;
+    }
 }

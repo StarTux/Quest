@@ -53,7 +53,10 @@ public final class Text {
                 splitLinesAddWord(result, line, word, maxLineLength);
             } else if (newline().equals(letter)) {
                 splitLinesAddWord(result, line, word, maxLineLength);
-                result.add(List.copyOf(line));
+                if (!line.isEmpty()) {
+                    result.add(List.copyOf(line));
+                    line.clear();
+                }
             } else {
                 word.add(letter);
             }

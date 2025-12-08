@@ -199,7 +199,7 @@ public final class SpeechBubble {
     /**
      * Player clicked the speaker of this bubble.
      */
-    public boolean onPlayerInteractSpeaker(Player player, Entity target) {
+    public boolean onPlayerProgressDialog(Player player) {
         if (tickAge == 0) {
             return false;
         } else if (finished) {

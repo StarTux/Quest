@@ -105,6 +105,14 @@ public enum Advent2025Npc {
             "Impressive, huh?"
         )
     ),
+    TREE_FROG(
+        1, EntityType.FROG, text("Tree Frog", GREEN),
+        "",
+        362.54, 87.00, 481.48, 147.77f,
+        List.of(
+            "Ribbit!"
+        )
+    ),
     ;
 
     private final int worldNumber;

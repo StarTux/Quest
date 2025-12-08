@@ -136,9 +136,6 @@ public final class EntityInstance {
 
     private void prepareEntity(Entity entity) {
         entity.setPersistent(false);
-        if (entity instanceof org.bukkit.entity.ItemDisplay display) {
-            display.setItemStack(com.cavetale.mytems.Mytems.DIAMOND_COIN.createItemStack(1));
-        }
         for (EntityData data : config.getEntityData()) {
             if (!data.apply(entity)) {
                 questPlugin().getLogger().log(
@@ -159,6 +156,7 @@ public final class EntityInstance {
         }
         if (entity instanceof LivingEntity living) {
             living.setBodyYaw(spawnLocationConfig.getYaw());
+            living.setCollidable(false);
         }
     }
 
