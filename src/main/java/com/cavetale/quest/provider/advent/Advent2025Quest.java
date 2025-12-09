@@ -173,7 +173,7 @@ public enum Advent2025Quest {
                 Advent2025Npc.POSTMAN.stage(
                     "Another delivery... one more package. Always busy in the cold season. And it lasts all year around here..",
                     "Uh what? Sugar, you say? For the baker? Hmmm...",
-                    "No, there was no sugar delivery. I mean there was, but that was for the wizard. Or so he said.",
+                    "No, there was no sugar delivery. I mean there was, but that was for the wizard. Or so she said.",
                     "You have to ask him if you want that sugar back."
                 ),
                 Advent2025Npc.WIZARD.stage(
