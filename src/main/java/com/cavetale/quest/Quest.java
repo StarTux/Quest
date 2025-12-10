@@ -10,11 +10,11 @@ public interface Quest {
 
     default void disable() { }
 
-    default void startPlayerQuest(PlayerQuest playerQuest) { }
+    void startPlayerQuest(PlayerQuest playerQuest);
 
-    default void enablePlayerQuest(PlayerQuest playerQuest) { }
+    void enablePlayerQuest(PlayerQuest playerQuest);
 
-    default void disablePlayerQuest(PlayerQuest playerQuest) { }
+    void disablePlayerQuest(PlayerQuest playerQuest);
 
     default void tickPlayerQuest(PlayerQuest playerQuest) { }
 

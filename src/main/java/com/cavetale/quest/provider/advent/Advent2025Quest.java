@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import static com.cavetale.quest.util.Text.parseMiniMessage;
 
 @Getter
 @RequiredArgsConstructor
@@ -288,6 +289,65 @@ public enum Advent2025Quest {
             List.of(
                 "Ah, thank you! Mistletoe is always causing a ruckus, but she's part of the family.",
                 "Now the tree is going to shine bright! We may just save Christmas."
+            )
+        )
+    ),
+    SLEIGH(
+        0,
+        () -> new AdventQuestStaged(
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Talk to <red>Santa Clause"),
+                Advent2025Npc.SANTA_CLAUSE,
+                List.of(
+                    "Ho ho ho! I'm awaiting an important delivery, but it's getting late, and I haven't heard from them.",
+                    "Would you mind checking with the <yellow>Postman</yellow> if everything is in order?"
+                )
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Ask the <yellow>Postman</yellow> about Deliveries"),
+                Advent2025Npc.POSTMAN,
+                List.of(
+                    "Oh no! Santa's sleigh won't fly! It's just sitting there like a lump of wood.",
+                    "Could you take a look at it for me? I'm swamped with deliveries.",
+                    "And while you're there, could you pick up the presents that are still on the sleigh? They need to be delivered to the townsfolk.",
+                    "I'd do it myself, but I can't leave my post right now."
+                )
+            ),
+            new AdventQuestStageCollectItems(
+                parseMiniMessage("See about <red>Santa's Sleigh</red>"),
+                List.of(
+                    Vec3i.of(61, 81, 382), // Entrance
+                    Vec3i.of(61, 82, 371), // On top of sleigh
+                    Vec3i.of(63, 80, 362), // Corner
+                    Vec3i.of(61, 80, 370), // Below sleigh
+                    Vec3i.of(60, 87, 369) // Under ceiling
+                ),
+                (i, vec) -> Mytems.CHRISTMAS_TOKEN.createItemStack()
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Report back to the <yellow>Postman"),
+                Advent2025Npc.POSTMAN,
+                List.of(
+                    "Thank you! The townsfolk will be so happy.",
+                    "You know, if the sleigh isn't flying, maybe the Blacksmith could take a look at it. He's great with anything mechanical."
+                )
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Ask the <dark_red>Blacksmith"),
+                Advent2025Npc.BLACKSMITH,
+                List.of(
+                    "The runners are fine, and the harness is intact. But what about the magic bell? It's missing!",
+                    "I wonder where it went. Santa's Sleigh cannot launch off the ground without it.",
+                    "Better ask him who was last seen riding the sleigh. Whoever it was must know about the whereabouts of the bell."
+                )
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Ask <dark_red>Santa</dark_red> about the Sleigh"),
+                Advent2025Npc.SANTA_CLAUSE,
+                List.of(
+                    "Ho ho ho, my friend.",
+                    "Now it's getting late and the mystery of the Sleigh sounds like an adventure for another day..."
+                )
             )
         )
     ),

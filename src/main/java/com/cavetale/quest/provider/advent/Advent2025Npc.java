@@ -122,6 +122,15 @@ public enum Advent2025Npc {
             "Purrr..."
         )
     ),
+    BLACKSMITH(
+        1, EntityType.MANNEQUIN, text("Blacksmith", DARK_RED, BOLD),
+        "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjg0ZWNmNmYwYzIzZWQ1MmJlYTJjM2IzZWJmZGFjNDhiMGZjMTUyMmE3Mzc2YTkwMDBjY2UwNDc1OWVjMjE3NyJ9fX0=",
+        145.50, 69.00, 214.50, 0f,
+        List.of(
+            "Hi there! Got anything for me to hammer? I can never get enough of it.",
+            "Too bad I'm on vacation right now..."
+        )
+    ),
     ;
 
     private final int worldNumber;
