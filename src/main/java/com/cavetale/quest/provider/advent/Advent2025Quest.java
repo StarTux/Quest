@@ -329,7 +329,7 @@ public enum Advent2025Quest {
                 Advent2025Npc.POSTMAN,
                 List.of(
                     "Thank you! The townsfolk will be so happy.",
-                    "You know, if the sleigh isn't flying, maybe the Blacksmith could take a look at it. He's great with anything mechanical."
+                    "You know, if the sleigh isn't flying, maybe the <dark_red>Blacksmith</dark_red> could take a look at it. He's great with anything mechanical."
                 )
             ),
             new AdventQuestStageTalkToNpc(
@@ -348,6 +348,51 @@ public enum Advent2025Quest {
                     "Ho ho ho, my friend.",
                     "Now it's getting late and the mystery of the Sleigh sounds like an adventure for another day..."
                 )
+            )
+        )
+    ),
+    BELL(
+        0,
+        () -> new AdventQuestStaged(
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Continue with <red>Santa Clause"),
+                Advent2025Npc.SANTA_CLAUSE,
+                "Ho ho ho! The sleigh still won't fly! We need to find that magic bell!",
+                "The <dark_red>Blacksmith</dark_red> said you should ask who was last seen riding the sleigh. I think that was the <light_purple>Wizard</light_purple>!"
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Ask the <light_purple>Wizard"),
+                Advent2025Npc.WIZARD,
+                "Ah, the magic bell! I borrowed it to test a new spell: <light_purple>The Chime of Truth</light_purple>.",
+                "But I left it with the Poultry Farmer for safekeeping. He was worried about the <red>chicken</red> getting into mischief again."
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Ask the <blue>Poultry Farmer"),
+                Advent2025Npc.POULTRY_FARMER,
+                "Oh dear, I completely forgot! I put the bell in the barn to keep it safe, but now it's gone.",
+                "That <red>chicken</red> must have taken it again. She's been acting out lately, ever since I've been too busy to check on her.",
+                "I really should spend more time with her. She's usually so well-behaved when I do."
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Check the Barn"),
+                Advent2025Npc.CHICKEN,
+                "Fine, Santa can have his Magic Bell.",
+                "But only if you promise to tell the Poultry Farmer to visit more often.",
+                "<italic><gray>The chicken gives you the <emoji:bell><gold>Magic Bell</gold> with its beak"
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Ask the <blue>Poultry Farmer</blue> for a promise"),
+                Advent2025Npc.POULTRY_FARMER,
+                "You found the bell, that's awesome!",
+                "What did you say? The <red>chicken</red>? More time?",
+                "Yes, absolutely. I'll make sure to visit her more often. A happy chicken is a well-behaved chicken, after all. Far less likely to nick shiny objects."
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Return the <emoji:bell><gold>Magic Bell</gold> to <red>Santa"),
+                Advent2025Npc.SANTA_CLAUSE,
+                "Ho ho ho! Now that's what I call teamwork!",
+                "This bell always brings people together, and sometimes chickens.",
+                "Also, it makes the sleigh fly. Yep. Good thing we found it before it was too late!"
             )
         )
     ),

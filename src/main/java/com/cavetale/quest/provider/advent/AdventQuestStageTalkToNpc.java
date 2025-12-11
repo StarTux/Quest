@@ -15,6 +15,14 @@ public final class AdventQuestStageTalkToNpc extends AdventQuestStage {
     private final Advent2025Npc npc;
     private final List<String> dialog;
 
+    public AdventQuestStageTalkToNpc(
+        final Component bossBarName,
+        final Advent2025Npc npc,
+        final String... dialog
+    ) {
+        this(bossBarName, npc, List.of(dialog));
+    }
+
     @Override
     public Vec3i getNextGoal(PlayerQuest playerQuest, Progress progress) {
         return Vec3i.of(
