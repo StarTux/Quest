@@ -9,6 +9,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityKnockbackEvent;
 import org.bukkit.event.entity.EntityRemoveEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -78,5 +79,12 @@ public final class EntityListener implements Listener {
         final EntityInstance entityInstance = entities.getEntityInstance(event.getEntity());
         if (entityInstance == null) return;
         entityInstance.applyTrigger(trigger -> trigger.onEntityDamage(entityInstance, event));
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOW)
+    private void onEntityKnockback(EntityKnockbackEvent event) {
+        final EntityInstance entityInstance = entities.getEntityInstance(event.getEntity());
+        if (entityInstance == null) return;
+        entityInstance.applyTrigger(trigger -> trigger.onEntityKnockback(entityInstance, event));
     }
 }

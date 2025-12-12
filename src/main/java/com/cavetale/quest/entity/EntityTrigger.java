@@ -3,6 +3,7 @@ package com.cavetale.quest.entity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityKnockbackEvent;
 
 public interface EntityTrigger {
     default void onPlayerClick(EntityInstance entityInstance, Player player) { }
@@ -12,4 +13,6 @@ public interface EntityTrigger {
     default void onEntitySpawned(EntityInstance entityInstance, Entity entity) { }
 
     default void onEntityRemoved(EntityInstance entityInstance, Entity entity) { }
+
+    default void onEntityKnockback(EntityInstance entityInstance, EntityKnockbackEvent event) { }
 }

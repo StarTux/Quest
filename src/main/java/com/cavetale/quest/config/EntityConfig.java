@@ -11,6 +11,7 @@ import lombok.Data;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityKnockbackEvent;
 
 @Data
 public final class EntityConfig {
@@ -48,6 +49,11 @@ public final class EntityConfig {
                 @Override
                 public void onEntityDamage(EntityInstance entityInstance, EntityDamageEvent entityDamageEvent) {
                     entityDamageEvent.setCancelled(true);
+                }
+
+                @Override
+                public void onEntityKnockback(EntityInstance entityInstance, EntityKnockbackEvent event) {
+                    event.setCancelled(true);
                 }
             }
         );
