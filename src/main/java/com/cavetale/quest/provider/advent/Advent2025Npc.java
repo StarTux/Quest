@@ -9,6 +9,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.entity.EntityType;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
+import static net.kyori.adventure.text.format.TextColor.color;
 import static net.kyori.adventure.text.format.TextDecoration.*;
 
 @Getter
@@ -129,6 +130,15 @@ public enum Advent2025Npc {
         List.of(
             "Hi there! Got anything for me to hammer? I can never get enough of it.",
             "Too bad I'm on vacation right now..."
+        )
+    ),
+    REINDEER_HERDER(
+        1, EntityType.MANNEQUIN, text("Reindeer Herder", color(0xa52a2a), BOLD),
+        "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODkzNzc1OWM1NTdmN2FmZjMzNzFmNWY4ZGZhM2U4NTY2YjM4OTk2ZGFmNDM0Nzk1M2IwYmJmNzFlNzZjIn19fQ==",
+        312.5, 79.0, 127.5, -180f,
+        List.of(
+            "Well, dash my antlers! You're here to visit our town, aren't ya?",
+            "I tend to the young reindeer here. Aren't they sweet?"
         )
     ),
     ;

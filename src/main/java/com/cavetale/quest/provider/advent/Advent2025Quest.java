@@ -396,6 +396,65 @@ public enum Advent2025Quest {
             )
         )
     ),
+    STAR(
+        0,
+        () -> new AdventQuestStaged(
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Talk to <red>Santa Clause"),
+                Advent2025Npc.SANTA_CLAUSE,
+                "Ho ho ho! The star for the top of the tree is missing!",
+                "Without it, the tree won't shine bright enough to guide my sleigh on Christmas Eve.",
+                "I heard the <light_purple>Wizard</light_purple> saw something suspicious last night. Could you ask her for me?"
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Ask the <light_purple>Wizard"),
+                Advent2025Npc.WIZARD,
+                "Ah, the star! I saw a strange glow coming from the <color:#a52a2a>Reindeer Herder's</color> house last night.",
+                "But when I asked about it, he clammed up. Something's not right."
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Find the <color:#a52a2a>Reindeer Herder"),
+                Advent2025Npc.REINDEER_HERDER,
+                "Me? No, I don't know anything about a star.",
+                "I've just been busy with the young reindeer. They need extra care in this cold.",
+                "...",
+                "Don't believe me? Just look around."
+            ),
+            new AdventQuestStageCollectItems(
+                parseMiniMessage("Look around for the <emoji:star><gold>Star"),
+                List.of(Vec3i.of(313, 83, 139)),
+                (i, vec) -> Mytems.STAR.createItemStack()
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Confront the <color:#a52a2a>Reindeer Herder"),
+                Advent2025Npc.REINDEER_HERDER,
+                "Alright, alright! I took it, but only because the little ones need light to grow strong.",
+                "The nights are so dark and cold, and I was worried they wouldn't make it through the winter.",
+                "But now they're doing better. Could you... could you ask the <light_purple>Wizard</light_purple> for help? Maybe she knows a safer way to keep them warm?"
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Ask the <light_purple>Wizard"),
+                Advent2025Npc.WIZARD,
+                "Aha! So the herder took it to help the reindeer, did he?",
+                "Well I can't fault him for that. I'll hex a small light charm for the pen.",
+                "Φῶς ἁπαλὸν, θερμὸν καὶ ἄφθαρτον, σῴζειν τὰς νεογνὰς ἐλάφους ἡμῶν.",
+                "Here, take this. It's not as powerful as the star, but it'll keep them warm and safe."
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Bring the spell to the <color:#a52a2a>Reindeer Herder"),
+                Advent2025Npc.REINDEER_HERDER,
+                "Excellent, now the young reindeer can grow. Thank you, friend!",
+                "And tell <red>Santa</red> I'm sorry for taking the star."
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Return to <red>Santa Clause"),
+                Advent2025Npc.SANTA_CLAUSE,
+                "Ho ho ho! So the herder took it for the reindeer, did he?",
+                "That's the spirit of Christmas: Looking out for others, even if it means bending the rules a little.",
+                "Now the tree can shine bright, and the reindeer will be just fine. Thank you, friend!"
+            )
+        )
+    ),
     ;
 
     private final int adventWorldIndex;
