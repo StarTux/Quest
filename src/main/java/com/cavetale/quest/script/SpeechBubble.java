@@ -35,7 +35,7 @@ import static net.kyori.adventure.text.format.TextDecoration.*;
  */
 @Data
 public final class SpeechBubble {
-    public static final int LETTERS_PER_LINE = 26;
+    public static final int LETTERS_PER_LINE = 24;
     public static final int PIXELS_PER_LINE = 1600;
     private static final Component TAB = text("  ");
     private static final float TEXT_DISPLAY_SCALE = 0.75f;

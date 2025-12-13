@@ -10,11 +10,15 @@ import com.cavetale.quest.script.speaker.FixedSpeaker;
 import com.cavetale.quest.script.viewer.GlobalViewer;
 import com.cavetale.quest.session.PlayerQuest;
 import com.cavetale.quest.session.Session;
+import com.cavetale.quest.util.Text;
 import java.util.List;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import static net.kyori.adventure.text.Component.join;
 import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.JoinConfiguration.separator;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
 public final class QuestAdminCommand extends AbstractCommand<QuestPlugin> {
@@ -24,9 +28,9 @@ public final class QuestAdminCommand extends AbstractCommand<QuestPlugin> {
 
     @Override
     public void onEnable() {
-        rootNode.addChild("info").denyTabCompletion()
-            .description("Info Command")
-            .senderCaller(this::info);
+        rootNode.addChild("test").denyTabCompletion()
+            .description("Test Speech Bubble")
+            .senderCaller(this::test);
         rootNode.addChild("start").arguments("<player> <quest>")
             .description("Start player quest")
             .completers(
@@ -46,11 +50,13 @@ public final class QuestAdminCommand extends AbstractCommand<QuestPlugin> {
             .playerCaller(this::warpGoal);
     }
 
-    public boolean info(CommandSender sender, String[] args) {
+    public boolean test(CommandSender sender, String[] args) {
         if (!(sender instanceof Player player)) return true;
         if (args.length == 0) return false;
         final SpeechBubbleConfig config = new SpeechBubbleConfig();
         config.setMiniMessage(String.join(" ", args));
+        final List<Component> split = Text.splitLetters(config.getMessage());
+        sender.sendMessage(join(separator(text(".", DARK_GRAY)), split));
         final SpeechBubble bubble = new SpeechBubble(
             config,
             new FixedSpeaker(player.getEyeLocation(), player.displayName()),

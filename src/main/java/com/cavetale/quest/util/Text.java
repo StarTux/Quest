@@ -28,7 +28,7 @@ public final class Text {
             for (int i = 0; i < content.length(); i += 1) {
                 String letter = content.substring(i, i + 1);
                 if (letter.equals(" ")) {
-                    result.add(space());
+                    result.add(space().style(style));
                 } else if (letter.equals("\n")) {
                     result.add(Component.newline());
                 } else {
@@ -44,15 +44,27 @@ public final class Text {
         return result;
     }
 
+    /**
+     * Split the letters into lines.
+     */
     public static List<List<Component>> splitLines(List<Component> letters, int maxLineLength) {
+        // The list variables below are edited by this function and
+        // the helper.
         final List<List<Component>> result = new ArrayList<>();
+        // Line always holds the current line. The word variable is
+        // constantly ready to be drained into the line.
         final List<Component> line = new ArrayList<>();
+        // The `word` always contains one word, maybe including the
+        // preceding space. This is because spaces need to retain
+        // their style in case they are underlined or striked through.
+        // The helper function knows to cut them off where needed.
         final List<Component> word = new ArrayList<>();
         for (Component letter : letters) {
-            if (space().equals(letter)) {
-                splitLinesAddWord(result, line, word, maxLineLength);
+            if (letter instanceof TextComponent text && " ".equals(text.content())) {
+                splitLinesAddWordHelper(result, line, word, maxLineLength);
+                word.add(letter);
             } else if (newline().equals(letter)) {
-                splitLinesAddWord(result, line, word, maxLineLength);
+                splitLinesAddWordHelper(result, line, word, maxLineLength);
                 if (!line.isEmpty()) {
                     result.add(List.copyOf(line));
                     line.clear();
@@ -61,24 +73,40 @@ public final class Text {
                 word.add(letter);
             }
         }
-        splitLinesAddWord(result, line, word, maxLineLength);
+        splitLinesAddWordHelper(result, line, word, maxLineLength);
         if (!line.isEmpty()) result.add(List.copyOf(line));
         return result;
     }
 
-    private static void splitLinesAddWord(List<List<Component>> result, List<Component> line, List<Component> word, int maxLineLength) {
+    /**
+     * This helper is called whenever a word is complete. It adds the
+     * word to the line, and the line to the result if possible.
+     */
+    private static void splitLinesAddWordHelper(List<List<Component>> result, List<Component> line, List<Component> word, int maxLineLength) {
         if (word.isEmpty()) {
             return;
         } else if (line.isEmpty() && word.size() >= maxLineLength) {
-            // Word gets its own line.
-            result.add(List.copyOf(word));
-        } else if (line.size() + 1 + word.size() > maxLineLength) {
-            // Add line, then word.
+            // Word gets its own line and is split if needed.
+            if (word.get(0) instanceof TextComponent space && " ".equals(space.content())) {
+                word.remove(0);
+            }
+            final List<Component> one = List.copyOf(word.subList(0, maxLineLength));
+            final List<Component> two = List.copyOf(word.subList(maxLineLength, word.size()));
+            result.add(List.copyOf(one));
+            word.clear();
+            word.addAll(two);
+            splitLinesAddWordHelper(result, line, word, maxLineLength);
+        } else if (line.size() + word.size() > maxLineLength) {
+            // Word does not fit into line.
+            // Add line, then call self.
             result.add(List.copyOf(line));
             line.clear();
-            splitLinesAddWord(result, line, word, maxLineLength);
+            splitLinesAddWordHelper(result, line, word, maxLineLength);
         } else {
-            if (!line.isEmpty()) line.add(space());
+            // Word does fit into line.
+            if (line.isEmpty() && word.get(0) instanceof TextComponent space && " ".equals(space.content())) {
+                word.remove(0);
+            }
             line.addAll(List.copyOf(word));
             word.clear();
         }
