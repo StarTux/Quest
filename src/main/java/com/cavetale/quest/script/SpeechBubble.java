@@ -107,8 +107,7 @@ public final class SpeechBubble {
                 e.setPersistent(false);
                 e.setAlignment(TextDisplay.TextAlignment.LEFT);
                 e.setDefaultBackground(false);
-                //e.setBackgroundColor(Color.fromARGB(0));
-                e.setBackgroundColor(Color.fromARGB(0x80_10_10_70));
+                e.setBackgroundColor(Color.fromARGB(0xb0_10_10_70));
                 e.setLineWidth(PIXELS_PER_LINE);
                 e.setSeeThrough(true); // through blocks
                 e.setShadowed(true);
@@ -187,9 +186,9 @@ public final class SpeechBubble {
             }
             if (!blink) {
                 if (config.getUserPrompt().isContinue()) {
-                    newLines.add(textOfChildren(text(SPACES2), text("\u2193", color(0xff0000), BOLD)));
+                    newLines.add(textOfChildren(text(SPACES2), text("\u25bc", color(0xff0000), BOLD)));
                 } else if (config.getUserPrompt().isFinal()) {
-                    newLines.add(textOfChildren(text(SPACES2), text("\u25a0", color(0xff0000), BOLD)));
+                    newLines.add(textOfChildren(text(SPACES2), text("\u25c6", color(0xff0000), BOLD)));
                 }
             } else {
                 newLines.add(text(SPACES));
