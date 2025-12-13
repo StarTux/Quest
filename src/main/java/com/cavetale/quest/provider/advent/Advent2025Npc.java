@@ -141,6 +141,14 @@ public enum Advent2025Npc {
             "I tend to the young reindeer here. Aren't they sweet?"
         )
     ),
+    SNOW_FOX(
+        1, EntityType.FOX, text("Snow Fox", WHITE),
+        "",
+        339.5, 67.0, 210.5, -45f,
+        List.of(
+            "Don't tell anyone you saw me. I'm playing hide and seek with the Herder."
+        )
+    ),
     ;
 
     private final int worldNumber;

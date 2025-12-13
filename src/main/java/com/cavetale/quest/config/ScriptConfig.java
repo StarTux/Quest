@@ -33,6 +33,32 @@ public final class ScriptConfig {
         }
     }
 
+    /**
+     * A jump target. SpeechBubbleConfig.UserChoice labels jump here.
+     */
+    @Value
+    public static final class LabelEntry implements Entry {
+        private final String label;
+
+        @Override
+        public boolean isBlocking() {
+            return false;
+        }
+    }
+
+    /**
+     * A jump target. SpeechBubbleConfig.UserChoice labels jump here.
+     */
+    @Value
+    public static final class JumpEntry implements Entry {
+        private final String label;
+
+        @Override
+        public boolean isBlocking() {
+            return false;
+        }
+    }
+
     public void addEntry(Entry entry) {
         entries.add(entry);
     }

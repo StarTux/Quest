@@ -3,6 +3,7 @@ package com.cavetale.quest.provider.advent;
 import com.cavetale.core.struct.Vec3i;
 import com.cavetale.quest.session.PlayerQuest;
 import java.util.List;
+import java.util.Map;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.bossbar.BossBar;
@@ -14,13 +15,22 @@ public final class AdventQuestStageTalkToNpc extends AdventQuestStage {
     private final Component bossBarName;
     private final Advent2025Npc npc;
     private final List<String> dialog;
+    private final Map<String, String> choices;
+
+    public AdventQuestStageTalkToNpc(
+        final Component bossBarName,
+        final Advent2025Npc npc,
+        final List<String> dialog
+    ) {
+        this(bossBarName, npc, dialog, null);
+    }
 
     public AdventQuestStageTalkToNpc(
         final Component bossBarName,
         final Advent2025Npc npc,
         final String... dialog
     ) {
-        this(bossBarName, npc, List.of(dialog));
+        this(bossBarName, npc, List.of(dialog), null);
     }
 
     @Override
@@ -41,7 +51,11 @@ public final class AdventQuestStageTalkToNpc extends AdventQuestStage {
     @Override
     public AdventNpcDialog getDialog(PlayerQuest playerQuest, Progress progress, Advent2025Npc theNpc) {
         if (npc != theNpc) return null;
-        final int oldIndex = getParent().getProgress(playerQuest).getCurrentStageIndex();
-        return new AdventNpcDialog(dialog, () -> getParent().advanceProgress(playerQuest, oldIndex));
+        if (choices == null) {
+            final int oldIndex = getParent().getProgress(playerQuest).getCurrentStageIndex();
+            return new AdventNpcDialog(dialog, () -> getParent().advanceProgress(playerQuest, oldIndex), null);
+        } else {
+            return new AdventNpcDialog(dialog, null, choices);
+        }
     }
 }

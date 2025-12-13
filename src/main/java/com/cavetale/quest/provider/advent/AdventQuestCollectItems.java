@@ -95,13 +95,14 @@ public final class AdventQuestCollectItems extends AdventQuest {
                         }
                         playerQuest.setTag(progress);
                         updateItems(playerQuest);
-                    }
+                    },
+                    null
                 );
             }
             for (int i = progress.nextNpcIndex - 1; i >= 0; i -= 1) {
                 final Advent2025Npc.Stage oldStage = questNpcs.get(i);
                 if (npc == oldStage.npc()) {
-                    return new AdventNpcDialog(oldStage.dialog(), null);
+                    return new AdventNpcDialog(oldStage.dialog(), null, null);
                 }
             }
             return null;
@@ -112,7 +113,8 @@ public final class AdventQuestCollectItems extends AdventQuest {
                     if (!playerQuest.isActive() || playerQuest.isDisabled()) return;
                     playerQuest.setTag(progress);
                     playerQuest.completeQuest();
-                }
+                },
+                null
             );
         } else {
             return null;

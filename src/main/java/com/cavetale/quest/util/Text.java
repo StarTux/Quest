@@ -111,4 +111,15 @@ public final class Text {
             word.clear();
         }
     }
+
+    public static int countCharacters(Component component) {
+        int result = 0;
+        if (component instanceof TextComponent textComponent) {
+            result += textComponent.content().length();
+        }
+        for (Component child : component.children()) {
+            result += countCharacters(child);
+        }
+        return result;
+    }
 }

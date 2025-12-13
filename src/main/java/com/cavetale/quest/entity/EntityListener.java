@@ -13,6 +13,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityRemoveEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemHeldEvent;
 
 @RequiredArgsConstructor
 public final class EntityListener implements Listener {
@@ -86,5 +87,18 @@ public final class EntityListener implements Listener {
         final EntityInstance entityInstance = entities.getEntityInstance(event.getEntity());
         if (entityInstance == null) return;
         entityInstance.applyTrigger(trigger -> trigger.onEntityKnockback(entityInstance, event));
+    }
+
+    @EventHandler(ignoreCancelled = false, priority = EventPriority.MONITOR)
+    private void onPlayerHotbarSelect(PlayerItemHeldEvent event) {
+        final int prev = event.getPreviousSlot();
+        final int next = event.getNewSlot();
+        if (prev + 1 == next || prev == 8 && next == 0) {
+            entities.getPlugin().getScripts().onPlayerChoice(event.getPlayer(), true, 1);
+        } else if (prev - 1 == next || prev == 0 && next == 8) {
+            entities.getPlugin().getScripts().onPlayerChoice(event.getPlayer(), true, -1);
+        } else {
+            entities.getPlugin().getScripts().onPlayerChoice(event.getPlayer(), false, next);
+        }
     }
 }

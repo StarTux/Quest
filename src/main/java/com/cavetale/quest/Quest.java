@@ -23,4 +23,6 @@ public interface Quest {
     default void onRepeatCompletion(PlayerQuest playerQuest) { }
 
     Vec3i getNextGoal(PlayerQuest playerQuest);
+
+    default void onConfirmChoice(PlayerQuest playerQuest, String label) { }
 }

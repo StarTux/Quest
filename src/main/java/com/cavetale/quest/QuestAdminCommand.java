@@ -55,6 +55,16 @@ public final class QuestAdminCommand extends AbstractCommand<QuestPlugin> {
         if (args.length == 0) return false;
         final SpeechBubbleConfig config = new SpeechBubbleConfig();
         config.setMiniMessage(String.join(" ", args));
+        config.setUserChoices(
+            new SpeechBubbleConfig.UserChoice("a", text("Yes")),
+            new SpeechBubbleConfig.UserChoice("b", text("No")),
+            new SpeechBubbleConfig.UserChoice("b", text("Ninja")),
+            new SpeechBubbleConfig.UserChoice("b", text("Banana")),
+            new SpeechBubbleConfig.UserChoice("b", text("Ocelot")),
+            new SpeechBubbleConfig.UserChoice("b", text("La Le Li Lo Lu")),
+            new SpeechBubbleConfig.UserChoice("b", text("Whodunnit")),
+            new SpeechBubbleConfig.UserChoice("c", text("Maybe"))
+        );
         final List<Component> split = Text.splitLetters(config.getMessage());
         sender.sendMessage(join(separator(text(".", DARK_GRAY)), split));
         final SpeechBubble bubble = new SpeechBubble(

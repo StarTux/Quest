@@ -90,8 +90,20 @@ public final class AdventQuestStaged extends AdventQuest {
     }
 
     private void advanceProgress(PlayerQuest playerQuest, Progress progress) {
+        final AdventQuestStage currentStage = getCurrentStage(progress);
+        currentStage.disable(playerQuest, progress.getCurrentStageProgress());
+        if (currentStage.getNext() != null) {
+            // Jump
+            for (int i = 0; i < stages.size(); i += 1) {
+                if (currentStage.getNext().equals(stages.get(i).getLabel())) {
+                    progress.currentStageIndex = i;
+                    getCurrentStage(progress).enable(playerQuest, progress.getCurrentStageProgress());
+                    playerQuest.setTag(progress);
+                    return;
+                }
+            }
+        }
         if (progress.currentStageIndex < stages.size() - 1) {
-            getCurrentStage(progress).disable(playerQuest, progress.getCurrentStageProgress());
             progress.currentStageIndex += 1;
             getCurrentStage(progress).enable(playerQuest, progress.getCurrentStageProgress());
             playerQuest.setTag(progress);
@@ -124,10 +136,25 @@ public final class AdventQuestStaged extends AdventQuest {
             final AdventNpcDialog oldDialog = stages.get(i).getDialog(playerQuest, progress.getStageProgress(1), npc);
             if (oldDialog != null) {
                 // Return the dialog without the callback.
-                return new AdventNpcDialog(oldDialog.dialog(), () -> { });
+                return new AdventNpcDialog(oldDialog.dialog(), () -> { }, null);
             }
         }
         return null;
+    }
+
+    @Override
+    public void onConfirmChoice(PlayerQuest playerQuest, String label) {
+        final Progress progress = getProgress(playerQuest);
+        for (int i = 0; i < stages.size(); i += 1) {
+            // Jump to label
+            if (label.equals(stages.get(i).getLabel())) {
+                getCurrentStage(progress).disable(playerQuest, progress.getCurrentStageProgress());
+                progress.currentStageIndex = i;
+                getCurrentStage(progress).enable(playerQuest, progress.getCurrentStageProgress());
+                playerQuest.setTag(progress);
+                return;
+            }
+        }
     }
 
     @Data

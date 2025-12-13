@@ -13,17 +13,20 @@ import com.cavetale.quest.entity.behavior.EntityRevertBehavior;
 import com.cavetale.quest.entity.data.EntityDataAttributes;
 import com.cavetale.quest.entity.data.EntityDataCat;
 import com.cavetale.quest.entity.data.EntityDataClearMobGoals;
+import com.cavetale.quest.entity.data.EntityDataFox;
 import com.cavetale.quest.entity.data.EntityDataScale;
 import com.cavetale.quest.entity.data.EntityProfileData;
 import com.cavetale.quest.script.Script;
 import com.cavetale.quest.script.viewer.Viewership;
 import com.cavetale.quest.session.PlayerQuest;
 import com.cavetale.quest.session.Session;
+import com.cavetale.quest.util.Text;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Map;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
@@ -31,6 +34,7 @@ import org.bukkit.DyeColor;
 import org.bukkit.World;
 import org.bukkit.entity.Cat;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Fox;
 import org.bukkit.entity.Player;
 
 @Getter
@@ -67,7 +71,7 @@ public final class AdventProvider {
                 inst.getConfig().addEntityData(new EntityDataAttributes().movementSpeed(0).jumpStrength(0));
                 inst.getConfig().addEntityData(new EntityDataClearMobGoals());
             }
-            if (npc != Advent2025Npc.CAT) {
+            if (npc != Advent2025Npc.CAT && npc != Advent2025Npc.SNOW_FOX) {
                 inst.getConfig().addEntityBehavior(new EntityLookAtPlayerBehavior(1));
                 inst.getConfig().addEntityBehavior(new EntityRevertBehavior(2));
             }
@@ -87,6 +91,7 @@ public final class AdventProvider {
         Advent2025Npc.TREE_FROG.getInstance().getConfig().addEntityData(new EntityDataScale(3));
         Advent2025Npc.CAT.getInstance().getConfig().addEntityData(new EntityDataScale(3));
         Advent2025Npc.CAT.getInstance().getConfig().addEntityData(new EntityDataCat(Cat.Type.BLACK, DyeColor.RED, false, true));
+        Advent2025Npc.SNOW_FOX.getInstance().getConfig().addEntityData(new EntityDataFox(Fox.Type.SNOW).sleeping());
         for (Advent2025Npc npc : Advent2025Npc.values()) {
             plugin.getEntities().enableEntityInstance(npc.getInstance());
         }
@@ -142,13 +147,17 @@ public final class AdventProvider {
         if (plugin.getScripts().getScriptOfPlayer(player) != null) return;
         final ScriptConfig scriptConfig = new ScriptConfig();
         List<String> dialog = null;
+        Map<String, String> choices = null;
         Runnable completionAction = null;
+        PlayerQuest thePlayerQuest = null;
         for (PlayerQuest playerQuest : Session.of(player).getActiveQuests()) {
             if (playerQuest.getQuest() instanceof AdventQuest adventQuest) {
                 final AdventNpcDialog theDialog = adventQuest.getDialog(playerQuest, npc);
                 if (theDialog != null) {
                     dialog = theDialog.dialog();
                     completionAction = theDialog.completionAction();
+                    choices = theDialog.choices();
+                    thePlayerQuest = playerQuest;
                 }
             }
         }
@@ -157,7 +166,13 @@ public final class AdventProvider {
             final String line = dialog.get(i);
             final SpeechBubbleConfig speechBubbleConfig = SpeechBubbleConfig.ofMiniMessage(line);
             if (i == dialog.size() - 1) {
-                speechBubbleConfig.setFinalUserPrompt();
+                if (choices == null) {
+                    speechBubbleConfig.setFinalUserPrompt();
+                } else {
+                    for (Map.Entry<String, String> entry : choices.entrySet()) {
+                        speechBubbleConfig.addUserChoice(entry.getKey(), Text.parseMiniMessage(entry.getValue()));
+                    }
+                }
             }
             scriptConfig.addEntry(
                 new ScriptConfig.SpeakEntry(
@@ -174,6 +189,7 @@ public final class AdventProvider {
             scriptConfig,
             Viewership.single(player)
         );
+        script.setPlayerQuest(thePlayerQuest);
         plugin.getScripts().enableScript(script);
     }
 }

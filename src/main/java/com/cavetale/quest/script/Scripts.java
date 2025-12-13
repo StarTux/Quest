@@ -71,6 +71,17 @@ public final class Scripts {
         return false;
     }
 
+    public boolean onPlayerChoice(Player player, boolean isRelative, int value) {
+        for (SpeechBubble speechBubble : speechBubbles) {
+            if (speechBubble.getViewership().isViewer(player)) {
+                if (speechBubble.onPlayerChoice(player, isRelative, value)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     /**
      * Internal use only: SpeechBubble will call this.
      */

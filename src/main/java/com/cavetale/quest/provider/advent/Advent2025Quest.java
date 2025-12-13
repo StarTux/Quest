@@ -2,6 +2,7 @@ package com.cavetale.quest.provider.advent;
 
 import com.cavetale.core.struct.Vec3i;
 import com.cavetale.mytems.Mytems;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.function.Supplier;
 import lombok.Getter;
@@ -452,6 +453,61 @@ public enum Advent2025Quest {
                 "Ho ho ho! So the herder took it for the reindeer, did he?",
                 "That's the spirit of Christmas: Looking out for others, even if it means bending the rules a little.",
                 "Now the tree can shine bright, and the reindeer will be just fine. Thank you, friend!"
+            )
+        )
+    ),
+    FOX(
+        0, () -> new AdventQuestStaged(
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Talk to the <color:#a52a2a>Reindeer Herder"),
+                Advent2025Npc.REINDEER_HERDER,
+                List.of(
+                    "Oh no! My snow fox is missing!",
+                    "She's usually curled up near the reindeer pen, but she vanished last night.",
+                    "Could you ask around? Maybe someone saw her.",
+                    "Who do you think could have seen something?"
+                ),
+                new LinkedHashMap<>() {{
+                    put("start", "Dunno");
+                    put("postman", "Postman");
+                    put("wizard", "Wizard");
+                    put("miller", "Miller");
+                }}
+            ).label("start"),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Ask the <yellow>Postman"),
+                Advent2025Npc.POSTMAN,
+                "A snow fox? Can't say I've seen her.",
+                "But if she's missing, maybe she chased after something shiny. They're curious like that."
+            )
+            .label("postman")
+            .next("start"),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Ask the <gold>Miller"),
+                Advent2025Npc.MILLER,
+                "A fox? Not around here.",
+                "Though I did hear some rustling near the barn last night. Probably just the wind."
+            )
+            .label("miller")
+            .next("start"),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Ask the <light_purple>Wizard"),
+                Advent2025Npc.WIZARD,
+                "Of course I see things. I see everything from way up here, day or night.",
+                "Ah, the snow fox! I saw her darting toward the old clock tower earlier.",
+                "She seemed spooked by something, but I didn't want to interfere. Foxes are clever, they find their own hiding spots."
+            )
+            .label("wizard"),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Find the Snow Fox"),
+                Advent2025Npc.SNOW_FOX,
+                "Eep, you found me. Now it's the Herder's turn to hide..."
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Return to the <color:#a52a2a>Reindeer Herder"),
+                Advent2025Npc.REINDEER_HERDER,
+                "Oh my, she was hiding this whole time!?",
+                "Boy, I better get fetch her before she catches a cold. Thank you so much!"
             )
         )
     ),

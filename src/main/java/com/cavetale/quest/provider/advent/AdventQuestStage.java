@@ -21,6 +21,12 @@ public abstract class AdventQuestStage {
     @Getter @Setter
     private AdventQuestStaged parent;
 
+    @Getter
+    private String label;
+
+    @Getter
+    private String next;
+
     public void enable() { }
 
     public void disable() { }
@@ -56,5 +62,15 @@ public abstract class AdventQuestStage {
             }
             return integers;
         }
+    }
+
+    public final AdventQuestStage label(final String value) {
+        this.label = value;
+        return this;
+    }
+
+    public final AdventQuestStage next(final String value) {
+        this.next = value;
+        return this;
     }
 }

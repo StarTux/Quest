@@ -30,11 +30,21 @@ public final class ScriptWorker {
     }
 
     public void startNextEntry() {
-        if (script.getConfig().getEntries().size() <= entryIndex) {
+        if (script.getConfig().getEntries().size() <= entryIndex + 1) {
             disable();
             return;
         }
-        ScriptConfig.Entry entry = script.getConfig().getEntries().get(entryIndex++);
+        entryIndex += 1;
+        startCurrentEntry();
+    }
+
+    public void jumpToEntry(int index) {
+        entryIndex = index;
+        startCurrentEntry();
+    }
+
+    public void startCurrentEntry() {
+        ScriptConfig.Entry entry = script.getConfig().getEntries().get(entryIndex);
         if (entry instanceof ScriptConfig.SpeakEntry speak) {
             final SpeechBubble speechBubble = new SpeechBubble(
                 speak.getConfig(),
@@ -48,6 +58,15 @@ public final class ScriptWorker {
             }
         } else if (entry instanceof ScriptConfig.RunnableEntry runnable) {
             runnable.getRunnable().run();
+        } else if (entry instanceof ScriptConfig.LabelEntry) {
+            startNextEntry();
+            return;
+        } else if (entry instanceof ScriptConfig.JumpEntry jump) {
+            final int index = script.findScriptLabel(jump.getLabel());
+            if (index >= 0) {
+                jumpToEntry(index);
+                return;
+            }
         } else {
             questPlugin().getLogger().severe("Unknown entry: " + entry.getClass().getName());
             disable();

@@ -18,9 +18,11 @@ import org.bukkit.entity.TextDisplay;
 import org.bukkit.util.Transformation;
 import org.joml.AxisAngle4f;
 import org.joml.Vector3f;
+import static com.cavetale.core.font.Unicode.tiny;
 import static com.cavetale.quest.QuestPlugin.questPlugin;
 import static net.kyori.adventure.text.Component.join;
 import static net.kyori.adventure.text.Component.newline;
+import static net.kyori.adventure.text.Component.space;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.textOfChildren;
 import static net.kyori.adventure.text.JoinConfiguration.noSeparators;
@@ -65,6 +67,9 @@ public final class SpeechBubble {
     private boolean cancelled;
     private boolean blink;
     private int blinkTicks;
+    private int userChoice;
+    private int userChoiceLineCount;
+    private boolean userConfirmed;
 
     /**
      * This should only be called by Entities#enableSpeechBubble.
@@ -90,6 +95,9 @@ public final class SpeechBubble {
         totalLetters = 0;
         for (List<Component> line : lines) {
             totalLetters += line.size();
+        }
+        if (config.getUserPrompt().isChoice()) {
+            userChoiceLineCount = makeChoiceLines().size();
         }
     }
 
@@ -130,6 +138,13 @@ public final class SpeechBubble {
         if (!viewersStillThere()) {
             cancelled = true;
             if (parent != null) parent.cancel();
+            disable();
+            return;
+        }
+        if (finished && userConfirmed) {
+            if (config.getUserPrompt().isChoice() && parent != null) {
+                parent.onConfirmChoice(this, config.getChoices().get(userChoice).label());
+            }
             disable();
             return;
         }
@@ -184,7 +199,10 @@ public final class SpeechBubble {
                 blink = !blink;
                 blinkTicks = 0;
             }
-            if (!blink) {
+            if (config.getUserPrompt().isChoice()) {
+                newLines.addAll(makeChoiceLines());
+                newLines.add(textOfChildren(TAB, text(tiny("use scroll wheel"), DARK_GRAY)));
+            } else if (!blink) {
                 if (config.getUserPrompt().isContinue()) {
                     newLines.add(textOfChildren(text(SPACES2), text("\u25bc", color(0xff0000), BOLD)));
                 } else if (config.getUserPrompt().isFinal()) {
@@ -194,21 +212,61 @@ public final class SpeechBubble {
                 newLines.add(text(SPACES));
             }
         } else {
+            for (int i = 0; i < userChoiceLineCount; i += 1) {
+                newLines.add(TAB);
+            }
             newLines.add(text(SPACES));
         }
         return join(separator(newline()), newLines);
+    }
+
+    private List<Component> makeChoiceLines() {
+        final List<Component> choiceLines = new ArrayList<>();
+        final List<Component> choiceLine = new ArrayList<>();
+        int choiceLineLength = 0;
+        for (int i = 0; i < config.getChoices().size(); i += 1) {
+            final SpeechBubbleConfig.UserChoice choice = config.getChoices().get(i);
+            final Component display;
+            if (userChoice == i) {
+                display = !blink
+                    ? textOfChildren(text("[", GRAY), choice.display().decorate(UNDERLINED), text("]", GRAY))
+                    : textOfChildren(space(), choice.display().decorate(UNDERLINED), space());
+            } else {
+                display = textOfChildren(space(), choice.display().color(GRAY), space());
+            }
+            final int displayLength = Text.countCharacters(display);
+            if (choiceLineLength + displayLength + 1 > LETTERS_PER_LINE) {
+                choiceLines.add(textOfChildren(TAB, join(noSeparators(), choiceLine)));
+                choiceLine.clear();
+                choiceLine.add(display);
+                choiceLineLength = displayLength;
+            } else {
+                if (!choiceLine.isEmpty()) {
+                    choiceLine.add(space());
+                    choiceLineLength += 1;
+                }
+                choiceLine.add(display);
+                choiceLineLength += displayLength;
+            }
+        }
+        if (!choiceLine.isEmpty()) {
+            choiceLines.add(textOfChildren(TAB, join(noSeparators(), choiceLine)));
+        }
+        return choiceLines;
     }
 
     /**
      * Player clicked the speaker of this bubble.
      */
     public boolean onPlayerProgressDialog(Player player) {
-        if (!config.getUserPrompt().hasUserPrompt()) {
+        if (userConfirmed) {
+            return false;
+        } else if (!config.getUserPrompt().hasUserPrompt()) {
             return false;
         } else if (tickAge == 0) {
             return false;
         } else if (finished) {
-            disable();
+            userConfirmed = true;
             return true;
         } else if (!highSpeed) {
             highSpeed = true;
@@ -216,6 +274,21 @@ public final class SpeechBubble {
         } else {
             return false;
         }
+    }
+
+    public boolean onPlayerChoice(Player player, boolean isRelative, int value) {
+        if (userConfirmed || !finished || !config.getUserPrompt().isChoice()) return false;
+        if (isRelative) {
+            userChoice += value;
+            if (userChoice < 0) {
+                userChoice = config.getChoices().size() - 1;
+            } else if (userChoice >= config.getChoices().size()) {
+                userChoice = 0;
+            }
+        } else if (value < config.getChoices().size()) {
+            userChoice = value;
+        }
+        return true;
     }
 
     private void registerEntity(Entity entity) {

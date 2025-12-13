@@ -57,13 +57,14 @@ public final class AdventQuestTalkChain extends AdventQuest {
                     } else {
                         playerQuest.completeQuest();
                     }
-                }
+                },
+                null
             );
         }
         for (int i = progress.nextNpcIndex - 1; i >= 0; i -= 1) {
             final Advent2025Npc.Stage oldStage = npcs.get(i);
             if (npc == oldStage.npc()) {
-                return new AdventNpcDialog(oldStage.dialog(), null);
+                return new AdventNpcDialog(oldStage.dialog(), null, null);
             }
         }
         return null;
