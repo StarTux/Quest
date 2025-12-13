@@ -8,6 +8,26 @@ import net.kyori.adventure.text.Component;
 public final class SpeechBubbleConfig {
     private Component message;
     private boolean automatic;
+    private UserPromptType userPrompt = UserPromptType.CONTINUE;
+
+    public enum UserPromptType {
+        NONE,
+        CONTINUE,
+        FINAL,
+        ;
+
+        public boolean hasUserPrompt() {
+            return this != NONE;
+        }
+
+        public boolean isContinue() {
+            return this == CONTINUE;
+        }
+
+        public boolean isFinal() {
+            return this == FINAL;
+        }
+    }
 
     public void setMiniMessage(String mini) {
         message = Text.parseMiniMessage(mini);
@@ -17,5 +37,9 @@ public final class SpeechBubbleConfig {
         SpeechBubbleConfig result = new SpeechBubbleConfig();
         result.setMiniMessage(in);
         return result;
+    }
+
+    public void setFinalUserPrompt() {
+        this.userPrompt = UserPromptType.FINAL;
     }
 }

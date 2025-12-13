@@ -153,11 +153,16 @@ public final class AdventProvider {
             }
         }
         if (dialog == null) dialog = npc.getDefaultDialog();
-        for (String line : dialog) {
+        for (int i = 0; i < dialog.size(); i += 1) {
+            final String line = dialog.get(i);
+            final SpeechBubbleConfig speechBubbleConfig = SpeechBubbleConfig.ofMiniMessage(line);
+            if (i == dialog.size() - 1) {
+                speechBubbleConfig.setFinalUserPrompt();
+            }
             scriptConfig.addEntry(
                 new ScriptConfig.SpeakEntry(
                     true,
-                    SpeechBubbleConfig.ofMiniMessage(line),
+                    speechBubbleConfig,
                     inst.getSpeaker()
                 )
             );

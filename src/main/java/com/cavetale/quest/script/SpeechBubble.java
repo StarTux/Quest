@@ -57,7 +57,7 @@ public final class SpeechBubble {
     private int revealedLetters;
     private int totalLetters;
     private static final String SPACES = " ".repeat(40);
-    private static final String SPACES2 = " ".repeat(18);
+    private static final String SPACES2 = " ".repeat(19);
     private boolean highSpeed;
     private boolean finished;
     private int finishedTicks;
@@ -180,13 +180,17 @@ public final class SpeechBubble {
                 newLines.add(textOfChildren(TAB, join(noSeparators(), newLine)));
             }
         }
-        if (finished && !config.isAutomatic()) {
+        if (finished && config.getUserPrompt().hasUserPrompt()) {
             if (blinkTicks++ > 5) {
                 blink = !blink;
                 blinkTicks = 0;
             }
-            if (blink) {
-                newLines.add(textOfChildren(text(SPACES2), text("↓", color(0xff0000), BOLD)));
+            if (!blink) {
+                if (config.getUserPrompt().isContinue()) {
+                    newLines.add(textOfChildren(text(SPACES2), text("\u2193", color(0xff0000), BOLD)));
+                } else if (config.getUserPrompt().isFinal()) {
+                    newLines.add(textOfChildren(text(SPACES2), text("\u25a0", color(0xff0000), BOLD)));
+                }
             } else {
                 newLines.add(text(SPACES));
             }
@@ -200,7 +204,9 @@ public final class SpeechBubble {
      * Player clicked the speaker of this bubble.
      */
     public boolean onPlayerProgressDialog(Player player) {
-        if (tickAge == 0) {
+        if (!config.getUserPrompt().hasUserPrompt()) {
+            return false;
+        } else if (tickAge == 0) {
             return false;
         } else if (finished) {
             disable();
