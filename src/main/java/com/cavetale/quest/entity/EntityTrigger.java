@@ -1,9 +1,9 @@
 package com.cavetale.quest.entity;
 
+import io.papermc.paper.event.entity.EntityKnockbackEvent;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityKnockbackEvent;
 
 public interface EntityTrigger {
     default void onPlayerClick(EntityInstance entityInstance, Player player) { }

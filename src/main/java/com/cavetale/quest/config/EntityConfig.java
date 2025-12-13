@@ -4,6 +4,7 @@ import com.cavetale.quest.entity.EntityInstance;
 import com.cavetale.quest.entity.EntityTrigger;
 import com.cavetale.quest.entity.behavior.EntityBehavior;
 import com.cavetale.quest.entity.data.EntityData;
+import io.papermc.paper.event.entity.EntityKnockbackEvent;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -11,7 +12,6 @@ import lombok.Data;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityKnockbackEvent;
 
 @Data
 public final class EntityConfig {
