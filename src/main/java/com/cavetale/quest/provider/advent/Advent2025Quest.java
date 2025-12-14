@@ -2,7 +2,6 @@ package com.cavetale.quest.provider.advent;
 
 import com.cavetale.core.struct.Vec3i;
 import com.cavetale.mytems.Mytems;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.function.Supplier;
 import lombok.Getter;
@@ -466,14 +465,13 @@ public enum Advent2025Quest {
                     "She's usually curled up near the reindeer pen, but she vanished last night.",
                     "Could you ask around? Maybe someone saw her.",
                     "Who do you think could have seen something?"
-                ),
-                new LinkedHashMap<>() {{
-                    put("start", "Dunno");
-                    put("postman", "Postman");
-                    put("wizard", "Wizard");
-                    put("miller", "Miller");
-                }}
-            ).label("start"),
+                )
+            )
+            .addUserChoice("start", "Dunno")
+            .addUserChoice("postman", "Postman")
+            .addUserChoice("wizard", "Wizard")
+            .addUserChoice("miller", "Miller")
+            .label("start"),
             new AdventQuestStageTalkToNpc(
                 parseMiniMessage("Ask the <yellow>Postman"),
                 Advent2025Npc.POSTMAN,

@@ -20,13 +20,11 @@ import com.cavetale.quest.script.Script;
 import com.cavetale.quest.script.viewer.Viewership;
 import com.cavetale.quest.session.PlayerQuest;
 import com.cavetale.quest.session.Session;
-import com.cavetale.quest.util.Text;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
-import java.util.Map;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
@@ -147,7 +145,7 @@ public final class AdventProvider {
         if (plugin.getScripts().getScriptOfPlayer(player) != null) return;
         final ScriptConfig scriptConfig = new ScriptConfig();
         List<String> dialog = null;
-        Map<String, String> choices = null;
+        List<SpeechBubbleConfig.UserChoice> choices = null;
         Runnable completionAction = null;
         PlayerQuest thePlayerQuest = null;
         for (PlayerQuest playerQuest : Session.of(player).getActiveQuests()) {
@@ -169,9 +167,7 @@ public final class AdventProvider {
                 if (choices == null) {
                     speechBubbleConfig.setFinalUserPrompt();
                 } else {
-                    for (Map.Entry<String, String> entry : choices.entrySet()) {
-                        speechBubbleConfig.addUserChoice(entry.getKey(), Text.parseMiniMessage(entry.getValue()));
-                    }
+                    speechBubbleConfig.setUserChoices(choices);
                 }
             }
             scriptConfig.addEntry(

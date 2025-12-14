@@ -39,6 +39,8 @@ public final class SpeechBubbleConfig {
 
     /**
      * Currently we use the label as the name of the jump target.
+     * @param label the label for jumping purposes
+     * @param display the displayed text
      */
     public record UserChoice(String label, Component display) { }
 
@@ -58,7 +60,7 @@ public final class SpeechBubbleConfig {
 
     public void setUserChoices(final List<UserChoice> theChoices) {
         this.userPrompt = UserPromptType.CHOICE;
-        this.choices = theChoices;
+        this.choices = List.copyOf(theChoices);
     }
 
     public void setUserChoices(UserChoice... theChoices) {

@@ -33,6 +33,7 @@ public final class AdventQuestStageGotoArea extends AdventQuestStage {
         bossBar.progress(1f);
     }
 
+    @Override
     public void tick(PlayerQuest playerQuest, Progress progress) {
         final Player player = playerQuest.getSession().getPlayer();
         if (player.getIdleDuration().toSeconds() > 1) return;
