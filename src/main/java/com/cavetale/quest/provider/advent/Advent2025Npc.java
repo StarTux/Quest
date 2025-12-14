@@ -149,6 +149,14 @@ public enum Advent2025Npc {
             "Don't tell anyone you saw me. I'm playing hide and seek with the Herder."
         )
     ),
+    LILA(
+        1, EntityType.MANNEQUIN, text("Lila", color(0x800080)),
+        "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2JjOGVmODk2NGZhNjI3ZGE3YmU3YjYyZjQ1YmFmOTE5ODBjNzBiYmRmNTQwOTQ4NTliNGNjZjNmYjc4NDUxZCJ9fX0=",
+        246.50, 74.00, 390.50, 90.52f,
+        List.of(
+            "Yes, I'm back in town. I can't wait to visit mom."
+        )
+    )
     ;
 
     private final int worldNumber;

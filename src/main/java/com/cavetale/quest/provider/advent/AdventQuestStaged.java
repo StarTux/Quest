@@ -55,6 +55,11 @@ public final class AdventQuestStaged extends AdventQuest {
         getCurrentStage(progress).tick(playerQuest, progress.getCurrentStageProgress());
     }
 
+    public AdventQuestStage getCurrentStage(PlayerQuest playerQuest) {
+        final Progress progress = getProgress(playerQuest);
+        return getCurrentStage(progress);
+    }
+
     public AdventQuestStage getCurrentStage(Progress progress) {
         return stages.get(progress.currentStageIndex);
     }

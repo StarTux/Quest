@@ -509,6 +509,33 @@ public enum Advent2025Quest {
             )
         )
     ),
+    LILA(
+        0, () -> new AdventQuestStaged(
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Talk to <gray>Mistletoe the Cat"),
+                Advent2025Npc.CAT,
+                "Meow! Psst! over here!",
+                "I saw something strange in the pond. It's been bobbing around all morning.",
+                "Go grab your fishing rod and see if you can scoop it out of the water."
+            ),
+            new AdventQuestStageFishing(
+                parseMiniMessage("Go Fishing by the Pond"),
+                Vec3i.of(388, 67, 399)
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Meet <color:#800080>Lila"),
+                Advent2025Npc.LILA,
+                "I can't believe this resurfaced now.",
+                "Mom still tells the story of how Dad and I used to play that game.",
+                "Thanks for bringing it. It's like a little hello from the past."
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Return to <gray>Mistletoe the Cat"),
+                Advent2025Npc.CAT,
+                "Told you it was worth fishing out."
+            )
+        )
+    ),
     ;
 
     private final int adventWorldIndex;

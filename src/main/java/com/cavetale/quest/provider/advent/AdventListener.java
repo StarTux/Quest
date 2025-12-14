@@ -14,6 +14,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.util.Vector;
 import static net.kyori.adventure.text.Component.empty;
@@ -71,6 +72,19 @@ public final class AdventListener implements Listener {
             if (playerQuest.getQuest() instanceof AdventQuest adventQuest) {
                 if (!player.getWorld().getName().equals(adventQuest.getAdventWorldName())) continue;
                 adventQuest.onPlayerMoveBlock(playerQuest, Vec3i.of(event.getTo().getBlock()));
+            }
+        }
+    }
+
+    @EventHandler
+    private void onPlayerFish(PlayerFishEvent event) {
+        final Player player = event.getPlayer();
+        if (!AdventProvider.ADVENT_SERVER.isThisServer() || !AdventProvider.ADVENT_WORLDS.contains(player.getWorld().getName())) {
+            return;
+        }
+        for (PlayerQuest playerQuest : Session.of(player).getActiveQuests()) {
+            if (playerQuest.getQuest() instanceof AdventQuestStaged staged && staged.getCurrentStage(playerQuest) instanceof AdventQuestStageFishing fishing) {
+                fishing.onPlayerFish(playerQuest, event);
             }
         }
     }
