@@ -536,6 +536,52 @@ public enum Advent2025Quest {
             )
         )
     ),
+    SCAVENGER_HUNT(
+        0, () -> new AdventQuestStaged(
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Talk to the <light_purple>Wizard"),
+                Advent2025Npc.WIZARD,
+                "Ah, hello! I'm brewing a spell to make the Christmas tree glow brighter than ever.",
+                "But I need four special ingredients from the creatures around town.",
+                "A golden feather, a sleek whisker, a slippery lily pad, and a well-chewed bone.",
+                "Do you think you could find these items for me?"
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Find a <gold>Golden Feather"),
+                Advent2025Npc.CHICKEN,
+                "Bawk! My golden feather? It's my favorite!",
+                "What do you say? The Wizard needs it for the Christmas Tree?",
+                "Well... if you say it's for the tree, I suppose I can share."
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Find a <gray>Sleek Whisker"),
+                Advent2025Npc.CAT,
+                "A whisker? Do I look like a broom to you?",
+                "Purr... the tree, huh? Meow...",
+                "Fine. But only if you promise to tell the Wizard I'm the most elegant cat in town."
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Find a <green>Slippery Lily Pad"),
+                Advent2025Npc.TREE_FROG,
+                "Ribbit! My lily pad? But I need it to nap!",
+                "Quack! Oh, for the big tree?!",
+                "Alright, take it. But I want a new one by tomorrow."
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Find a <color:#ffff00>Well Chewed Bone"),
+                Advent2025Npc.JAKE,
+                "My bone? I buried it! There's no way I'm digging it up again.",
+                "Oh well, for Christmas, I suppose we can make an exception.",
+                "Here you go! Merry Christmas, buddy."
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Return to the <light_purple>Wizard"),
+                Advent2025Npc.WIZARD,
+                "Perfect! Now the tree will shine with the spirit of the town.",
+                "Thank you, friend. The magic of Christmas is in the little things, and the help of good neighbors."
+            )
+        )
+    ),
     ;
 
     private final int adventWorldIndex;

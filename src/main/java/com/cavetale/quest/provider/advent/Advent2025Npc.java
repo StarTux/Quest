@@ -156,7 +156,13 @@ public enum Advent2025Npc {
         List.of(
             "Yes, I'm back in town. I can't wait to visit mom."
         )
-    )
+    ),
+    JAKE(
+        1, EntityType.MANNEQUIN, text("Jake", color(0xffff00)),
+        "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmNmYmNiNmFjMzM1YTEyOTZhY2NlYzZhM2VjOWE4MzE0NGRkODk1NWQ3M2I2YWMwNmY0NDI5YzZkYmJmMTc3OCJ9fX0=",
+        222.5, 66.0, 245.0, -90f,
+        List.of("Heya, buddy! Hope you have a nice Christmas.")
+    ),
     ;
 
     private final int worldNumber;

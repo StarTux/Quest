@@ -15,8 +15,8 @@ import org.bukkit.entity.Player;
 @NoArgsConstructor
 public final class EntityLookAtPlayerBehavior implements EntityBehavior {
     private int priority;
-    private double activationRadius = 8;
-    private double radius = 12;
+    private double activationRadius = 4;
+    private double radius = 8;
 
     public EntityLookAtPlayerBehavior(final int priority) {
         this.priority = priority;
