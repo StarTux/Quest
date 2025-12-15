@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 
 @RequiredArgsConstructor
 public final class EntityInstanceSpeaker implements Speaker {
@@ -28,6 +29,9 @@ public final class EntityInstanceSpeaker implements Speaker {
     public Location getSpeechBubbleLocation() {
         final Entity entity = entityInstance.getSpawnedEntity();
         if (entity == null) return null;
+        if (entity.getType() == EntityType.CAT) {
+            return entity.getLocation().add(0.0, entity.getHeight() * 0.5 + 0.75, 0.0);
+        }
         return entity.getLocation().add(0.0, entity.getHeight() + 0.75, 0.0);
     }
 
