@@ -564,7 +564,7 @@ public enum Advent2025Quest {
                 parseMiniMessage("Find a <green>Slippery Lily Pad"),
                 Advent2025Npc.TREE_FROG,
                 "Ribbit! My lily pad? But I need it to nap!",
-                "Quack! Oh, for the big tree?!",
+                "Croak! Oh, for the big tree?!",
                 "Alright, take it. But I want a new one by tomorrow."
             ),
             new AdventQuestStageTalkToNpc(
