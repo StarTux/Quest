@@ -90,6 +90,7 @@ public final class AdventProvider {
         Advent2025Npc.CAT.getInstance().getConfig().addEntityData(new EntityDataScale(3));
         Advent2025Npc.CAT.getInstance().getConfig().addEntityData(new EntityDataCat(Cat.Type.BLACK, DyeColor.RED, false, true));
         Advent2025Npc.SNOW_FOX.getInstance().getConfig().addEntityData(new EntityDataFox(Fox.Type.SNOW).sleeping());
+        Advent2025Npc.JAKE.getInstance().getConfig().addEntityData(new EntityDataScale(0.85));
         for (Advent2025Npc npc : Advent2025Npc.values()) {
             plugin.getEntities().enableEntityInstance(npc.getInstance());
         }
