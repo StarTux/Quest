@@ -169,6 +169,24 @@ public enum Advent2025Npc {
         108.0, 68.5, 120.5, 0f,
         List.of("Greetings! Read any good books lately?")
     ),
+    BLACK_BUNNY(
+        1, EntityType.RABBIT, text("Black Bunny", DARK_GRAY),
+        "",
+        246.0, 67.0, 222.5, 0f,
+        List.of("I'm always so busy around Christmas.")
+    ),
+    BROWN_BUNNY(
+        1, EntityType.RABBIT, text("Brown Bunny", color(0xc2b280)),
+        "",
+        134.5, 67.0, 352.5, -98.53f,
+        List.of("I feel like an old hare sometimes...")
+    ),
+    GOLD_BUNNY(
+        1, EntityType.RABBIT, text("Gold Bunny", GOLD),
+        "",
+        202.5, 67.0, 173.5, 0f,
+        List.of("I betcha nobody's fur is as soft and pretty as mine!")
+    ),
     ;
 
     private final int worldNumber;

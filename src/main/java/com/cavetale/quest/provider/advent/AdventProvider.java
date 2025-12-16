@@ -14,6 +14,7 @@ import com.cavetale.quest.entity.data.EntityDataAttributes;
 import com.cavetale.quest.entity.data.EntityDataCat;
 import com.cavetale.quest.entity.data.EntityDataClearMobGoals;
 import com.cavetale.quest.entity.data.EntityDataFox;
+import com.cavetale.quest.entity.data.EntityDataRabbit;
 import com.cavetale.quest.entity.data.EntityDataScale;
 import com.cavetale.quest.entity.data.EntityProfileData;
 import com.cavetale.quest.script.Script;
@@ -34,6 +35,7 @@ import org.bukkit.entity.Cat;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Fox;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Rabbit;
 
 @Getter
 @RequiredArgsConstructor
@@ -91,6 +93,12 @@ public final class AdventProvider {
         Advent2025Npc.CAT.getInstance().getConfig().addEntityData(new EntityDataCat(Cat.Type.BLACK, DyeColor.RED, false, true));
         Advent2025Npc.SNOW_FOX.getInstance().getConfig().addEntityData(new EntityDataFox(Fox.Type.SNOW).sleeping());
         Advent2025Npc.JAKE.getInstance().getConfig().addEntityData(new EntityDataScale(0.85));
+        Advent2025Npc.BLACK_BUNNY.getInstance().getConfig().addEntityData(new EntityDataScale(1.5));
+        Advent2025Npc.BLACK_BUNNY.getInstance().getConfig().addEntityData(new EntityDataRabbit(Rabbit.Type.BLACK));
+        Advent2025Npc.BROWN_BUNNY.getInstance().getConfig().addEntityData(new EntityDataScale(3.0));
+        Advent2025Npc.BROWN_BUNNY.getInstance().getConfig().addEntityData(new EntityDataRabbit(Rabbit.Type.BROWN));
+        Advent2025Npc.GOLD_BUNNY.getInstance().getConfig().addEntityData(new EntityDataScale(1.25));
+        Advent2025Npc.GOLD_BUNNY.getInstance().getConfig().addEntityData(new EntityDataRabbit(Rabbit.Type.GOLD));
         for (Advent2025Npc npc : Advent2025Npc.values()) {
             plugin.getEntities().enableEntityInstance(npc.getInstance());
         }

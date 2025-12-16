@@ -590,14 +590,14 @@ public enum Advent2025Quest {
                 "Ah, you're here! I could really use your help.",
                 "I lost my grandmother's recipe book. The one with the gingerbread recipe. With her secret molasses trick.",
                 "I was going to make it for the festival, but without it... well, it won't be the same.",
-                "I think I last saw it near the Postman's sorting table."
+                "I think I last saw it near the <yellow>Postman</yellow>'s sorting table."
             ),
             new AdventQuestStageTalkToNpc(
                 parseMiniMessage("Talk to the <yellow>Postman"),
                 Advent2025Npc.POSTMAN,
                 "A recipe book? Oh, that little stained thing?",
                 "I thought it was trash, so I tossed it in the old barrel by the mill.",
-                "Though now that I think about it, the Librarian was poking around there earlier."
+                "Though now that I think about it, the <blue>Librarian</blue> was poking around there earlier."
             ),
             new AdventQuestStageTalkToNpc(
                 parseMiniMessage("Talk to the <blue>Librarian"),
@@ -605,7 +605,7 @@ public enum Advent2025Quest {
                 "Oh! That recipe? I, uh, borrowed it.",
                 "I wanted to preserve it, it's a piece of history!",
                 "But I didn't ask first. I should have.",
-                "Mind collecting the missing pages, please? They were loose and are now floating around the house."
+                "Mind collecting the <gold>missing pages</gold>, please? They were loose and are now floating around the house."
             ),
             new AdventQuestStageCollectItems(
                 parseMiniMessage("Find the <gold>Missing Pages"),
@@ -633,6 +633,64 @@ public enum Advent2025Quest {
                 "Thank you. And thank the Librarian for me.",
                 "Maybe it's time I shared this recipe with the whole town.",
                 "Grandma always said good memories are for passing on."
+            )
+        )
+    ),
+    BUNNIES(
+        0, () -> new AdventQuestStaged(
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Talk to the <color:#a52a2a>Reindeer Herder"),
+                Advent2025Npc.REINDEER_HERDER,
+                "Oh, good, you're here! The bunnies are at it again.",
+                "Black, Brown, and Gold are arguing over who gets the last patch of winter clover near the old oak.",
+                "They won't listen to me. Maybe you can sort it out?"
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Talk to the <dark_gray>Black Bunny"),
+                Advent2025Npc.BLACK_BUNNY,
+                "The clover is mine. I found it first!",
+                "Brown was too busy napping, and Gold was off chasing butterflies."
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Talk to the <color:#c2b280>Brown Bunny"),
+                Advent2025Npc.BROWN_BUNNY,
+                "Nonsense! Black hoards everything. Gold and I should split it.",
+                "Besides, I'm the eldest. I deserve extra."
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Talk to the <gold>Gold Bunny"),
+                Advent2025Npc.GOLD_BUNNY,
+                "Eldest? Black is the fastest, and Brown is the loudest.",
+                "But I'm the prettiest, obviously, I should get it!",
+                "Now that you spoken to all of us, what's your opinion? Who should have it?"
+            )
+            .addUserChoice("choice", "You")
+            .addUserChoice("choice", "Brown")
+            .addUserChoice("choice", "Black")
+            .addUserChoice("split", "Split it!")
+            .label("choice"),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Talk to the <gold>Gold Bunny"),
+                Advent2025Npc.GOLD_BUNNY,
+                "Split it into 3 patches? Hmm...",
+                "<gray><italic>Twitching</gray>\nGreat idea! Now we can all nap happily!"
+            )
+            .label("split"),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Talk to the <color:#c2b280>Brown Bunny"),
+                Advent2025Npc.BROWN_BUNNY,
+                "<gray><italic>Chuckling</gray>\nAgreed, we can share. Though I'll eat mine slowest."
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Talk to the <dark_gray>Black Bunny"),
+                Advent2025Npc.BLACK_BUNNY,
+                "<gray><italic>Grumbling</gray>\nFine, let's share. But I get the biggest bite."
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Return to the <color:#a52a2a>Reindeer Herder"),
+                Advent2025Npc.REINDEER_HERDER,
+                "You're a miracle worker. The bunnies have finally agreed on something.",
+                "Maybe it'll keep 'em quiet for a day."
             )
         )
     ),
