@@ -163,6 +163,12 @@ public enum Advent2025Npc {
         222.5, 66.0, 245.0, -90f,
         List.of("Heya, buddy! Hope you have a nice Christmas.")
     ),
+    LIBRARIAN(
+        1, EntityType.MANNEQUIN, text("Librarian", BLUE),
+        "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmY1MzQ4ZTdmMDRjZjBhODJhM2QxNGRjNTFhOWI4Y2QwZjI2N2JkNTM3YjhlNzBiMjU3N2RiY2Y5YjJjMTk1MyJ9fX0=",
+        108.0, 68.5, 120.5, 0f,
+        List.of("Greetings! Read any good books lately?")
+    ),
     ;
 
     private final int worldNumber;

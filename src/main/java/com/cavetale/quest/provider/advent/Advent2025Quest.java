@@ -582,6 +582,60 @@ public enum Advent2025Quest {
             )
         )
     ),
+    RECIPE_BOOK(
+        0, () -> new AdventQuestStaged(
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Talk to the <light_purple>Baker"),
+                Advent2025Npc.BAKER,
+                "Ah, you're here! I could really use your help.",
+                "I lost my grandmother's recipe book. The one with the gingerbread recipe. With her secret molasses trick.",
+                "I was going to make it for the festival, but without it... well, it won't be the same.",
+                "I think I last saw it near the Postman's sorting table."
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Talk to the <yellow>Postman"),
+                Advent2025Npc.POSTMAN,
+                "A recipe book? Oh, that little stained thing?",
+                "I thought it was trash, so I tossed it in the old barrel by the mill.",
+                "Though now that I think about it, the Librarian was poking around there earlier."
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Talk to the <blue>Librarian"),
+                Advent2025Npc.LIBRARIAN,
+                "Oh! That recipe? I, uh, borrowed it.",
+                "I wanted to preserve it, it's a piece of history!",
+                "But I didn't ask first. I should have.",
+                "Mind collecting the missing pages, please? They were loose and are now floating around the house."
+            ),
+            new AdventQuestStageCollectItems(
+                parseMiniMessage("Find the <gold>Missing Pages"),
+                List.of(
+                    Vec3i.of(117, 68, 123),
+                    Vec3i.of(124, 69, 141),
+                    Vec3i.of(128, 70, 119),
+                    Vec3i.of(123, 77, 131),
+                    Vec3i.of(106, 77, 133),
+                    Vec3i.of(102, 78, 139),
+                    Vec3i.of(98, 77, 131)
+                ),
+                (i, vec) -> new ItemStack(Material.MAP)
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Return to the <blue>Librarian"),
+                Advent2025Npc.LIBRARIAN,
+                "You're right to give me that look.",
+                "I've been so focused on saving old stories, I forgot they're still living for some people.",
+                "Here. And... tell the Baker I'll help him write it down properly this time."
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Return to the <light_purple>Baker"),
+                Advent2025Npc.BAKER,
+                "Thank you. And thank the Librarian for me.",
+                "Maybe it's time I shared this recipe with the whole town.",
+                "Grandma always said good memories are for passing on."
+            )
+        )
+    ),
     ;
 
     private final int adventWorldIndex;
