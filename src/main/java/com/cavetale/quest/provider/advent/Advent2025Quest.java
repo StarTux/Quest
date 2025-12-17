@@ -694,6 +694,66 @@ public enum Advent2025Quest {
             )
         )
     ),
+    SAD_COW(
+        0, () -> new AdventQuestStaged(
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Talk to the <blue>Dairy Farmer"),
+                Advent2025Npc.DAIRY_FARMER,
+                "Oh, hello! I've got a bit of a problem.",
+                "My oldest cow, the <blue>Moo Cow</blue>, has been moping in the corner of the barn.",
+                "She's usually so cheerful, but ever since the festival decorations went up, she's just... sad.",
+                "I think she's feeling left out. Maybe she wants to be part of the celebrations too?"
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Talk to the <blue>Moo Cow"),
+                Advent2025Npc.MOO_COW,
+                "Mooh... Everyone's so busy with the tree and the presents.",
+                "I just wanted to help, but what can a cow do?"
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Return to the <blue>Dairy Farmer"),
+                Advent2025Npc.DAIRY_FARMER,
+                "Oh my, that sounds serious! Best ask the Reindeer Herder for advice. He knows best what's good for animals."
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Ask the <color:#a52a2a>Reindeer Herder"),
+                Advent2025Npc.REINDEER_HERDER,
+                "I know how to care for animals, but curing their depression...",
+                "Best include the <light_purple>Wizard</light_purple> in this. Her magic will do the trick."
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Ask the <light_purple>Wizard"),
+                Advent2025Npc.WIZARD,
+                "A cow who wants to join the fun? Easy!",
+                "Bring her a wreath of holly from the forest. Cows love festive accessories.",
+                "And maybe... sing her a carol? She's got a good ear for music."
+            ),
+            new AdventQuestStageCollectItems(
+                parseMiniMessage("Find some <green>Holly"),
+                List.of(
+                    Vec3i.of(93, 67, 419),
+                    Vec3i.of(85, 70, 419),
+                    Vec3i.of(63, 72, 433),
+                    Vec3i.of(46, 70, 427),
+                    Vec3i.of(29, 67, 398),
+                    Vec3i.of(46, 74, 368),
+                    Vec3i.of(73, 81, 327)
+                ),
+                (i, vec) -> new ItemStack(Material.SPRUCE_SAPLING)
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Bring it to the <blue>Moo Cow"),
+                Advent2025Npc.MOO_COW,
+                "Mooh! I do feel festive now!",
+                "Maybe I'll moo a carol for the village tonight!"
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Return to the <blue>Dairy Farmer"),
+                Advent2025Npc.DAIRY_FARMER,
+                "Oh, you've made her day! Here, take this warm mug of cocoa, on the house."
+            )
+        )
+    ),
     ;
 
     private final int adventWorldIndex;
