@@ -187,6 +187,12 @@ public enum Advent2025Npc {
         202.5, 67.0, 173.5, 0f,
         List.of("I betcha nobody's fur is as soft and pretty as mine!")
     ),
+    SNOWMAN(
+        1, EntityType.SNOW_GOLEM, text("Snowman", AQUA),
+        "",
+        292.95, 68.0, 206.9, -14.39f,
+        List.of("Always dress warm for the season. You don't want to catch a cold.")
+    ),
     ;
 
     private final int worldNumber;

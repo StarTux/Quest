@@ -16,6 +16,7 @@ import com.cavetale.quest.entity.data.EntityDataClearMobGoals;
 import com.cavetale.quest.entity.data.EntityDataFox;
 import com.cavetale.quest.entity.data.EntityDataRabbit;
 import com.cavetale.quest.entity.data.EntityDataScale;
+import com.cavetale.quest.entity.data.EntityDataSnowman;
 import com.cavetale.quest.entity.data.EntityProfileData;
 import com.cavetale.quest.script.Script;
 import com.cavetale.quest.script.viewer.Viewership;
@@ -99,6 +100,8 @@ public final class AdventProvider {
         Advent2025Npc.BROWN_BUNNY.getInstance().getConfig().addEntityData(new EntityDataRabbit(Rabbit.Type.BROWN));
         Advent2025Npc.GOLD_BUNNY.getInstance().getConfig().addEntityData(new EntityDataScale(1.25));
         Advent2025Npc.GOLD_BUNNY.getInstance().getConfig().addEntityData(new EntityDataRabbit(Rabbit.Type.GOLD));
+        Advent2025Npc.SNOWMAN.getInstance().getConfig().addEntityData(new EntityDataSnowman().derp());
+        Advent2025Npc.SNOWMAN.getInstance().getConfig().addEntityData(new EntityDataScale(2.0));
         for (Advent2025Npc npc : Advent2025Npc.values()) {
             plugin.getEntities().enableEntityInstance(npc.getInstance());
         }

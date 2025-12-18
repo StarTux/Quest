@@ -754,6 +754,45 @@ public enum Advent2025Quest {
             )
         )
     ),
+    SCARF(
+        0, () -> new AdventQuestStaged(
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Talk to the <aqua>Snowman"),
+                Advent2025Npc.SNOWMAN,
+                "Oh no! My beautiful scarf is gone!",
+                "The wind blew it away while I was waving at the villagers.",
+                "Without it, I feel so cold. Could you please help me find it?",
+                "The <light_purple>Baker</light_purple> was outside earlier. Maybe they saw where it went?"
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Talk to the <light_purple>Baker"),
+                Advent2025Npc.BAKER,
+                "Oh dear, that scarf! I did see it flying off toward the forest.",
+                "I couldn't leave the shop, but I think the <blue>Moo Cow</blue> was grazing nearby.",
+                "She might have seen where it landed. Why don't you ask her?"
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Talk to the <blue>Moo Cow"),
+                Advent2025Npc.MOO_COW,
+                "Oh, hello there! Yes, I saw something colorful caught in the tallest tree.",
+                "Moo! It's just over yonder. I can't reach it, but you might!",
+                "Good luck! I hope you find it."
+            ),
+            new AdventQuestStageCollectItems(
+                parseMiniMessage("Pick up the <red>Scarf"),
+                List.of(Vec3i.of(395, 89, 434)),
+                (i, vec) -> new ItemStack(Material.RED_BANNER)
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Return to the <aqua>Snowman"),
+                Advent2025Npc.SNOWMAN,
+                "Oh, you found it! Thank you so much!",
+                "Now I can stay warm and keep greeting everyone.",
+                "Here, the Baker wanted you to have this cookie as a thank you.",
+                "Merry Christmas!"
+            )
+        )
+    ),
     ;
 
     private final int adventWorldIndex;
