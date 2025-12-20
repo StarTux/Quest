@@ -793,6 +793,37 @@ public enum Advent2025Quest {
             )
         )
     ),
+    CINNAMON(
+        0, () -> new AdventQuestStaged(
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Talk to the <light_purple>Baker"),
+                Advent2025Npc.BAKER,
+                "Oh dear, I almost forgot! My special Christmas cake needs just a pinch of cinnamon.",
+                "It's the secret ingredient, but I'm all out. Could you ask the <blue>Moo Cow</blue> for some?",
+                "She has the last bit, but she's very fond of it. Be gentle!"
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Talk to the <blue>Moo Cow"),
+                Advent2025Npc.MOO_COW,
+                "My cinnamon? Oh, I don't know...",
+                "It's the last of my winter supply. Moo!",
+                "But... I suppose the cake is for everyone in the village.",
+                "Very well. Here you go. Just promise me you'll share a slice?"
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Talk to the <light_purple>Baker"),
+                Advent2025Npc.BAKER,
+                "You did it! Thank you! And of course, the first slice is for the Moo Cow.",
+                "Here, take this to her. Nothing says Christmas like sharing with friends."
+            ),
+            new AdventQuestStageTalkToNpc(
+                parseMiniMessage("Return to the <blue>Moo Cow"),
+                Advent2025Npc.MOO_COW,
+                "Oh! It's delicious! Maybe sharing <bold>is</bold> better than keeping things to myself.",
+                "Thank you for reminding me. Moo!"
+            )
+        )
+    ),
     ;
 
     private final int adventWorldIndex;
