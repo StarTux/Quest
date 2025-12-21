@@ -824,11 +824,62 @@ public enum Advent2025Quest {
             )
         )
     ),
+    POEM(
+        new AdventQuestStageTalkToNpc(
+            parseMiniMessage("Talk to the <aqua>Snow Fox"),
+            Advent2025Npc.SNOW_FOX,
+            "I've never gotten a gift before. I wonder what it feels like...",
+            "Everyone else seems so happy with their presents. Could you help me find mine?"
+        ),
+        new AdventQuestStageTalkToNpc(
+            parseMiniMessage("Ask <color:#800080>Lila"),
+            Advent2025Npc.LILA,
+            "Oh, the Snow Fox has never received a gift? That won't do.",
+            "As a <italic>writer</italic>, I can help! I've been collecting notes from the villagers about them.",
+            "If you gather them all, I'll turn them into something special."
+        ),
+        new AdventQuestStageCollectItems(
+            parseMiniMessage("Find Lila's <gold>Notes"),
+            List.of(
+                Vec3i.of(239, 76, 350), // train tracks
+                Vec3i.of(203, 68, 352),
+                Vec3i.of(174, 75, 362), // Wizard tower
+                Vec3i.of(140, 67, 340), // Cat
+                Vec3i.of(86, 81, 355), // Postman's
+                Vec3i.of(66, 85, 247), // Farmer
+                Vec3i.of(127, 67, 212), // Ice
+                Vec3i.of(107, 69, 123), // Librarian
+                Vec3i.of(314, 79, 124), // Herder
+                Vec3i.of(466, 71, 395) // Chicken
+            ),
+            (i, vec) -> new ItemStack(Material.BOOK)
+        ),
+        new AdventQuestStageTalkToNpc(
+            parseMiniMessage("Bring them to <color:#800080>Lila"),
+            Advent2025Npc.LILA,
+            "Here you go! I've turned them into a poem just for you.",
+            "<gray><font:uniform><italic>Snow Fox, so bright, your joy is our light.",
+            "<gray><font:uniform><italic>With every leap and playful spree, you bring us all glee.",
+            "<gray><font:uniform><italic>Your kindness is a gift, pure and true: Thank you for simply being you!",
+            "Now bring that to the <aqua>Snow Fox</aqua> and I'm sure it will make her day."
+        ),
+        new AdventQuestStageTalkToNpc(
+            parseMiniMessage("Bring it to the <aqua>Snow Fox"),
+            Advent2025Npc.SNOW_FOX,
+            "A poem? For me? Oh, this is the best gift ever!",
+            "Thank you, thank you! I'll keep it forever."
+        )
+    ),
     ;
 
     private final int adventWorldIndex;
     private final Supplier<AdventQuest> questSupplier;
     @Setter private AdventQuest instance;
+
+    Advent2025Quest(final AdventQuestStage... stages) {
+        this.adventWorldIndex = 0;
+        this.questSupplier = () -> new AdventQuestStaged(stages);
+    }
 
     public int getDay() {
         return ordinal() + 1;

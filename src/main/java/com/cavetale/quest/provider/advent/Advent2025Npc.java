@@ -142,7 +142,7 @@ public enum Advent2025Npc {
         )
     ),
     SNOW_FOX(
-        1, EntityType.FOX, text("Snow Fox", WHITE),
+        1, EntityType.FOX, text("Snow Fox", AQUA),
         "",
         339.5, 67.0, 210.5, -45f,
         List.of(
@@ -193,6 +193,12 @@ public enum Advent2025Npc {
         292.95, 68.0, 206.9, -14.39f,
         List.of("Always dress warm for the season. You don't want to catch a cold.")
     ),
+    INVENTOR(
+        1, EntityType.MANNEQUIN, text("Inventor", BLUE),
+        "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTY1OGM1YWM2NGNkZDcxODllOGRiNTAzOTNmMjc0MzlmYzljZTkxNzdjOWM1Mjg1ZDZmMWY3YjRlZGE5ZDdlYyJ9fX0=",
+        198.5, 68.0, 349.5, 90f,
+        List.of("Oh hi there! Got any cool new toys for Christmas? I make those, you know.")
+    )
     ;
 
     private final int worldNumber;
