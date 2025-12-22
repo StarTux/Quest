@@ -497,7 +497,7 @@ public enum Advent2025Quest {
             )
             .label("wizard"),
             new AdventQuestStageTalkToNpc(
-                parseMiniMessage("Find the Snow Fox"),
+                parseMiniMessage("Find the <aqua>Snow Fox"),
                 Advent2025Npc.SNOW_FOX,
                 "Eep, you found me. Now it's the Herder's turn to hide..."
             ),
@@ -868,6 +868,38 @@ public enum Advent2025Quest {
             Advent2025Npc.SNOW_FOX,
             "A poem? For me? Oh, this is the best gift ever!",
             "Thank you, thank you! I'll keep it forever."
+        )
+    ),
+    FABLE(
+        new AdventQuestStageTalkToNpc(
+            parseMiniMessage("Talk to <gray>Mistletoe"),
+            Advent2025Npc.CAT,
+            "Purr... Ah, the holidays can be so hectic, meow. Let me tell you a story to remind us all what matters.",
+            "<gray><font:uniform>Once, a Little Star fell to earth...",
+            "Meows and mittens! I've forgotten how it goes! Meow, could you help me?",
+            "I think the next part involved a <aqua>fox</aqua>..."
+        ),
+        new AdventQuestStageTalkToNpc(
+            parseMiniMessage("Ask the <aqua>Snow Fox"),
+            Advent2025Npc.SNOW_FOX,
+            "Oh, I remember!",
+            "<gray><font:uniform>The <underlined>fox</underlined>, the <underlined>cow</underlined>, and the <underlined>cat</underlined> all helped the Little Star.",
+            "<gray><font:uniform>Together, they lifted it back into the sky. It was quite the adventure!",
+            "And then the stars said... uhm, uh...",
+            "Tails and twigs, I forgot! Perhaps a <blue>cow</blue> would remember..."
+        ),
+        new AdventQuestStageTalkToNpc(
+            parseMiniMessage("Ask the <blue>Moo Cow"),
+            Advent2025Npc.MOO_COW,
+            "Moo! <gray><font:uniform>The stars said, The brightest light isn’t the one that shines alone, but the one that brings others together.",
+            "And you never heard that story?! Huff! Everybody in the stable learns this one from the crib on.",
+            "It’s as true as the sunrise over the pasture. Moo!"
+        ),
+        new AdventQuestStageTalkToNpc(
+            parseMiniMessage("Return to <gray>Mistletoe"),
+            Advent2025Npc.CAT,
+            "Ah yes, meow! Thank you. Now, let’s share this tale with everyone.",
+            "Purr, may it remind us all that kindness and unity are the true magic of Christmas."
         )
     ),
     ;
