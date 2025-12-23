@@ -902,6 +902,73 @@ public enum Advent2025Quest {
             "Purr, may it remind us all that kindness and unity are the true magic of Christmas."
         )
     ),
+    COOKIE_EXCHANGE(
+        new AdventQuestStageTalkToNpc(
+            parseMiniMessage("Talk to the <light_purple>Baker"),
+            Advent2025Npc.BAKER,
+            "Oh, my dear friend, I'm one batch short for the Cookie Exchange!",
+            "It's a tradition. Everyone shares a cookie and a wish for the holidays.",
+            "Could you help me deliver these special cookies? Each one carries a little note.",
+            "And ask everyone to share their favorite holiday memory with you."
+        ),
+        new AdventQuestStageTalkToNpc(
+            parseMiniMessage("Talk to <color:#800080>Lila"),
+            Advent2025Npc.LILA,
+            "A cookie? How thoughtful! My favorite memory is reading stories by the fire while the snow falls outside.",
+            "The way the words dance in the firelight makes everything feel magical.",
+            "Tell the Baker my wish is for everyone to find a story that warms their heart this winter."
+        ),
+        new AdventQuestStageTalkToNpc(
+            parseMiniMessage("Talk to the <aqua>Snow Fox"),
+            Advent2025Npc.SNOW_FOX,
+            "A cookie just for me? I remember the first time I saw the village all lit up for Christmas.",
+            "The lights twinkled like stars, and I felt like I belonged here.",
+            "My wish is for everyone to feel that same warmth."
+        ),
+        new AdventQuestStageTalkToNpc(
+            parseMiniMessage("Talk to the <blue>Moo Cow"),
+            Advent2025Npc.MOO_COW,
+            "Moo! My favorite memory is when the children visit the stable to feed us treats.",
+            "They laugh so much, and it makes my heart happy.",
+            "Tell the Baker my wish is for more giggles and carrot snacks."
+        ),
+        new AdventQuestStageTalkToNpc(
+            parseMiniMessage("Talk to the <gold>Miller"),
+            Advent2025Npc.MILLER,
+            "Ah, cookies! My favorite memory is the smell of fresh bread on Christmas morning.",
+            "It reminds me of my grandmother's kitchen.",
+            "My wish is for the village to always have enough to share."
+        ),
+        new AdventQuestStageTalkToNpc(
+            parseMiniMessage("Talk to the <light_purple>Wizard"),
+            Advent2025Npc.WIZARD,
+            "A cookie? How delightful! My favorite memory is the first time I cast a spell to light up the village tree.",
+            "The way everyone's faces glowed with wonder, that's the magic of the season.",
+            "My wish is for everyone to find a little wonder in their hearts this Christmas."
+        ),
+        new AdventQuestStageTalkToNpc(
+            parseMiniMessage("Talk to the <dark_red>Blacksmith"),
+            Advent2025Npc.BLACKSMITH,
+            "A cookie? Much appreciated! My favorite memory is the sound of the village bell ringing on Christmas Eve.",
+            "It signals the start of the celebration, and the whole village comes together.",
+            "My wish is for everyone to feel the strength of our community this year."
+        ),
+        new AdventQuestStageTalkToNpc(
+            parseMiniMessage("Talk to the <blue>Postman"),
+            Advent2025Npc.POSTMAN,
+            "Oh, a cookie! My favorite memory is delivering letters on Christmas morning.",
+            "Seeing the smiles when folks receive news from loved ones far away, it's the best part of my job.",
+            "My wish is for everyone to feel connected, no matter how far apart they are."
+        ),
+        new AdventQuestStageTalkToNpc(
+            parseMiniMessage("Return to the <light_purple>Baker"),
+            Advent2025Npc.BAKER,
+            "You've brought back so many beautiful memories!",
+            "Let's bake them all into one big <gold><bold>Gratitude Cookie</bold></gold>.",
+            "When we share it, everyone will feel how much they mean to this village.",
+            "Merry Christmas, and thank you for helping me spread the joy!"
+        )
+    ),
     ;
 
     private final int adventWorldIndex;
