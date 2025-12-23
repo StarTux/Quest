@@ -10,6 +10,7 @@ import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
 import org.bukkit.entity.Player;
 
+// TODO Move package out of script
 public interface Viewership {
     /**
      * Return true if this is the global viewership, see GlobalView.

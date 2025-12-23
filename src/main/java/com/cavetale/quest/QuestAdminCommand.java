@@ -107,10 +107,11 @@ public final class QuestAdminCommand extends AbstractCommand<QuestPlugin> {
         if (!Session.isEnabled(target)) {
             throw new CommandWarn("Session not ready: " + target.getName());
         }
-        for (PlayerQuest playerQuest : Session.of(target).getActiveQuests()) {
+        for (PlayerQuest playerQuest : List.copyOf(Session.of(target).getPlayerQuests())) {
             if (playerQuest.getQuest() != quest) continue;
             sender.sendMessage(text("Cancelling quest " + quest.getQuestId() + " for player " + target.getName() + "...", YELLOW));
             playerQuest.cancelQuest();
+            playerQuest.moveToFinishedQuests();
             return true;
         }
         throw new CommandWarn(target.getName() + " does not have quest " + quest.getQuestId());

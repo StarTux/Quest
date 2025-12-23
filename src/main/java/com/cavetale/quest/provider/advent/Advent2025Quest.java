@@ -969,6 +969,47 @@ public enum Advent2025Quest {
             "Merry Christmas, and thank you for helping me spread the joy!"
         )
     ),
+    CHRISTMAS_LIGHTS(
+        new AdventQuestStageTalkToNpc(
+            parseMiniMessage("Talk to <red>Santa Clause"),
+            Advent2025Npc.SANTA_CLAUSE,
+            "Ho ho ho... we have a problem. Some of the <yellow>Christmas Tree Lights</yellow> won't turn on, and nobody is able to climb up the tree to fix it.",
+            "Do you think you could help us out?"
+        ),
+        new AdventQuestStageClickBlocks(
+            parseMiniMessage("Turn on the <yellow>Christmas Tree Lights"),
+            List.of(
+                Vec3i.of(244, 86, 249),
+                Vec3i.of(242, 86, 253),
+                Vec3i.of(243, 86, 261),
+                Vec3i.of(247, 86, 265),
+                Vec3i.of(257, 85, 267),
+                Vec3i.of(260, 85, 267),
+                Vec3i.of(263, 85, 263),
+                Vec3i.of(266, 79, 255),
+                Vec3i.of(262, 85, 245),
+                Vec3i.of(260, 85, 243),
+                Vec3i.of(253, 85, 243),
+                Vec3i.of(246, 80, 246),
+                // 2nd row
+                Vec3i.of(253, 97, 246),
+                Vec3i.of(249, 102, 253),
+                Vec3i.of(252, 106, 261),
+                Vec3i.of(256, 103, 261),
+                //
+                Vec3i.of(257, 109, 259),
+                Vec3i.of(253, 115, 258),
+                Vec3i.of(254, 121, 254),
+                Vec3i.of(257, 125, 255)
+            )
+        ),
+        new AdventQuestStageTalkToNpc(
+            parseMiniMessage("Talk to <red>Santa Clause"),
+            Advent2025Npc.SANTA_CLAUSE,
+            "Ho ho ho! I couldn't have done this any better, even with my sleigh. Christmas is saved, thanks to you!",
+            "You truly filled our hearts with the Christmas spirit. The entire Christmas Village has you to thank for this."
+        )
+    ),
     WISH(
         0, () -> new AdventQuestSantaWish()
     ),

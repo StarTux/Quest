@@ -78,7 +78,12 @@ public final class AdventQuestSantaWish extends AdventQuest {
         factory.empty()
             .base(
                 DialogBase.builder(text("Test", GREEN))
-                .body(List.of(DialogBody.plainMessage(text("Make a wish for yourself, your loved ones, or the community.", GRAY))))
+                .body(
+                    List.of(
+                        DialogBody.plainMessage(text("Make a wish for yourself, your loved ones, or the community.", GRAY)),
+                        DialogBody.plainMessage(text("Your wish may be posted somewhere, anonymously.", GRAY))
+                    )
+                )
                 .inputs(
                     List.of(
                         DialogInput.text(

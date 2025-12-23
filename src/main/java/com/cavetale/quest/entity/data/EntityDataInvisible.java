@@ -4,19 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.ItemDisplay;
-import org.bukkit.inventory.ItemStack;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public final class EntityDataItemDisplay implements EntityData {
-    private ItemStack itemStack;
+public final class EntityDataInvisible implements EntityData {
+    private boolean invisible = true;
 
     @Override
     public boolean apply(Entity entity) {
-        if (!(entity instanceof ItemDisplay itemDisplay)) return false;
-        itemDisplay.setItemStack(itemStack);
+        entity.setInvisible(invisible);
         return true;
     }
 }
