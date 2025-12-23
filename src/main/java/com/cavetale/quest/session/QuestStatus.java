@@ -9,6 +9,7 @@ public enum QuestStatus {
     ACTIVE(0),
     COMPLETE(1),
     CANCELLED(2),
+    EXPIRED(3),
     ;
 
     private final int value;

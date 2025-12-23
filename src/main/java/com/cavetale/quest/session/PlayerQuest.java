@@ -113,15 +113,22 @@ public final class PlayerQuest {
         } else {
             quest.onRepeatCompletion(this);
         }
-        saveFinishedQuest();
-        deleteRow();
     }
 
     public void cancelQuest() {
         row.setStatus(QuestStatus.CANCELLED.getValue());
         dirty = true;
+    }
+
+    public void expireQuest() {
+        row.setStatus(QuestStatus.EXPIRED.getValue());
+        dirty = true;
+    }
+
+    public void moveToFinishedQuests() {
         saveFinishedQuest();
         deleteRow();
+        disable();
     }
 
     private void saveFinishedQuest() {
@@ -137,7 +144,7 @@ public final class PlayerQuest {
         session.getFinishedQuests().add(new FinishedQuest(newRow));
     }
 
-    public void deleteRow() {
+    private void deleteRow() {
         plugin.getDatabase().getDatabase().deleteAsync(row, v -> { });
     }
 }

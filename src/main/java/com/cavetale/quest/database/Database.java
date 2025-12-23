@@ -17,7 +17,8 @@ public final class Database {
         database.registerTables(
             List.of(
                 SQLPlayerQuest.class,
-                SQLFinishedQuest.class
+                SQLFinishedQuest.class,
+                SQLPlayerMemory.class
             )
         );
         database.createAllTables();

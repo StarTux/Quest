@@ -3,9 +3,15 @@ package com.cavetale.quest.session;
 import com.cavetale.quest.Quest;
 import com.cavetale.quest.QuestPlugin;
 import com.cavetale.quest.database.SQLFinishedQuest;
+import com.cavetale.quest.database.SQLPlayerMemory;
 import com.cavetale.quest.database.SQLPlayerQuest;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -25,6 +31,7 @@ public final class Session {
     private boolean disabled;
     private final List<PlayerQuest> playerQuests = new ArrayList<>();
     private final List<FinishedQuest> finishedQuests = new ArrayList<>();
+    private final Map<String, SQLPlayerMemory> memories = new HashMap<>();
 
     public static Session of(Player player) {
         return questPlugin().getSessions().getSessionMap().get(player.getUniqueId());
@@ -60,14 +67,8 @@ public final class Session {
     }
 
     public void tick() {
-        for (PlayerQuest playerQuest : List.copyOf(playerQuests)) {
-            if (!playerQuest.isActive()) {
-                playerQuests.remove(playerQuest);
-                playerQuest.disable();
-            } else {
-                playerQuest.tick();
-            }
-        }
+        playerQuests.removeIf(PlayerQuest::isDisabled);
+        playerQuests.forEach(PlayerQuest::tick);
     }
 
     public void startQuest(Quest quest) {
@@ -132,10 +133,14 @@ public final class Session {
             .find(SQLFinishedQuest.class)
             .eq("player", uuid)
             .findList();
-        Bukkit.getScheduler().runTask(plugin, () -> onLoaded(questList, finishedQuestList));
+        final List<SQLPlayerMemory> memoryList = plugin.getDatabase().getDatabase()
+            .find(SQLPlayerMemory.class)
+            .eq("player", uuid)
+            .findList();
+        Bukkit.getScheduler().runTask(plugin, () -> onLoaded(questList, finishedQuestList, memoryList));
     }
 
-    private void onLoaded(final List<SQLPlayerQuest> questRows, final List<SQLFinishedQuest> finishedQuestRows) {
+    private void onLoaded(final List<SQLPlayerQuest> questRows, final List<SQLFinishedQuest> finishedQuestRows, final List<SQLPlayerMemory> memoryList) {
         if (disabled) return;
         for (SQLPlayerQuest questRow : questRows) {
             final Quest quest = plugin.getQuests().getQuest(questRow.getQuestId());
@@ -151,11 +156,47 @@ public final class Session {
             final FinishedQuest finishedQuest = new FinishedQuest(row);
             finishedQuests.add(finishedQuest);
         }
+        for (SQLPlayerMemory row : memoryList) {
+            memories.put(row.getName(), row);
+        }
         plugin.getLogger().info(
             "Loaded profile of " + name
             + " quests:" + playerQuests.size()
             + " finished:" + finishedQuests.size()
+            + " memories:" + memories.size()
         );
         enabled = true;
+    }
+
+    public void storeMemory(String key, String value) {
+        final SQLPlayerMemory row = new SQLPlayerMemory(uuid, key, value);
+        memories.put(key, row);
+        plugin.getDatabase().getDatabase().saveAsync(row, i -> { });
+    }
+
+    public void storeMemory(String key, String value, Duration expiry) {
+        final SQLPlayerMemory row = new SQLPlayerMemory(uuid, key, value, Date.from(Instant.now().plus(expiry)));
+        memories.put(key, row);
+        plugin.getDatabase().getDatabase().saveAsync(row, i -> { });
+    }
+
+    public boolean hasMemory(String key) {
+        return memories.containsKey(key);
+    }
+
+    public String getMemory(String key) {
+        final SQLPlayerMemory row = memories.get(key);
+        if (row == null) return null;
+        return row.getValue();
+    }
+
+    public int getMemoryAsInt(String key, int defaultValue) {
+        final SQLPlayerMemory row = memories.get(key);
+        if (row == null) return defaultValue;
+        try {
+            return Integer.parseInt(row.getValue());
+        } catch (IllegalArgumentException iae) {
+            return defaultValue;
+        }
     }
 }

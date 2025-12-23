@@ -113,6 +113,7 @@ public final class AdventQuestCollectItems extends AdventQuest {
                     if (!playerQuest.isActive() || playerQuest.isDisabled()) return;
                     playerQuest.setTag(progress);
                     playerQuest.completeQuest();
+                    playerQuest.moveToFinishedQuests();
                 },
                 null
             );

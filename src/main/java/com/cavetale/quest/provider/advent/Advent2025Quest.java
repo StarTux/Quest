@@ -969,6 +969,9 @@ public enum Advent2025Quest {
             "Merry Christmas, and thank you for helping me spread the joy!"
         )
     ),
+    WISH(
+        0, () -> new AdventQuestSantaWish()
+    ),
     ;
 
     private final int adventWorldIndex;

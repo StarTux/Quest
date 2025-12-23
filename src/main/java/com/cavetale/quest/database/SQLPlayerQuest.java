@@ -26,11 +26,16 @@ public final class SQLPlayerQuest implements SQLRow {
 
     public SQLPlayerQuest() { }
 
-    public SQLPlayerQuest(final UUID player, final String questId) {
+    public SQLPlayerQuest(final UUID player, final String questId, final Date expiry) {
         this.player = player;
         this.questId = questId;
-        started = new Date();
-        updated = started;
-        expiry = null;
+        this.tag = "";
+        this.started = new Date();
+        this.updated = started;
+        this.expiry = expiry;
+    }
+
+    public SQLPlayerQuest(final UUID player, final String questId) {
+        this(player, questId, null);
     }
 }

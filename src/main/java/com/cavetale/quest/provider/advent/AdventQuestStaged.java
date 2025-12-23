@@ -115,6 +115,7 @@ public final class AdventQuestStaged extends AdventQuest {
         } else {
             playerQuest.setTag(progress);
             playerQuest.completeQuest();
+            playerQuest.moveToFinishedQuests();
         }
     }
 
