@@ -56,6 +56,7 @@ public final class AdventQuestTalkChain extends AdventQuest {
                         playerQuest.setTag(progress);
                     } else {
                         playerQuest.completeQuest();
+                        playerQuest.moveToFinishedQuests();
                     }
                 },
                 null
