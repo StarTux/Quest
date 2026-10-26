@@ -2,7 +2,6 @@ package com.cavetale.quest;
 
 import com.cavetale.quest.database.Database;
 import com.cavetale.quest.entity.Entities;
-import com.cavetale.quest.provider.advent.AdventProvider;
 import com.cavetale.quest.script.Scripts;
 import com.cavetale.quest.session.Sessions;
 import lombok.Getter;
@@ -30,7 +29,6 @@ public final class QuestPlugin extends JavaPlugin {
         // questCommand.enable();
         database.enable();
         quests.enable();
-        new AdventProvider(this).enable();
         sessions.enable();
         entities.enable();
         scripts.enable();
