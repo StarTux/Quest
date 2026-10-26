@@ -11,7 +11,7 @@ import org.bukkit.World;
  * Hold one spawn location.
  *
  * This class may change in the future, or get replaced, to accomodate
- * for multipler server spawn locations or time tables.
+ * for multiple server spawn locations or time tables.
  */
 @Data
 @AllArgsConstructor
