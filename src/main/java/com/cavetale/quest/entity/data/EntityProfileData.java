@@ -23,6 +23,7 @@ public final class EntityProfileData implements EntityData {
                 .addProperty(new ProfileProperty("textures", texture, signature))
                 .build()
             );
+            mannequin.setDescription(null);
             return true;
         } else {
             return false;
