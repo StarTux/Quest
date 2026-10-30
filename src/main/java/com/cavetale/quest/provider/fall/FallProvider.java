@@ -29,6 +29,7 @@ public final class FallProvider {
             character.enable();
         }
         for (FallQuestList questList : FallQuestList.values()) {
+            if (questList.ordinal() >= 7) break;
             questList.initialize();
             questList.buildContent();
             questList.enable();
@@ -98,6 +99,7 @@ public final class FallProvider {
         if (!session.isEnabled()) return;
         if (!session.getActiveQuests(FallQuest.class).isEmpty()) return;
         for (FallQuestList questList : FallQuestList.values()) {
+            if (questList.getInstance() == null) break;
             if (!session.hasCompletedQuest(questList.getInstance())) {
                 session.startQuest(questList.getInstance());
                 return;
