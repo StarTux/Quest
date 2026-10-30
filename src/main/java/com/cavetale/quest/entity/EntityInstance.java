@@ -105,6 +105,10 @@ public final class EntityInstance {
         return spawnedEntity != null;
     }
 
+    public boolean isEntity(Entity entity) {
+        return spawnedEntity != null && spawnedEntity.equals(entity);
+    }
+
     public Entity spawn() {
         if (paused) return null;
         if (spawnedEntity != null) return spawnedEntity;

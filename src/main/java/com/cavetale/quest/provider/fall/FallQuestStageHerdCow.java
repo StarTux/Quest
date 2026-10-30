@@ -36,7 +36,7 @@ public final class FallQuestStageHerdCow extends FallQuestStage {
             new SpawnLocationConfig(
                 FallProvider.SERVER,
                 FallProvider.WORLD,
-                195.86, 67.00, 142.71
+                353.01, 66.00, 320.51
             ),
             Viewership.single(playerQuest.getSession().getUuid())
         );

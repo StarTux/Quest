@@ -11,6 +11,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import net.kyori.adventure.bossbar.BossBar;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 /**
@@ -94,4 +95,6 @@ public abstract class FallQuestStage {
     }
 
     public void onClickBlock(PlayerQuest playerQuest, Progress progress, PlayerInteractEvent event) { }
+
+    public void onClickEntity(PlayerQuest playerQuest, Progress progress, PlayerInteractEntityEvent event) { }
 }

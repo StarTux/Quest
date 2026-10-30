@@ -17,6 +17,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerFishEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.Vector;
 import static net.kyori.adventure.text.Component.empty;
@@ -98,6 +99,19 @@ public final class FallListener implements Listener {
         for (PlayerQuest playerQuest : Session.of(player).getActiveQuests()) {
             if (playerQuest.getQuest() instanceof FallQuest fallQuest) {
                 fallQuest.getCurrentStage(fallQuest.getProgress(playerQuest)).onClickBlock(playerQuest, fallQuest.getProgress(playerQuest).getCurrentStageProgress(), event);
+            }
+        }
+    }
+
+    @EventHandler
+    private void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
+        final Player player = event.getPlayer();
+        if (!FallProvider.SERVER.isThisServer() || !FallProvider.WORLD.equals(player.getWorld().getName())) {
+            return;
+        }
+        for (PlayerQuest playerQuest : Session.of(player).getActiveQuests()) {
+            if (playerQuest.getQuest() instanceof FallQuest fallQuest) {
+                fallQuest.getCurrentStage(fallQuest.getProgress(playerQuest)).onClickEntity(playerQuest, fallQuest.getProgress(playerQuest).getCurrentStageProgress(), event);
             }
         }
     }

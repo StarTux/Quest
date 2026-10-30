@@ -16,7 +16,7 @@ import org.bukkit.entity.Player;
 
 @Getter
 public final class FallProvider {
-    public static final NetworkServer SERVER = NetworkServer.BETA;
+    public static final NetworkServer SERVER = NetworkServer.HUB;
     public static final String WORLD = "halloween2026";
 
     @Getter

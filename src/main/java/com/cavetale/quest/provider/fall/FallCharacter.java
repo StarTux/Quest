@@ -57,6 +57,11 @@ public enum FallCharacter {
         "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDM1MWQ3OGNlNDg5MzliYTg5YjllOTFlODk2MjQ2Mjc4NjEwOGUxNTczNzViOWY0MDg2ZjVjNjdkZGE2YzAyOSJ9fX0=",
         271.49, 66.00, 327.49, -158.52f
     ),
+    FARMER(
+        text("Farmer", GOLD),
+        "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjdhM2VkNmE2MjljNWVjYmRhM2JhMDYxOTE1ZTVkMWZmNTg4ZTVhMmVjZGM5Zjg0YmY3MDg4Yjc4NzI2NWEzNSJ9fX0=",
+        357.45, 68.00, 185.56, 53.58f
+    ),
     ;
 
     private final EntityType entityType;
