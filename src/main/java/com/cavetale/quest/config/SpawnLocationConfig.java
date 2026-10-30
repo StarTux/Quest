@@ -1,6 +1,7 @@
 package com.cavetale.quest.config;
 
 import com.cavetale.core.connect.NetworkServer;
+import com.cavetale.core.struct.Vec3i;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.bukkit.Bukkit;
@@ -77,5 +78,13 @@ public final class SpawnLocationConfig {
 
     public String getWorldRoundedCoordsString() {
         return world + " " + (int) Math.floor(x) + " " + (int) Math.floor(y) + " " + (int) Math.floor(z);
+    }
+
+    public Vec3i toVec3i() {
+        return Vec3i.vec3i(
+            (int) Math.floor(x),
+            (int) Math.floor(y),
+            (int) Math.floor(z)
+        );
     }
 }

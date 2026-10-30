@@ -106,6 +106,7 @@ public final class PlayerQuest {
     }
 
     public void completeQuest() {
+        plugin.getLogger().info("[Session] " + session.getName() + ": Completed Quest: " + quest.getQuestId());
         row.setStatus(QuestStatus.COMPLETE.getValue());
         dirty = true;
         if (!session.hasCompletedQuest(quest)) {

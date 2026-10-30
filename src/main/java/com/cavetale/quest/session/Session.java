@@ -93,6 +93,16 @@ public final class Session {
         return list;
     }
 
+    public List<PlayerQuest> getActiveQuests(Class<? extends Quest> questClass) {
+        final List<PlayerQuest> list = new ArrayList<>();
+        for (PlayerQuest playerQuest : playerQuests) {
+            if (playerQuest.getStatus() != QuestStatus.ACTIVE) continue;
+            if (!questClass.isInstance(playerQuest.getQuest())) continue;
+            list.add(playerQuest);
+        }
+        return list;
+    }
+
     public boolean hasActiveQuest(Quest quest) {
         for (PlayerQuest playerQuest : playerQuests) {
             if (

@@ -2,6 +2,7 @@ package com.cavetale.quest;
 
 import com.cavetale.quest.database.Database;
 import com.cavetale.quest.entity.Entities;
+import com.cavetale.quest.provider.fall.FallProvider;
 import com.cavetale.quest.script.Scripts;
 import com.cavetale.quest.session.Sessions;
 import lombok.Getter;
@@ -33,6 +34,7 @@ public final class QuestPlugin extends JavaPlugin {
         entities.enable();
         scripts.enable();
         Bukkit.getScheduler().runTaskTimer(this, this::tick, 1L, 1L);
+        new FallProvider().enable();
     }
 
     @Override
@@ -42,6 +44,7 @@ public final class QuestPlugin extends JavaPlugin {
         sessions.disable();
         quests.disable();
         database.disable();
+        FallProvider.getInstance().disable();
     }
 
     public static QuestPlugin questPlugin() {
