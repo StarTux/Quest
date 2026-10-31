@@ -29,7 +29,6 @@ public final class FallProvider {
             character.enable();
         }
         for (FallQuestList questList : FallQuestList.values()) {
-            if (questList.ordinal() >= 7) break;
             questList.initialize();
             questList.buildContent();
             questList.enable();
